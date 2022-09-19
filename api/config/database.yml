@@ -1,0 +1,22 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch("MYSQL_USERNAME", "root") %>
+  password: <%= ENV.fetch("MYSQL_PASSWORD", "password") %>
+
+  host: <%= ENV.fetch("MYSQL_HOST", "db") %>
+
+development:
+  <<: *default
+  database: kyo-zai_development
+
+test:
+  <<: *default
+  database: kyo-zai_test
+
+production:
+  <<: *default
+  database: kyo-zai_production
+  username: kyo-zai
+  password: <%= ENV['KYO-ZAI_DATABASE_PASSWORD'] %>
