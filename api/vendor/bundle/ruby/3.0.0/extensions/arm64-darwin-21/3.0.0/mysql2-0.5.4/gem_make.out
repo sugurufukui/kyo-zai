@@ -1,0 +1,211 @@
+current directory: /Users/2ar12/Documents/tokushi-kyouzai/api/vendor/bundle/ruby/3.0.0/gems/mysql2-0.5.4/ext/mysql2
+/Users/2ar12/.rbenv/versions/3.0.4/bin/ruby -I /Users/2ar12/.rbenv/versions/3.0.4/lib/ruby/3.0.0 -r ./siteconf20221011-63703-jy11wr.rb extconf.rb --with-ldflags\=-L/usr/local/opt/openssl@3/lib
+/usr/local/bin/brew
+checking for rb_absint_size()... yes
+checking for rb_absint_singlebit_p()... yes
+checking for rb_wait_for_single_fd()... yes
+checking for rb_enc_interned_str() in ruby.h... yes
+-----
+Using mysql_config at /usr/local/bin/mysql_config
+-----
+checking for mysql.h... yes
+checking for errmsg.h... yes
+checking for SSL_MODE_DISABLED in mysql.h... yes
+checking for SSL_MODE_PREFERRED in mysql.h... yes
+checking for SSL_MODE_REQUIRED in mysql.h... yes
+checking for SSL_MODE_VERIFY_CA in mysql.h... yes
+checking for SSL_MODE_VERIFY_IDENTITY in mysql.h... yes
+checking for MYSQL.net.vio in mysql.h... yes
+checking for MYSQL.net.pvio in mysql.h... no
+checking for MYSQL_DEFAULT_AUTH in mysql.h... yes
+checking for MYSQL_ENABLE_CLEARTEXT_PLUGIN in mysql.h... yes
+checking for SERVER_QUERY_NO_GOOD_INDEX_USED in mysql.h... yes
+checking for SERVER_QUERY_NO_INDEX_USED in mysql.h... yes
+checking for SERVER_QUERY_WAS_SLOW in mysql.h... yes
+checking for MYSQL_OPTION_MULTI_STATEMENTS_ON in mysql.h... yes
+checking for MYSQL_OPTION_MULTI_STATEMENTS_OFF in mysql.h... yes
+checking for my_bool in mysql.h... no
+-----
+Setting rpath to /usr/local/Cellar/mysql/8.0.30_1/lib
+-----
+creating Makefile
+
+current directory: /Users/2ar12/Documents/tokushi-kyouzai/api/vendor/bundle/ruby/3.0.0/gems/mysql2-0.5.4/ext/mysql2
+make DESTDIR\= clean
+
+current directory: /Users/2ar12/Documents/tokushi-kyouzai/api/vendor/bundle/ruby/3.0.0/gems/mysql2-0.5.4/ext/mysql2
+make DESTDIR\=
+compiling client.c
+compiling infile.c
+compiling mysql2_ext.c
+compiling result.c
+result.c:258:35: warning: implicit conversion loses integer precision: 'unsigned long' to 'int' [-Wshorten-64-to-32]
+        precision = field->length - (field->decimals > 0 ? 2 : 1);
+                  ~ ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+compiling statement.c
+linking shared-object mysql2/mysql2.bundle
+ld: warning: ignoring file /usr/local/Cellar/mysql/8.0.30_1/lib/libmysqlclient.dylib, building for macOS-arm64 but attempting to link with file built for macOS-x86_64
+ld: warning: ignoring file /usr/local/lib/libzstd.dylib, building for macOS-arm64 but attempting to link with file built for macOS-x86_64
+ld: warning: ignoring file /usr/local/opt/openssl@3/lib/libssl.dylib, building for macOS-arm64 but attempting to link with file built for macOS-x86_64
+ld: warning: ignoring file /usr/local/opt/openssl@3/lib/libcrypto.dylib, building for macOS-arm64 but attempting to link with file built for macOS-x86_64
+Undefined symbols for architecture arm64:
+  "_mysql_affected_rows", referenced from:
+      _rb_mysql_client_affected_rows in client.o
+  "_mysql_close", referenced from:
+      _decr_mysql2_client in client.o
+      _nogvl_close in client.o
+  "_mysql_data_seek", referenced from:
+      _rb_mysql_result_each in result.o
+  "_mysql_errno", referenced from:
+      _rb_mysql_client_async_result in client.o
+      _rb_mysql_client_store_result in client.o
+      _rb_raise_mysql2_error in client.o
+  "_mysql_error", referenced from:
+      _rb_raise_mysql2_error in client.o
+      _set_charset_name.cold.1 in client.o
+      __mysql_client_options.cold.1 in client.o
+      _rb_mysql_result_each_ in result.o
+  "_mysql_escape_string", referenced from:
+      _rb_mysql_client_escape in client.o
+  "_mysql_fetch_field_direct", referenced from:
+      _rb_mysql_result_fetch_field_types in result.o
+      _rb_mysql_result_fetch_field in result.o
+  "_mysql_fetch_fields", referenced from:
+      _rb_mysql_result_each_ in result.o
+      _rb_mysql_stmt_fields in statement.o
+  "_mysql_fetch_lengths", referenced from:
+      _rb_mysql_result_fetch_row in result.o
+  "_mysql_fetch_row", referenced from:
+      _nogvl_fetch_row in result.o
+  "_mysql_free_result", referenced from:
+      _rb_mysql_client_abandon_results in client.o
+      _rb_mysql_result_free_result in result.o
+      _rb_mysql_stmt_execute in statement.o
+      _rb_mysql_stmt_fields in statement.o
+  "_mysql_get_client_info", referenced from:
+      _rb_mysql_client_info in client.o
+  "_mysql_get_client_version", referenced from:
+      _rb_mysql_client_info in client.o
+      _rb_set_ssl_mode_option in client.o
+  "_mysql_get_server_info", referenced from:
+      _rb_mysql_client_server_info in client.o
+  "_mysql_get_server_version", referenced from:
+      _rb_mysql_client_server_info in client.o
+      _rb_mysql_connect in client.o
+  "_mysql_get_ssl_cipher", referenced from:
+      _rb_mysql_get_ssl_cipher in client.o
+  "_mysql_info", referenced from:
+      _rb_mysql_info in client.o
+  "_mysql_init", referenced from:
+      _nogvl_init in client.o
+  "_mysql_insert_id", referenced from:
+      _rb_mysql_client_last_id in client.o
+  "_mysql_more_results", referenced from:
+      _rb_mysql_client_abandon_results in client.o
+      _rb_mysql_client_more_results in client.o
+  "_mysql_next_result", referenced from:
+      _rb_mysql_client_abandon_results in client.o
+      _rb_mysql_client_next_result in client.o
+  "_mysql_num_fields", referenced from:
+      _rb_mysql_result_fetch_fields in result.o
+      _rb_mysql_result_fetch_field_types in result.o
+      _rb_mysql_result_fetch_row_stmt in result.o
+      _rb_mysql_result_fetch_row in result.o
+      _rb_mysql_result_fetch_field in result.o
+  "_mysql_num_rows", referenced from:
+      _rb_mysql_result_each in result.o
+      _rb_mysql_result_count in result.o
+  "_mysql_options", referenced from:
+      _set_charset_name in client.o
+      _rb_set_ssl_mode_option in client.o
+      _rb_mysql_connect in client.o
+      __mysql_client_options in client.o
+  "_mysql_options4", referenced from:
+      _opt_connect_attr_add_i in client.o
+  "_mysql_ping", referenced from:
+      _nogvl_ping in client.o
+  "_mysql_read_query_result", referenced from:
+      _nogvl_read_query_result in client.o
+  "_mysql_real_connect", referenced from:
+      _nogvl_connect in client.o
+  "_mysql_real_escape_string", referenced from:
+      _rb_mysql_client_real_escape in client.o
+  "_mysql_select_db", referenced from:
+      _nogvl_select_db in client.o
+  "_mysql_send_query", referenced from:
+      _nogvl_send_query in client.o
+  "_mysql_server_init", referenced from:
+      _init_mysql2_client in client.o
+  "_mysql_session_track_get_first", referenced from:
+      _rb_mysql_client_session_track in client.o
+  "_mysql_session_track_get_next", referenced from:
+      _rb_mysql_client_session_track in client.o
+  "_mysql_set_local_infile_handler", referenced from:
+      _mysql2_set_local_infile in infile.o
+  "_mysql_set_server_option", referenced from:
+      _rb_mysql_client_set_server_option in client.o
+  "_mysql_sqlstate", referenced from:
+      _rb_raise_mysql2_error in client.o
+  "_mysql_ssl_set", referenced from:
+      _set_ssl_options in client.o
+  "_mysql_stmt_affected_rows", referenced from:
+      _rb_mysql_stmt_affected_rows in statement.o
+  "_mysql_stmt_attr_set", referenced from:
+      _rb_mysql_stmt_new in statement.o
+      _rb_mysql_stmt_execute in statement.o
+  "_mysql_stmt_bind_param", referenced from:
+      _rb_mysql_stmt_execute in statement.o
+  "_mysql_stmt_bind_result", referenced from:
+      _rb_mysql_result_fetch_row_stmt in result.o
+  "_mysql_stmt_close", referenced from:
+      _decr_mysql2_stmt in statement.o
+      _nogvl_stmt_close in statement.o
+      _rb_mysql_stmt_free in statement.o
+  "_mysql_stmt_errno", referenced from:
+      _rb_raise_mysql2_stmt_error in statement.o
+      _rb_mysql_stmt_execute in statement.o
+      _rb_mysql_stmt_fields in statement.o
+  "_mysql_stmt_error", referenced from:
+      _rb_raise_mysql2_stmt_error in statement.o
+  "_mysql_stmt_execute", referenced from:
+      _nogvl_stmt_execute in statement.o
+  "_mysql_stmt_fetch", referenced from:
+      _nogvl_stmt_fetch in result.o
+  "_mysql_stmt_field_count", referenced from:
+      _rb_mysql_stmt_field_count in statement.o
+      _rb_mysql_stmt_fields in statement.o
+  "_mysql_stmt_free_result", referenced from:
+      _rb_mysql_result_free_result in result.o
+  "_mysql_stmt_init", referenced from:
+      _rb_mysql_stmt_new in statement.o
+  "_mysql_stmt_insert_id", referenced from:
+      _rb_mysql_stmt_last_id in statement.o
+  "_mysql_stmt_num_rows", referenced from:
+      _rb_mysql_result_each in result.o
+      _rb_mysql_result_count in result.o
+  "_mysql_stmt_param_count", referenced from:
+      _rb_mysql_stmt_param_count in statement.o
+      _rb_mysql_stmt_execute in statement.o
+  "_mysql_stmt_prepare", referenced from:
+      _nogvl_prepare_statement in statement.o
+  "_mysql_stmt_result_metadata", referenced from:
+      _rb_mysql_stmt_execute in statement.o
+      _rb_mysql_stmt_fields in statement.o
+  "_mysql_stmt_sqlstate", referenced from:
+      _rb_raise_mysql2_stmt_error in statement.o
+  "_mysql_stmt_store_result", referenced from:
+      _rb_mysql_stmt_execute in statement.o
+  "_mysql_store_result", referenced from:
+      _nogvl_store_result in client.o
+  "_mysql_thread_id", referenced from:
+      _rb_mysql_client_thread_id in client.o
+  "_mysql_use_result", referenced from:
+      _nogvl_use_result in client.o
+  "_mysql_warning_count", referenced from:
+      _rb_mysql_client_warning_count in client.o
+ld: symbol(s) not found for architecture arm64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [mysql2.bundle] Error 1
+
+make failed, exit code 2

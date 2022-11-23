@@ -1,0 +1,15 @@
+current directory: /Users/2ar12/Documents/tokushi-kyouzai/api/vendor/bundle/ruby/3.0.0/gems/bootsnap-1.13.0/ext/bootsnap
+/Users/2ar12/.rbenv/versions/3.0.4/bin/ruby -I /Users/2ar12/.rbenv/versions/3.0.4/lib/ruby/3.0.0 -r ./siteconf20221010-33577-34mkc8.rb extconf.rb
+creating Makefile
+
+current directory: /Users/2ar12/Documents/tokushi-kyouzai/api/vendor/bundle/ruby/3.0.0/gems/bootsnap-1.13.0/ext/bootsnap
+make DESTDIR\= clean
+
+current directory: /Users/2ar12/Documents/tokushi-kyouzai/api/vendor/bundle/ruby/3.0.0/gems/bootsnap-1.13.0/ext/bootsnap
+make DESTDIR\=
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.bundle
+
+current directory: /Users/2ar12/Documents/tokushi-kyouzai/api/vendor/bundle/ruby/3.0.0/gems/bootsnap-1.13.0/ext/bootsnap
+make DESTDIR\= install
+/usr/bin/install -c -m 0755 bootsnap.bundle ./.gem.20221010-33577-6abouh/bootsnap
