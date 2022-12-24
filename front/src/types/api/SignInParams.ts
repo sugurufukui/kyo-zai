@@ -1,4 +1,4 @@
-export type LoginParams = {
+export type SignInParams = {
   email: string;
   password: string;
 };
