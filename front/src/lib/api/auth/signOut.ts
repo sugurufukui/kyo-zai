@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-import { client } from "../client";
+import { client } from "lib/api/client";
 
 //サインアウト（ログアウト）
 export const signOut = () => {

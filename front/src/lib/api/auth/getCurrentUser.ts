@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-import { client } from "../client";
+import { client } from "lib/api/client";
 
 //認証済みのユーザーを取得
 export const getCurrentUser = () => {
