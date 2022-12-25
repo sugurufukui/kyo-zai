@@ -14,7 +14,9 @@ import { AuthContext } from "App";
 // import AlertMessage from "components/organisms/layout/AlertMessage";
 // import { signIn } from "lib/api/auth/signIn";
 import { SignInParams } from "types/api/SignInParams";
-import { signIn } from "lib/api/auth/signin";
+import { signIn } from "lib/api/auth/signIn";
+import { PrimaryButton } from "components/atoms/PrimaryButton";
+import { Divider } from "@mui/material";
 // import { Material } from "components/page//Material";
 
 // サインイン用ページ
@@ -63,8 +65,10 @@ export const SignIn: FC = memo(() => {
   return (
     <>
       <form noValidate autoComplete="off">
-        <Card>
-          <CardHeader title="ログイン" />
+        {/* カードとして教材一覧等にも使えるようにコンポーネント化する */}
+        <Card sx={{ p: 4, borderRadius: "md" }}>
+          <CardHeader sx={{ textAlign: "center" }} title="ログイン" />
+          <Divider sx={{ my: 2 }} />
           <CardContent>
             <TextField
               // textfieldと文字が重なる問題あり
@@ -91,16 +95,13 @@ export const SignIn: FC = memo(() => {
               onChange={(event) => setPassword(event.target.value)}
             />
             <Box sx={{ flexGrow: 1 }}>
-              <Button
-                type="submit"
-                variant="outlined"
-                fullWidth
-                color="primary"
-                disabled={!email || !password ? true : false}
+              <PrimaryButton
                 onClick={onClickSignIn}
+                disabled={!email || !password ? true : false}
+                fullWidth
               >
                 ログイン
-              </Button>
+              </PrimaryButton>
             </Box>
             <Box textAlign="center">
               <Typography variant="body2">
@@ -109,6 +110,8 @@ export const SignIn: FC = memo(() => {
                 から作成してください。
               </Typography>
             </Box>
+            <Divider sx={{ my: 4 }} />
+            {/* ゲストログイン機能 */}
           </CardContent>
         </Card>
       </form>
