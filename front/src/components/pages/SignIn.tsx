@@ -10,7 +10,7 @@ import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
-import { AuthContext } from "App";
+// import { AuthContext } from "App";
 // import AlertMessage from "components/organisms/layout/AlertMessage";
 // import { signIn } from "lib/api/auth/signIn";
 import { SignInParams } from "types/api/SignInParams";
@@ -18,6 +18,7 @@ import { signIn } from "lib/api/auth/signIn";
 import { PrimaryButton } from "components/atoms/PrimaryButton";
 import { Divider } from "@mui/material";
 // import { Material } from "components/page//Material";
+import { AuthContext } from "router/Router";
 
 // サインイン用ページ
 export const SignIn: FC = memo(() => {

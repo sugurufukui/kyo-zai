@@ -9,7 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 
-import { AuthContext } from "App";
+import { AuthContext } from "router/Router";
 // import AlertMessage from "components/organisms/layout/AlertMessage";
 import { signUp } from "lib/api/auth/signUp";
 import { SignUpParams } from "types/api/SignUpParams";

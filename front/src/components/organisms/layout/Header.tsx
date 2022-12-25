@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { FC, memo, useContext } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
@@ -6,13 +6,11 @@ import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
+import { Box } from "@mui/material";
 
 import { signOut } from "lib/api/auth/signOut";
 
-import { AuthContext } from "App";
-import { FC } from "react";
-import { memo } from "react";
-import { Box } from "@mui/material";
+import { AuthContext } from "router/Router";
 
 export const Header: FC = memo(() => {
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext);
