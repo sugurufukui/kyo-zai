@@ -10,7 +10,7 @@ import { Box } from "@mui/material";
 
 import { signOut } from "lib/api/auth/signOut";
 
-import { AuthContext } from "router/Router";
+import { AuthContext } from "providers/AuthProvider";
 
 export const Header: FC = memo(() => {
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext);
@@ -32,8 +32,11 @@ export const Header: FC = memo(() => {
         histroy.push("/signin");
         //アラートのポップ画面表示（ログアウトしました）
         alert("ログアウトしました");
+        console.log("ログアウトしました");
       } else {
         alert("ログアウトできませんでした");
+        console.log("ログアウトしました");
+
         //アラートのポップ画面表示（ログアウトできませんでした）
       }
     } catch (err) {

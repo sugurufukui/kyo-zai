@@ -18,7 +18,7 @@ import { signIn } from "lib/api/auth/signIn";
 import { PrimaryButton } from "components/atoms/PrimaryButton";
 import { Divider } from "@mui/material";
 // import { Material } from "components/page//Material";
-import { AuthContext } from "router/Router";
+import { AuthContext } from "providers/AuthProvider";
 
 // サインイン用ページ
 export const SignIn: FC = memo(() => {
@@ -54,6 +54,7 @@ export const SignIn: FC = memo(() => {
         history.push("/");
 
         alert("ログインしました");
+        console.log("ログインしました");
       } else {
         setAlertMessageOpen(true);
       }

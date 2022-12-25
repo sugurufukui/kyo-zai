@@ -1,6 +1,6 @@
 import React, { FC, memo, useContext } from "react";
 
-import { AuthContext } from "router/Router";
+import { AuthContext } from "providers/AuthProvider";
 
 // とりあえず認証済みユーザーの名前やメールアドレスを表示
 export const Home: FC = memo(() => {

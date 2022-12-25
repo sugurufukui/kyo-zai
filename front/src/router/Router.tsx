@@ -1,59 +1,16 @@
-// import { FC, memo } from "react";
-// import { Route, Switch } from "react-router-dom";
-// import { Login } from "../components/pages/Login";
-// import { homeRoutes } from "./HomeRoutes";
-// import { Page404 } from "../components/pages/Page404";
-// import { HeaderLayout } from "../components/templates/HeaderLayout";
-
-import { FC, memo, createContext, useState, useEffect } from "react";
+import { FC, memo } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { User } from "types/api/user";
 import { CommonLayout } from "components/templates/CommonLayout";
 import { SignUp } from "components/pages/SignUp";
 import { SignIn } from "components/pages/SignIn";
-import { getCurrentUser } from "lib/api/auth/getCurrentUser";
 import { Home } from "components/pages/Home";
-
-// グローバルで扱う変数・関数
-export const AuthContext = createContext(
-  {} as {
-    loading: boolean;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    isSignedIn: boolean;
-    setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
-    currentUser: User | undefined;
-    setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>;
-  }
-);
+import { AuthProvider } from "providers/AuthProvider";
+import { useAuth } from "hooks/useAuth";
+// import { homeRoutes } from "./HomeRoutes";
+// import { Page404 } from "../components/pages/Page404";
 
 export const Router: FC = memo(() => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<User | undefined>();
-
-  // 認証済みのユーザーがいるかどうかチェック
-  // 確認できた場合はそのユーザーの情報を取得
-  const handleGetCurrentUser = async () => {
-    try {
-      const res = await getCurrentUser();
-      console.log(res);
-
-      if (res?.status === 200) {
-        setIsSignedIn(true);
-        setCurrentUser(res?.data.currentUser);
-      } else {
-        alert("ユーザーがいません");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    handleGetCurrentUser();
-  }, [setCurrentUser]);
+  const { loading, isSignedIn } = useAuth();
 
   // ユーザーが認証済みかどうかでルーティングを決定
   // 未認証だった場合は「/signin」ページに促す
@@ -70,21 +27,9 @@ export const Router: FC = memo(() => {
   };
 
   return (
-    // {
-    //AuthProviderとしてproviderフォルダに切り分ける
-    // }
-    <AuthContext.Provider
-      value={{
-        loading,
-        setLoading,
-        isSignedIn,
-        setIsSignedIn,
-        currentUser,
-        setCurrentUser,
-      }}
-    >
-      <CommonLayout>
-        <Switch>
+    <Switch>
+      <AuthProvider>
+        <CommonLayout>
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/signin" component={SignIn} />
           <Private>
@@ -92,9 +37,9 @@ export const Router: FC = memo(() => {
               <Route exact path="/" component={Home} />
             </Switch>
           </Private>
-        </Switch>
-      </CommonLayout>
-    </AuthContext.Provider>
+        </CommonLayout>
+      </AuthProvider>
+    </Switch>
   );
 });
 // export const Router: FC = memo(() => {

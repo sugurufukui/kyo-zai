@@ -9,7 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 
-import { AuthContext } from "router/Router";
+import { AuthContext } from "providers/AuthProvider";
 // import AlertMessage from "components/organisms/layout/AlertMessage";
 import { signUp } from "lib/api/auth/signUp";
 import { SignUpParams } from "types/api/SignUpParams";
@@ -42,7 +42,8 @@ export const SignUp: FC = memo(() => {
 
       if (res.status === 200) {
         // アカウント作成と同時にサインインさせてしまう
-        // 本来であればメール確認などを挟むべきだが、今回はサンプルなので
+        //メール認証を挟む
+
         Cookies.set("_access_token", res.headers["access-token"]);
         Cookies.set("_client", res.headers["client"]);
         Cookies.set("_uid", res.headers["uid"]);
@@ -55,6 +56,7 @@ export const SignUp: FC = memo(() => {
         alert("Signed in successfully!");
       } else {
         alert("登録できませんでした");
+        console.log("登録できませんでした");
         // setAlertMessageOpen(true);
       }
     } catch (err) {
