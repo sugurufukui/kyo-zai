@@ -6,6 +6,7 @@ import { SignIn } from "components/pages/SignIn";
 import { Home } from "components/pages/Home";
 import { AuthProvider } from "providers/AuthProvider";
 import { useAuth } from "hooks/useAuth";
+import { Material } from "components/pages/Material";
 // import { homeRoutes } from "./HomeRoutes";
 // import { Page404 } from "../components/pages/Page404";
 
@@ -30,8 +31,11 @@ export const Router: FC = memo(() => {
     <Switch>
       <AuthProvider>
         <CommonLayout>
+          <Route exact path="/" component={Home} />
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/material" component={Material} />
+          {/* <Route exact path="/signin" component={SignIn} /> */}
           <Private>
             <Switch>
               <Route exact path="/" component={Home} />
