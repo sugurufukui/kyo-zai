@@ -7,7 +7,6 @@ import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
 // import { AuthContext } from "App";
@@ -51,7 +50,7 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        history.push("/");
+        history.push("/material");
 
         alert("ログインしました");
         console.log("ログインしました");
