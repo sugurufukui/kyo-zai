@@ -26,5 +26,10 @@ const theme = createTheme({
     //   disabledBackground: "#CE3256",
     // },
   },
+  typography: {
+    button: {
+      textTransform: "none",
+    },
+  },
 });
 export default theme;
