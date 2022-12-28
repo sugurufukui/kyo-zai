@@ -6,12 +6,25 @@ import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { Box, Container, SwipeableDrawer } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Container,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  MenuItem,
+  SwipeableDrawer,
+} from "@mui/material";
 import { MenuIconButton } from "components/atoms/button/MenuIconButton";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import SearchIcon from "@mui/icons-material/Search";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Menu from "@mui/material/Menu";
 
 import { signOut } from "lib/api/auth/signOut";
 
@@ -35,10 +48,28 @@ const noAuthPages = [
   { children: "新規登録", link: "/signup" },
   { children: "ログイン", link: "/signin" },
 ];
+const avatarMenu = [
+  { children: "マイページ", icon: <AccountCircleIcon />, link: "/" },
+  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/material" },
+  { children: "いいねした教材", icon: <FavoriteBorderIcon />, link: "/" },
+  {
+    children: "フォローしている人",
+    icon: <SupervisedUserCircleIcon />,
+    link: "/signup",
+  },
+];
 
 export const Header: FC = memo(() => {
   const [menuOpened, setMenuOpened] = useState(null);
   const [drawerOpened, setDrawerOpened] = useState(false);
+
+  const onClickAvatar = (event: React.MouseEvent<HTMLElement>) => {
+    setMenuOpened(event.currentTarget);
+  };
+
+  const onCloseAvatarMenu = () => {
+    setMenuOpened(null);
+  };
 
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext);
 
@@ -137,7 +168,54 @@ export const Header: FC = memo(() => {
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <AuthButtons />
             </Box>
+            {/* アバターボタン */}
+            {/* ログイン時のみ出現 */}
+            {/* {isSignedIn ? (
 
+            ) : (
+              ""
+            )} */}
+            <Box sx={{ flexGrow: 0 }}>
+              <IconButton onClick={onClickAvatar} sx={{ p: 1.5 }}>
+                <Avatar alt="alt" src="https://source.unsplash.com/random" />
+              </IconButton>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={menuOpened}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={menuOpened}
+                onClose={onCloseAvatarMenu}
+              >
+                {avatarMenu.map((userMaterial) => (
+                  <MenuItem
+                    key={userMaterial.children}
+                    component={Link}
+                    to={userMaterial.link}
+                    onClick={onCloseAvatarMenu}
+                  >
+                    <ListItemIcon>{userMaterial.icon}</ListItemIcon>
+                    <Typography textAlign="center">
+                      {userMaterial.children}
+                    </Typography>
+                  </MenuItem>
+                ))}
+                <Divider />
+                {/* メニュー非表示＆ログアウト一緒にしようとしたらエラー */}
+                <MenuItem
+                  key="ログアウト"
+                  onClick={onClickSignOut}
+                  // onCloseUserMaterialsMenu,
+                >
+                  <Typography align="center">ログアウト</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
             <MenuIconButton onOpen={() => setDrawerOpened(true)} />
           </Toolbar>
           {/* ドロワーの実装（コンポーネント化） */}
