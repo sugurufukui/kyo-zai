@@ -1,4 +1,4 @@
-import React, { FC, memo, useContext } from "react";
+import React, { FC, memo, useContext, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
@@ -6,19 +6,41 @@ import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { Box } from "@mui/material";
-
+import { Box, Container } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import SearchIcon from "@mui/icons-material/Search";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import { signOut } from "lib/api/auth/signOut";
 
 import { AuthContext } from "providers/AuthProvider";
 
+import LogoIcon from "images/top.png";
+
+// if文 三項演算子でかけるか？
+// auth ? authPages : noAuthPages;
+// 共通しているものは一つにまとめるか？
+const authPages = [
+  { children: "HOME", icon: <HomeIcon />, link: "/", color: "primary" },
+  { children: "教材一覧", icon: <MenuBookIcon />, link: "/material" },
+  { children: "検索", icon: <SearchIcon />, link: "/" },
+  { children: "投稿", icon: <PostAddIcon />, link: "/" },
+];
+const noAuthPages = [
+  { children: "HOME", icon: <HomeIcon />, link: "/" },
+  // { children: "教材一覧", icon: <SearchIcon />, link: "/material" },
+  // { children: "検索", icon: <SearchIcon />, link: "/" },
+  { children: "新規登録", link: "/signup" },
+  { children: "ログイン", link: "/signin" },
+];
+
 export const Header: FC = memo(() => {
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext);
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  // const { loading, isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+
   const histroy = useHistory();
 
-  const onClickSignOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  // サインアウトボタンをクリックした時
+  const onClickSignOut = async (event) => {
     try {
       const res = await signOut();
 
@@ -36,7 +58,6 @@ export const Header: FC = memo(() => {
       } else {
         alert("ログアウトできませんでした");
         console.log("ログアウトしました");
-
         //アラートのポップ画面表示（ログアウトできませんでした）
       }
     } catch (err) {
@@ -44,26 +65,44 @@ export const Header: FC = memo(() => {
     }
   };
 
+  // onClickSignOutと一緒にAuthButtonとしてコンポーネント化する：どのディレクトリに分けるべきか
   const AuthButtons = () => {
     // 認証完了後はサインアウト用のボタンを表示
     // 未認証時は認証用のボタンを表示
     if (!loading) {
-      //ボタンをprimaryButtonとしてcomponent化する
       if (isSignedIn) {
         return (
-          //ボタンをprimaryButtonとしてcomponent化する
           //サインインしている状態のボタン=>①HOME②教材一覧③検索④投稿する⑤マイページ（アイコン（アイコンクリック時にモーダル出現））
-          <Button color="inherit" onClick={onClickSignOut}>
-            サインアウト
-          </Button>
+          <>
+            {authPages.map((authPage) => (
+              <Button
+                key={authPage.children}
+                startIcon={authPage.icon}
+                component={Link}
+                to={authPage.link}
+                sx={{ my: 2, mx: 1, color: "white", display: "flex" }}
+              >
+                {authPage.children}
+              </Button>
+            ))}
+          </>
         );
       } else {
+        // 未ログイン時
         return (
-          //ボタンをprimaryButtonとしてcomponent化する
-          //サインインしていない状態のボタン＝＞①HOME②教材一覧③検索④新規登録⑤ログイン
-          <Button component={Link} to="/signin" color="inherit">
-            ログイン
-          </Button>
+          <>
+            {noAuthPages.map((noAuthPage) => (
+              <Button
+                key={noAuthPage.children}
+                startIcon={noAuthPage.icon}
+                component={Link}
+                to={noAuthPage.link}
+                sx={{ my: 2, mx: 1, color: "white", display: "flex" }}
+              >
+                {noAuthPage.children}
+              </Button>
+            ))}
+          </>
         );
       }
     } else {
@@ -73,22 +112,28 @@ export const Header: FC = memo(() => {
 
   return (
     <>
-      {/* MenuDrawerでレスポンシブ対応させる */}
-
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar>
-          <Toolbar>
-            {/* スタイルを切り分ける */}
-            {/* 色変更する */}
+      <AppBar>
+        <Container>
+          <Toolbar disableGutters>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              {/* イラストを挿入する */}
-              {/* クリックするとホームへ戻るようにする */}
-              きょーざい
+              {/* リンクの範囲が広い問題 */}
+              <Link to="/">
+                <img
+                  src={`${LogoIcon}`}
+                  alt="ロゴアイコン"
+                  width="50"
+                  height="50"
+                  style={{ display: "block" }}
+                />
+              </Link>
             </Typography>
-            <AuthButtons />
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              <AuthButtons />
+            </Box>
           </Toolbar>
-        </AppBar>
-      </Box>
+        </Container>
+      </AppBar>
+      {/* </Box> */}
     </>
   );
 });
