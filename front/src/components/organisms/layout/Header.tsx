@@ -7,10 +7,12 @@ import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import { Box, Container } from "@mui/material";
+import { MenuIconButton } from "components/atoms/button/MenuIconButton";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import SearchIcon from "@mui/icons-material/Search";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+
 import { signOut } from "lib/api/auth/signOut";
 
 import { AuthContext } from "providers/AuthProvider";
@@ -35,6 +37,9 @@ const noAuthPages = [
 ];
 
 export const Header: FC = memo(() => {
+  const [menuOpened, setMenuOpened] = useState(null);
+  const [drawerOpened, setDrawerOpened] = useState(false);
+
   const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext);
 
   const histroy = useHistory();
@@ -130,6 +135,7 @@ export const Header: FC = memo(() => {
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <AuthButtons />
             </Box>
+            <MenuIconButton onOpen={() => setDrawerOpened(true)} />
           </Toolbar>
         </Container>
       </AppBar>
