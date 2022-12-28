@@ -1,6 +1,5 @@
 import { FC, memo, ReactNode, useState } from "react";
 import Button from "@mui/material/Button";
-import { FormControlLabel, Switch } from "@mui/material";
 
 type Props = {
   children: ReactNode;
@@ -25,9 +24,11 @@ export const PrimaryButton: FC<Props> = memo((props) => {
         // disabled={disabled || loading}
         // isLoading={loading}
         fullWidth={fullWidth}
-        // sx={{
-        //   "$:hover": { opacity: 0.8 },
-        // }}
+        sx={{
+          boxShadow: 0,
+          fontWeight: "bold",
+          ":hover": { boxShadow: 0, bgcolor: "primary.light" },
+        }}
       >
         {children}
       </Button>
