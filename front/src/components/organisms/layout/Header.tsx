@@ -6,7 +6,7 @@ import AppBar from "@mui/material/AppBar";
 import Typography from "@mui/material/Typography";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { Box, Container } from "@mui/material";
+import { Box, Container, SwipeableDrawer } from "@mui/material";
 import { MenuIconButton } from "components/atoms/button/MenuIconButton";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
@@ -117,6 +117,8 @@ export const Header: FC = memo(() => {
 
   return (
     <>
+      {/* MenuDrawerでレスポンシブ対応させる */}
+
       <AppBar>
         <Container>
           <Toolbar disableGutters>
@@ -135,8 +137,36 @@ export const Header: FC = memo(() => {
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <AuthButtons />
             </Box>
+
             <MenuIconButton onOpen={() => setDrawerOpened(true)} />
           </Toolbar>
+          {/* ドロワーの実装（コンポーネント化） */}
+          <div>
+            {/* ログイン/日ログインの出し分け */}
+            {authPages.map((authpage) => (
+              <Button key={authpage.children}></Button>
+            ))}
+            <SwipeableDrawer
+              anchor={"right"}
+              open={drawerOpened}
+              onClose={() => setDrawerOpened(false)}
+              onOpen={() => setDrawerOpened(true)}
+              // PaperProps={{ style: { width: "30%" } }}
+              PaperProps={{
+                sx: {
+                  // backgroundColor: "gray",
+                  // color: "rgba(225,249,27,1)",
+                  backgroundColor: "transparent",
+                  boxShadow: "none",
+                  textAlign: "center",
+                },
+              }}
+              sx={{ width: "30%" }}
+            >
+              {/* ドロワー内のボタンをクリックして要求された画面が出たらドロワーを閉じる */}
+              <AuthButtons />
+            </SwipeableDrawer>
+          </div>
         </Container>
       </AppBar>
       {/* </Box> */}
