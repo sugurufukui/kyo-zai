@@ -32,13 +32,14 @@ export const Router: FC = memo(() => {
       <AuthProvider>
         <CommonLayout>
           <Route exact path="/" component={Home} />
-          <Route exact path="/signup" component={SignUp} />
-          <Route exact path="/signin" component={SignIn} />
-          <Route exact path="/material" component={Material} />
-          {/* <Route exact path="/signin" component={SignIn} /> */}
+          <Route path="/signup" component={SignUp} />
+          <Route path="/signin" component={SignIn} />
           <Private>
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route path="/material" component={Material} />
+              {/* 検索ページ */}
+              {/* 投稿ページ */}
+              {/* マイページ */}
             </Switch>
           </Private>
         </CommonLayout>
