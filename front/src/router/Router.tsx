@@ -1,4 +1,4 @@
-import { FC, memo } from "react";
+import { FC, memo, ReactElement } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { CommonLayout } from "components/templates/CommonLayout";
 import { SignUp } from "components/pages/SignUp";
@@ -15,7 +15,12 @@ export const Router: FC = memo(() => {
 
   // ユーザーが認証済みかどうかでルーティングを決定
   // 未認証だった場合は「/signin」ページに促す
-  const Private = ({ children }: { children: React.ReactElement }) => {
+
+  type Props = {
+    children: ReactElement;
+  };
+  const Private: FC<Props> = (props) => {
+    const { children } = props;
     if (!loading) {
       if (isSignedIn) {
         return children;
