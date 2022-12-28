@@ -30,6 +30,17 @@ const theme = createTheme({
     button: {
       textTransform: "none",
     },
+    fontFamily: [
+      "Noto Sans JP",
+      "Hiragino Kaku Gothic Pro",
+      "ヒラギノ角ゴ Pro",
+      "Yu Gothic Medium",
+      "游ゴシック Medium",
+      "YuGothic",
+      "游ゴシック体",
+      "メイリオ",
+      "sans-serif",
+    ].join(","),
   },
 });
 export default theme;
