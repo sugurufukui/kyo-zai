@@ -7,6 +7,51 @@ import { getCurrentUser } from "lib/api/auth/getCurrentUser";
 import { useEffect, useState } from "react";
 import { User } from "types/api/user";
 
+// 認証済みのユーザーがいるかどうかチェックするカスタムフック
+//useStateの内容を外部で使用できるようにフック化
+// 確認できた場合はそのユーザーの情報を取得
+export const useAuth = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<User | undefined>();
+
+  //ここはaxiosで書きたい
+  const handleGetCurrentUser = async () => {
+    try {
+      const res = await getCurrentUser();
+      console.log(res);
+
+      if (res?.status === 200) {
+        setIsSignedIn(true);
+        setCurrentUser(res?.data.data);
+        console.log(res?.data.data);
+      } else {
+        // alert("ユーザーがいません");
+        console.log("ユーザーがいません");
+        console.log(res?.data.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    setLoading(false);
+  };
+
+  //サインイン時にhandleGetCurrentUserしてユーザーの情報をもたせた方がいい？
+  useEffect(() => {
+    handleGetCurrentUser();
+  }, [setCurrentUser]);
+
+  return {
+    handleGetCurrentUser,
+    loading,
+    setLoading,
+    isSignedIn,
+    setIsSignedIn,
+    currentUser,
+    setCurrentUser,
+  };
+};
 // export const useAuth = () => {
 //   const history = useHistory();
 
@@ -29,46 +74,3 @@ import { User } from "types/api/user";
 //   }, [history]);
 //   return { login };
 // };
-
-// 認証済みのユーザーがいるかどうかチェックするカスタムフック
-//useStateの内容を外部で使用できるようにフック化
-// 確認できた場合はそのユーザーの情報を取得
-export const useAuth = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<User | undefined>();
-
-  //ここはaxiosで書きたい
-  const handleGetCurrentUser = async () => {
-    try {
-      const res = await getCurrentUser();
-      console.log(res);
-
-      if (res?.status === 200) {
-        setIsSignedIn(true);
-        setCurrentUser(res?.data.currentUser);
-      } else {
-        alert("ユーザーがいません");
-        console.log("ユーザーがいません");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-
-    setLoading(false);
-  };
-
-  //サインイン時にhandleGetCurrentUserしてユーザーの情報をもたせた方がいい？
-  useEffect(() => {
-    handleGetCurrentUser();
-  }, [setCurrentUser]);
-  return {
-    handleGetCurrentUser,
-    loading,
-    setLoading,
-    isSignedIn,
-    setIsSignedIn,
-    currentUser,
-    setCurrentUser,
-  };
-};
