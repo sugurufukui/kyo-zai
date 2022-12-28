@@ -13,6 +13,7 @@ import { AuthContext } from "providers/AuthProvider";
 // import AlertMessage from "components/organisms/layout/AlertMessage";
 import { signUp } from "lib/api/auth/signUp";
 import { SignUpParams } from "types/api/SignUpParams";
+import { Divider } from "@mui/material";
 
 // サインアップ用ページ
 export const SignUp: FC = memo(() => {
@@ -71,6 +72,8 @@ export const SignUp: FC = memo(() => {
       <form noValidate autoComplete="off">
         <Card sx={{ p: 4, maxWidth: 400 }}>
           <CardHeader title="ユーザー登録" />
+          <Divider sx={{ my: 2 }} />
+
           {/* Textfieldを共通化してきりわける */}
           <CardContent>
             <TextField
