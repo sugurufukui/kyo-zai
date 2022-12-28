@@ -54,6 +54,7 @@ export const SignIn: FC = memo(() => {
 
         alert("ログインしました");
         console.log("ログインしました");
+        console.log(res.data.data);
       } else {
         setAlertMessageOpen(true);
       }
