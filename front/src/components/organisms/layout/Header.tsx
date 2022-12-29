@@ -16,7 +16,7 @@ import {
   MenuItem,
   SwipeableDrawer,
 } from "@mui/material";
-import { MenuIconButton } from "components/atoms/button/MenuIconButton";
+import { HamburgerButton } from "components/atoms/button/HamburgerButton";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import SearchIcon from "@mui/icons-material/Search";
@@ -216,7 +216,7 @@ export const Header: FC = memo(() => {
                 </MenuItem>
               </Menu>
             </Box>
-            <MenuIconButton onOpen={() => setDrawerOpened(true)} />
+            <HamburgerButton onOpen={() => setDrawerOpened(true)} />
           </Toolbar>
           {/* ドロワーの実装（コンポーネント化） */}
           <div>

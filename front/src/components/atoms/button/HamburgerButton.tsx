@@ -6,7 +6,7 @@ type Props = {
   onOpen: () => void;
 };
 
-export const MenuIconButton: FC<Props> = memo((props) => {
+export const HamburgerButton: FC<Props> = memo((props) => {
   const { onOpen } = props;
   return (
     <Box sx={{ display: { xs: "flex", md: "none" } }}>
