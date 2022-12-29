@@ -26,7 +26,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 
-import { signOut } from "lib/api/auth/signOut";
+import { signOut } from "lib/api/auth";
 
 import { AuthContext } from "providers/AuthProvider";
 

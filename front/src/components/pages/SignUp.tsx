@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 
 import { AuthContext } from "providers/AuthProvider";
 // import AlertMessage from "components/organisms/layout/AlertMessage";
-import { signUp } from "lib/api/auth/signUp";
+import { signUp } from "lib/api/auth";
 import { SignUpParams } from "types/api/SignUpParams";
 import { Divider } from "@mui/material";
 

@@ -13,7 +13,7 @@ import Box from "@mui/material/Box";
 // import AlertMessage from "components/organisms/layout/AlertMessage";
 // import { signIn } from "lib/api/auth/signIn";
 import { SignInParams } from "types/api/SignInParams";
-import { signIn } from "lib/api/auth/signIn";
+import { signIn } from "lib/api/auth";
 import { PrimaryButton } from "components/atoms/PrimaryButton";
 import { Divider } from "@mui/material";
 // import { Material } from "components/page//Material";
@@ -55,6 +55,7 @@ export const SignIn: FC = memo(() => {
         alert("ログインしました");
         console.log("ログインしました");
         console.log(res.data.data);
+        console.log(res.request.responseURL);
       } else {
         setAlertMessageOpen(true);
       }

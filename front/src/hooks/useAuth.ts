@@ -3,13 +3,14 @@
 // import { LoginParams } from "../types/api/LoginParams";
 // import { useHistory } from "react-router-dom";
 
-import { getCurrentUser } from "lib/api/auth/getCurrentUser";
+import { getCurrentUser } from "lib/api/auth";
 import { useEffect, useState } from "react";
 import { User } from "types/api/user";
 
 // 認証済みのユーザーがいるかどうかチェックするカスタムフック
 //useStateの内容を外部で使用できるようにフック化
 // 確認できた場合はそのユーザーの情報を取得
+// (consoleはログインする前に走る)
 export const useAuth = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
@@ -24,11 +25,11 @@ export const useAuth = () => {
       if (res?.status === 200) {
         setIsSignedIn(true);
         setCurrentUser(res?.data.data);
-        console.log(res?.data.data);
+        console.log(res?.data);
       } else {
         // alert("ユーザーがいません");
         console.log("ユーザーがいません");
-        console.log(res?.data.data);
+        console.log(res?.data);
       }
     } catch (err) {
       console.log(err);
