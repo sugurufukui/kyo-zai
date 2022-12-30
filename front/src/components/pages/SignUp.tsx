@@ -3,18 +3,17 @@ import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Button from "@mui/material/Button";
 
 import { AuthContext } from "providers/AuthProvider";
-// import AlertMessage from "components/organisms/layout/AlertMessage";
 import { signUp } from "lib/api/auth";
 import { SignUpParams } from "types/api/SignUpParams";
-import { Divider } from "@mui/material";
-
+import { Box, Divider } from "@mui/material";
+import { useSnackbar } from "providers/SnackbarProvider";
+import { PrimaryButton } from "components/atoms/PrimaryButton";
 // サインアップ用ページ
 export const SignUp: FC = memo(() => {
   const histroy = useHistory();
@@ -25,7 +24,7 @@ export const SignUp: FC = memo(() => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
-  // const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false);
+  const { showSnackbar } = useSnackbar();
 
   const onClickRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -54,7 +53,7 @@ export const SignUp: FC = memo(() => {
 
         histroy.push("/");
 
-        alert("Signed in successfully!");
+        showSnackbar("登録しました", "success");
       } else {
         alert("登録できませんでした");
         console.log("登録できませんでした");
@@ -62,7 +61,7 @@ export const SignUp: FC = memo(() => {
       }
     } catch (err) {
       console.log(err);
-      alert("登録できませんでした");
+      showSnackbar("登録できませんでした", "error");
       // setAlertMessageOpen(true);
     }
   };
@@ -117,34 +116,39 @@ export const SignUp: FC = memo(() => {
               onChange={(event) => setPasswordConfirmation(event.target.value)}
             />
 
-            <Typography
-              component="div"
-              sx={{
-                pt: 2,
-                textAlign: "right",
-                flexGrow: 1,
-                textTransform: "none",
-              }}
-            >
-              {/* PrimaryButtonに切り分ける */}
-              <Button
-                type="submit"
-                fullWidth
-                variant="outlined"
-                color="primary"
+            {/* <Box sx={{ flexGrow: 1 }}>
+              <PrimaryButton
+                onClick={onClickRegister}
                 disabled={
                   !name || !email || !password || !passwordConfirmation
                     ? true
                     : false
                 }
-                onClick={onClickRegister}
+                fullWidth
               >
                 ユーザー登録する
-              </Button>
-            </Typography>
+              </PrimaryButton>
+            </Box> */}
+            <Button
+              type="submit"
+              fullWidth
+              variant="outlined"
+              color="primary"
+              disabled={
+                !name || !email || !password || !passwordConfirmation
+                  ? true
+                  : false
+              }
+              onClick={onClickRegister}
+            >
+              ユーザー登録する
+            </Button>
           </CardContent>
         </Card>
       </form>
+
+      {/* アカウントをお持ちの方はこちら （サインインのリンク）*/}
+
       {/* <AlertMessage // エラーが発生した場合はアラートを表示
         open={alertMessageOpen}
         setOpen={setAlertMessageOpen}
