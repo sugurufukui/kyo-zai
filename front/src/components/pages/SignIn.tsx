@@ -18,16 +18,17 @@ import { PrimaryButton } from "components/atoms/PrimaryButton";
 import { Divider } from "@mui/material";
 // import { Material } from "components/page//Material";
 import { AuthContext } from "providers/AuthProvider";
+import { useSnackbar } from "providers/SnackbarProvider";
 
 // サインイン用ページ
 export const SignIn: FC = memo(() => {
   const history = useHistory();
 
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const { showSnackbar } = useSnackbar();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [alertMessageOpen, setAlertMessageOpen] = useState<boolean>(false);
 
   const onClickSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -52,16 +53,16 @@ export const SignIn: FC = memo(() => {
 
         history.push("/material");
 
-        alert("ログインしました");
+        // メッセージ
+        showSnackbar("ログインしました", "success");
         console.log("ログインしました");
         console.log(res.data.data);
-        console.log(res.request.responseURL);
       } else {
-        setAlertMessageOpen(true);
       }
     } catch (err) {
+      showSnackbar("ログインできませんでした", "error");
+
       console.log(err);
-      setAlertMessageOpen(true);
     }
   };
 

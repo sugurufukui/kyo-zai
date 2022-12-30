@@ -31,6 +31,7 @@ import { signOut } from "lib/api/auth";
 import { AuthContext } from "providers/AuthProvider";
 
 import LogoIcon from "images/top.png";
+import { useSnackbar } from "providers/SnackbarProvider";
 
 // if文 三項演算子でかけるか？
 // auth ? authPages : noAuthPages;
@@ -62,6 +63,7 @@ const avatarMenu = [
 export const Header: FC = memo(() => {
   const [menuOpened, setMenuOpened] = useState(null);
   const [drawerOpened, setDrawerOpened] = useState(false);
+  const { showSnackbar } = useSnackbar();
 
   const onClickAvatar = (event: React.MouseEvent<HTMLElement>) => {
     setMenuOpened(event.currentTarget);
@@ -88,16 +90,14 @@ export const Header: FC = memo(() => {
 
         setIsSignedIn(false);
         histroy.push("/signin");
-        //アラートのポップ画面表示（ログアウトしました）
-        alert("ログアウトしました");
+
+        showSnackbar("ログアウトしました", "success");
         console.log("ログアウトしました");
       } else {
-        alert("ログアウトできませんでした");
-        console.log("ログアウトしました");
-        //アラートのポップ画面表示（ログアウトできませんでした）
+        showSnackbar("ログアウトできませんでした", "error");
       }
     } catch (err) {
-      console.log(err);
+      showSnackbar("ログアウトできませんでした", "error");
     }
   };
 
