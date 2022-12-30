@@ -4,20 +4,21 @@
 // import { useHistory } from "react-router-dom";
 
 import { getCurrentUser } from "lib/api/auth";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { User } from "types/api/user";
 
 // 認証済みのユーザーがいるかどうかチェックするカスタムフック
 //useStateの内容を外部で使用できるようにフック化
 // 確認できた場合はそのユーザーの情報を取得
 // (consoleはログインする前に走る)
+// 4回コンソールが走る問題=>useCallback使っても解決せず。axios使うことで解決できる？
 export const useAuth = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | undefined>();
 
   //ここはaxiosで書きたい
-  const handleGetCurrentUser = async () => {
+  const handleGetCurrentUser = useCallback(async () => {
     try {
       const res = await getCurrentUser();
       console.log(res);
@@ -36,12 +37,12 @@ export const useAuth = () => {
     }
 
     setLoading(false);
-  };
+  }, []);
 
   //サインイン時にhandleGetCurrentUserしてユーザーの情報をもたせた方がいい？
   useEffect(() => {
     handleGetCurrentUser();
-  }, [setCurrentUser]);
+  }, [handleGetCurrentUser]);
 
   return {
     handleGetCurrentUser,
