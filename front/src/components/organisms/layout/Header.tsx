@@ -117,6 +117,7 @@ export const Header: FC = memo(() => {
                 component={Link}
                 to={authPage.link}
                 sx={{ my: 2, mx: 1, color: "white", display: "flex" }}
+                onClick={() => setDrawerOpened(false)}
               >
                 {authPage.children}
               </Button>
@@ -134,6 +135,7 @@ export const Header: FC = memo(() => {
                 component={Link}
                 to={noAuthPage.link}
                 sx={{ my: 2, mx: 1, color: "white", display: "flex" }}
+                onClick={() => setDrawerOpened(false)}
               >
                 {noAuthPage.children}
               </Button>
@@ -148,8 +150,6 @@ export const Header: FC = memo(() => {
 
   return (
     <>
-      {/* MenuDrawerでレスポンシブ対応させる */}
-
       <AppBar>
         <Container>
           <Toolbar disableGutters>
@@ -206,7 +206,7 @@ export const Header: FC = memo(() => {
                   </MenuItem>
                 ))}
                 <Divider />
-                {/* メニュー非表示＆ログアウト一緒にしようとしたらエラー */}
+                {/* クリックしたときにドロワーの非表示とログアウトを一緒にしようとしたらエラー */}
                 <MenuItem
                   key="ログアウト"
                   onClick={onClickSignOut}
@@ -229,12 +229,11 @@ export const Header: FC = memo(() => {
               open={drawerOpened}
               onClose={() => setDrawerOpened(false)}
               onOpen={() => setDrawerOpened(true)}
-              // PaperProps={{ style: { width: "30%" } }}
               PaperProps={{
                 sx: {
-                  // backgroundColor: "gray",
+                  backgroundColor: "#006666",
                   // color: "rgba(225,249,27,1)",
-                  backgroundColor: "transparent",
+                  // backgroundColor: "transparent",
                   boxShadow: "none",
                   textAlign: "center",
                 },
