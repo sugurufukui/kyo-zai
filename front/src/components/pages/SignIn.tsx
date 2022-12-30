@@ -60,7 +60,44 @@ export const SignIn: FC = memo(() => {
       } else {
       }
     } catch (err) {
-      showSnackbar("ログインできませんでした", "error");
+      showSnackbar("そのユーザーは登録されていません", "error");
+
+      console.log(err);
+    }
+  };
+
+  // ゲストログインボタン押下時
+  const onClickGuestSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const params: SignInParams = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const res = await signIn(params);
+      console.log(res);
+
+      if (res.status === 200) {
+        // 成功した場合はCookieに各値を格納
+        Cookies.set("_access_token", res.headers["access-token"]);
+        Cookies.set("_client", res.headers["client"]);
+        Cookies.set("_uid", res.headers["uid"]);
+
+        setIsSignedIn(true);
+        setCurrentUser(res.data.data);
+
+        history.push("/material");
+
+        // メッセージ
+        showSnackbar("ゲストログインしました", "success");
+        console.log("ゲストログインしました");
+        console.log(res.data.data);
+      } else {
+      }
+    } catch (err) {
+      showSnackbar("ゲストログインできませんでした", "error");
 
       console.log(err);
     }
@@ -98,6 +135,8 @@ export const SignIn: FC = memo(() => {
               autoComplete="current-password"
               onChange={(event) => setPassword(event.target.value)}
             />
+            {/* パスワードを表示するボタン */}
+            {/* パスワードを記憶するボタン */}
             <Box sx={{ flexGrow: 1 }}>
               <PrimaryButton
                 onClick={onClickSignIn}
@@ -116,6 +155,11 @@ export const SignIn: FC = memo(() => {
             </Box>
             <Divider sx={{ my: 4 }} />
             {/* ゲストログイン機能 */}
+            <Box sx={{ flexGrow: 1 }}>
+              <PrimaryButton onClick={onClickGuestSignIn} fullWidth>
+                ゲストログインはこちら
+              </PrimaryButton>
+            </Box>
           </CardContent>
         </Card>
       </form>
