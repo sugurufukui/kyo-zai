@@ -93,6 +93,7 @@ export const Header: FC = memo(() => {
 
         showSnackbar("ログアウトしました", "success");
         console.log("ログアウトしました");
+        console.log(res);
       } else {
         showSnackbar("ログアウトできませんでした", "error");
       }
@@ -169,53 +170,49 @@ export const Header: FC = memo(() => {
               <AuthButtons />
             </Box>
             {/* アバターボタン */}
-            {/* ログイン時のみ出現 */}
-            {/* {isSignedIn ? (
-
-            ) : (
-              ""
-            )} */}
-            <Box sx={{ flexGrow: 0 }}>
-              <IconButton onClick={onClickAvatar} sx={{ p: 1.5 }}>
-                <Avatar alt="alt" src="https://source.unsplash.com/random" />
-              </IconButton>
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={menuOpened}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={menuOpened}
-                onClose={onCloseAvatarMenu}
-              >
-                {avatarMenu.map((userMaterial) => (
-                  <MenuItem
-                    key={userMaterial.children}
-                    component={Link}
-                    to={userMaterial.link}
-                    onClick={onCloseAvatarMenu}
-                  >
-                    <ListItemIcon>{userMaterial.icon}</ListItemIcon>
-                    <Typography textAlign="center">
-                      {userMaterial.children}
-                    </Typography>
-                  </MenuItem>
-                ))}
-                <Divider />
-                {/* クリックしたときにドロワーの非表示とログアウトを一緒にしようとしたらエラー */}
-                <MenuItem
-                  key="ログアウト"
-                  onClick={onClickSignOut}
-                  // onCloseUserMaterialsMenu,
+            {/* ログイン時のみ出現させるために三項演算子で分岐。そうすることでログイン時にavatarメニューが左上に開いてしまう */}
+            {isSignedIn ? (
+              <Box sx={{ flexGrow: 0 }}>
+                <IconButton onClick={onClickAvatar} sx={{ p: 1.5 }}>
+                  <Avatar alt="alt" src="https://source.unsplash.com/random" />
+                </IconButton>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={menuOpened}
+                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={menuOpened}
+                  onClose={onCloseAvatarMenu}
                 >
-                  <Typography align="center">ログアウト</Typography>
-                </MenuItem>
-              </Menu>
-            </Box>
+                  {avatarMenu.map((userMaterial) => (
+                    <MenuItem
+                      key={userMaterial.children}
+                      component={Link}
+                      to={userMaterial.link}
+                      onClick={onCloseAvatarMenu}
+                    >
+                      <ListItemIcon>{userMaterial.icon}</ListItemIcon>
+                      <Typography textAlign="center">
+                        {userMaterial.children}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                  <Divider />
+                  {/* クリックしたときにドロワーの非表示とログアウトを一緒にしようとしたらエラー */}
+                  <MenuItem key="ログアウト" onClick={onClickSignOut}>
+                    <Typography align="center">ログアウト</Typography>
+                  </MenuItem>
+                </Menu>
+              </Box>
+            ) : (
+              <></>
+            )}
+
             <HamburgerButton onOpen={() => setDrawerOpened(true)} />
           </Toolbar>
           {/* ドロワーの実装（コンポーネント化） */}
