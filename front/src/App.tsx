@@ -1,15 +1,23 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import React from "react";
+import { Router } from "router/Router";
 import { BrowserRouter } from "react-router-dom";
 
-import theme from "./theme/theme";
-import { Router } from "./router/Router";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { SnackbarProvider } from "providers/SnackbarProvider";
 
-export default function App() {
+import theme from "theme/theme";
+
+function App() {
   return (
-    <ChakraProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <BrowserRouter>
-        <Router />
+        <SnackbarProvider>
+          <Router />
+        </SnackbarProvider>
       </BrowserRouter>
-    </ChakraProvider>
+    </ThemeProvider>
   );
 }
+
+export default App;
