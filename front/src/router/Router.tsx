@@ -7,6 +7,9 @@ import { Home } from "components/pages/Home";
 import { AuthProvider } from "providers/AuthProvider";
 import { useAuth } from "hooks/useAuth";
 import { Material } from "components/pages/Material";
+import { MaterialDetail } from "components/pages/MaterialDetail";
+import { MaterialNew } from "components/pages/MaterialNew";
+import { MaterialEdit } from "components/pages/MaterialEdit";
 // import { homeRoutes } from "./HomeRoutes";
 // import { Page404 } from "../components/pages/Page404";
 
@@ -41,7 +44,15 @@ export const Router: FC = memo(() => {
           <Route path="/signin" component={SignIn} />
           <Private>
             <Switch>
-              <Route path="/material" component={Material} />
+              <Route exact path="/materials" component={Material} />
+              <Route exact path="/materials/new" component={MaterialNew} />
+              <Route exact path="/materials/:id" component={MaterialDetail} />
+              <Route
+                exact
+                path="/materials/edit/:id/"
+                component={MaterialEdit}
+              />
+
               {/* 検索ページ */}
               {/* 投稿ページ */}
               {/* マイページ */}
