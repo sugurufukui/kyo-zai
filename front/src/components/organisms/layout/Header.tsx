@@ -151,7 +151,7 @@ export const Header: FC = memo(() => {
 
   return (
     <>
-      <AppBar>
+      <AppBar position="static">
         <Container>
           <Toolbar disableGutters>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
