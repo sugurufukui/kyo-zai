@@ -9,11 +9,15 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 type Props = {
-  onClick: (id: number) => void;
+  imageUrl: string;
+  materialName: string;
+  // いいねの数
+  // コメントの数
+  onClick: () => void;
 };
 
 export const MaterialCard: FC<Props> = memo((props) => {
-  const { onClick } = props;
+  const { imageUrl, materialName, onClick } = props;
 
   return (
     <>
@@ -24,20 +28,22 @@ export const MaterialCard: FC<Props> = memo((props) => {
           bgcolor: "white",
           boxShadow: "md",
           p: "4",
+          m: "2",
+          borderRadius: "10px",
           ":hover": { cursor: "pointer", opacity: "0.8" },
         }}
-        // onClick={() => onClick(id)}
+        onClick={onClick}
       >
         <CardMedia
           sx={{ p: 1, borderRadius: "30px" }}
           component="img"
           height="160"
-          alt="materialImage"
-          src="https://source.unsplash.com/random"
+          alt={materialName}
+          src={imageUrl}
           // image="/static/images/cards/paella.jpg"
         />
         <CardContent sx={{ p: 1, textAlign: "center" }}>
-          <Typography sx={{ variant: "h3" }}>教材の名前</Typography>
+          <Typography sx={{ variant: "h3" }}>{materialName}</Typography>
         </CardContent>
         <CardActions sx={{ p: 1 }}>
           <IconButton aria-label="add to favorites">
