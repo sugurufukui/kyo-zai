@@ -30,11 +30,11 @@ export const MaterialDetail: FC = memo(() => {
 
   return (
     <>
-      {/* Property 'name' does not exist on type 'any[]'.というエラー */}
+      {/* useStateによってdataに値がsetされていないタイミングでDOMを形成し、クラッシュするのを防ぐためにオプショナルチェーンを挿入 */}
       <p>教材詳細ページです</p>
-      <div>ID:{data.id}</div>
-      <div>名前:{data.name}</div>
-      <div>説明:{data.description}</div>
+      <div>ID:{data?.id}</div>
+      <div>名前:{data?.name}</div>
+      <div>説明:{data?.description}</div>
       <button onClick={() => history.goBack()}>戻る</button>
     </>
   );
