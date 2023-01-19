@@ -6,7 +6,7 @@ import { SignIn } from "components/pages/SignIn";
 import { Home } from "components/pages/Home";
 import { AuthProvider } from "providers/AuthProvider";
 import { useAuth } from "hooks/useAuth";
-import { Material } from "components/pages/Material";
+import { MaterialList } from "components/pages/MaterialList";
 import { MaterialDetail } from "components/pages/MaterialDetail";
 import { MaterialNew } from "components/pages/MaterialNew";
 import { MaterialEdit } from "components/pages/MaterialEdit";
@@ -44,7 +44,7 @@ export const Router: FC = memo(() => {
           <Route path="/signin" component={SignIn} />
           <Private>
             <Switch>
-              <Route exact path="/materials" component={Material} />
+              <Route exact path="/materials" component={MaterialList} />
               <Route exact path="/materials/new" component={MaterialNew} />
               <Route exact path="/materials/:id" component={MaterialDetail} />
               <Route
