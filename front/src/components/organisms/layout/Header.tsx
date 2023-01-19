@@ -91,6 +91,7 @@ export const Header: FC = memo(() => {
         setIsSignedIn(false);
         histroy.push("/signin");
 
+        // ログアウトの確認モーダルを表示
         showSnackbar("ログアウトしました", "success");
         console.log("ログアウトしました");
         console.log(res);
