@@ -1,4 +1,6 @@
 import { FC, memo } from "react";
+import { Link } from "react-router-dom";
+
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -9,14 +11,18 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { Box, Modal } from "@mui/material";
 
+import { MaterialType } from "types/api/materialType";
+
 type Props = {
+  //useSelectMaterialのselectMaterialから持ってくるので同じ型にする
+  material: MaterialType | null;
   open: boolean;
   onClose: () => void;
 };
 
 // 一覧の中のいずれかをクリックすると表示されるモーダル画面
 export const MaterialDetail: FC<Props> = memo((props) => {
-  const { open, onClose } = props;
+  const { material, open, onClose } = props;
   return (
     <>
       <Modal
@@ -57,10 +63,9 @@ export const MaterialDetail: FC<Props> = memo((props) => {
               src="https://source.unsplash.com/random"
             ></CardMedia>
           </Card>
-          {/* <Typography>{materials[0].name}</Typography> */}
-          <Typography>教材の名前</Typography>
-          {/* <Typography>{materials[0].description}</Typography> */}
-          <Typography>説明文</Typography>
+          {/* materialはnullの可能性もあるので許容する為にオプショナルチェイニングを使用する */}
+          <Typography>{material?.name}</Typography>
+          <Typography>{material?.description}</Typography>
           <CardActions sx={{ p: 1 }}>
             <IconButton aria-label="add to favorites">
               <FavoriteBorderIcon />
@@ -75,7 +80,7 @@ export const MaterialDetail: FC<Props> = memo((props) => {
               <Typography sx={{ variant: "h5" }}>5</Typography>
             </CardContent>
           </CardActions>
-          {/* <Link to={`/materials/${materials.id}`}>もっと詳しく</Link> */}
+          <Link to={`/materials/${material?.id}`}>もっと詳しく</Link>
         </Box>
       </Modal>
     </>
