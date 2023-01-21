@@ -9,15 +9,18 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 
 type Props = {
+  //教材のidの受け渡しができるように定義しておく
+  id: number;
   imageUrl: string;
   materialName: string;
   // いいねの数
   // コメントの数
-  onClick: () => void;
+  //クリック時に教材のデータ（id）を取得
+  onClick: (id: number) => void;
 };
 
 export const MaterialCard: FC<Props> = memo((props) => {
-  const { imageUrl, materialName, onClick } = props;
+  const { id, imageUrl, materialName, onClick } = props;
 
   return (
     <>
@@ -32,7 +35,8 @@ export const MaterialCard: FC<Props> = memo((props) => {
           borderRadius: "10px",
           ":hover": { cursor: "pointer", opacity: "0.8" },
         }}
-        onClick={onClick}
+        // カードをクリック時にどのカードをクリックしたのかをidで判別
+        onClick={() => onClick(id)}
       >
         <CardMedia
           sx={{ p: 1, borderRadius: "30px" }}
