@@ -1,29 +1,18 @@
-import { FC, memo, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { FC, memo, useCallback, useEffect, useState } from "react";
 
 import { deleteMaterial } from "lib/api/material";
 import { useSnackbar } from "providers/SnackbarProvider";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
-  Modal,
-  Typography,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import { Grid } from "@mui/material";
 import { useAllMaterials } from "hooks/useAllMaterials";
 import { MaterialDetail } from "components/organisms/material/MaterialModal";
+import { useSelectMaterial } from "hooks/useSelectMaterial";
 
 export const MaterialList: FC = memo(() => {
   const { showSnackbar } = useSnackbar();
-
   const { getMaterials, materials, loading } = useAllMaterials();
+  const { onSelectMaterial, selectedMaterial } = useSelectMaterial();
+  console.log(selectedMaterial);
 
   // 教材データの取得
   useEffect(() => {
@@ -49,20 +38,23 @@ export const MaterialList: FC = memo(() => {
     }
   };
   // 作業しやすいように一旦常時表示しておく =>(true)
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   //教材をクリックした時の挙動
-  const onClickMaterial = (id: number) => {
-    setOpen(true);
-    console.log(id);
-  };
+  const onClickMaterial = useCallback(
+    (id: number) => {
+      // 教材を特定する為にuseSelectMaterialのidとmaterialを与える
+      onSelectMaterial({ id, materials });
+      setOpen(true);
+      console.log(id);
+    },
+    [materials, onSelectMaterial]
+  );
   const handleClose = () => setOpen(false);
 
   return (
     <>
       {/* 編集は作成者のみができるようにする。使用箇所はモーダル内と詳細画面
       <Link to={`materials/edit/${material.id}`}>編集する</Link>
-      詳細へボタンは、モーダル内で使用
-      <Link to={`/materials/${material.id}`}>詳細へ</Link>
       <button onClick={() => onClickDelete(material)}>削除</button>
       レスポンシブデザインにしたい */}
       <Grid
@@ -86,7 +78,11 @@ export const MaterialList: FC = memo(() => {
           </Grid>
         ))}
       </Grid>
-      <MaterialDetail open={open} onClose={handleClose} />
+      <MaterialDetail
+        open={open}
+        onClose={handleClose}
+        material={selectedMaterial}
+      />
     </>
   );
 });
