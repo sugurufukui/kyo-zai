@@ -37,6 +37,7 @@ export const MaterialNew: FC = memo(() => {
         value={value}
         buttonType="登録"
       />
+      <button onClick={() => history.goBack()}>戻る</button>
     </>
   );
 });
