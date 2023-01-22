@@ -1,7 +1,7 @@
 import { FC, memo, useCallback, useEffect, useState } from "react";
 
-import { deleteMaterial } from "lib/api/material";
-import { useSnackbar } from "providers/SnackbarProvider";
+// import { deleteMaterial } from "lib/api/material";
+// import { useSnackbar } from "providers/SnackbarProvider";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
 import { Grid } from "@mui/material";
 import { useAllMaterials } from "hooks/useAllMaterials";
@@ -9,7 +9,7 @@ import { MaterialDetail } from "components/organisms/material/MaterialModal";
 import { useSelectMaterial } from "hooks/useSelectMaterial";
 
 export const MaterialList: FC = memo(() => {
-  const { showSnackbar } = useSnackbar();
+  // const { showSnackbar } = useSnackbar();
   const { getMaterials, materials, loading } = useAllMaterials();
   const { onSelectMaterial, selectedMaterial } = useSelectMaterial();
   console.log(selectedMaterial);
@@ -19,24 +19,24 @@ export const MaterialList: FC = memo(() => {
     getMaterials();
   }, [getMaterials]);
 
-  // 削除ボタン押下時
-  const onClickDelete = async (material) => {
-    // ローディングスタート
-    console.log("click", material.id);
-    try {
-      const res = await deleteMaterial(material.id);
-      // 削除後に残っているデータの再取得
-      getMaterials();
-      // 削除の前に確認ボタンが欲しい「削除してもいいですか？」
-      // muiのDialogのアラートを参照する
-      showSnackbar("削除しました", "success");
-    } catch (e) {
-      console.log(e);
-      showSnackbar("削除に失敗しました。", "error");
-    } finally {
-      // ローディング停止
-    }
-  };
+  // // 削除ボタン押下時
+  // const onClickDelete = async (material) => {
+  //   // ローディングスタート
+  //   console.log("click", material.id);
+  //   try {
+  //     const res = await deleteMaterial(material.id);
+  //     // 削除後に残っているデータの再取得
+  //     getMaterials();
+  //     // 削除の前に確認ボタンが欲しい「削除してもいいですか？」
+  //     // muiのDialogのアラートを参照する
+  //     showSnackbar("削除しました", "success");
+  //   } catch (e) {
+  //     console.log(e);
+  //     showSnackbar("削除に失敗しました。", "error");
+  //   } finally {
+  //     // ローディング停止
+  //   }
+  // };
   // 作業しやすいように一旦常時表示しておく =>(true)
   const [open, setOpen] = useState(false);
   //教材をクリックした時の挙動
@@ -72,6 +72,7 @@ export const MaterialList: FC = memo(() => {
             <MaterialCard
               id={material.id}
               imageUrl="https://source.unsplash.com/random"
+              // imageUrl={material.image}
               materialName={material.name}
               onClick={onClickMaterial}
             />
