@@ -29,7 +29,7 @@ class Api::V1::MaterialsController < ApplicationController
         render json: material.errors, status: 422
       end
     else
-      render json: {massage: "データを更新できませんでした"}, status: 422
+      render json: {message: "データを更新できませんでした"}, status: 422
     end
   end
 
