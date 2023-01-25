@@ -18,8 +18,8 @@ export const CommonLayout: FC<Props> = memo((props) => {
         <Header />
       </header>
       <main>
-        <Container maxWidth="sm">
-          <Grid container justifyContent="center" pt={18}>
+        <Container maxWidth="lg">
+          <Grid sx={{ mt: 4 }} container justifyContent="center">
             <Grid item>{children}</Grid>
           </Grid>
         </Container>

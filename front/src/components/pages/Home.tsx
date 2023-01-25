@@ -12,6 +12,7 @@ export const Home: FC = memo(() => {
       <p>ログインしていたらこの下に名前が出る</p>
       {isSignedIn && currentUser ? (
         <>
+          <h2>ID: {currentUser?.id}</h2>
           <h2>メールアドレス: {currentUser?.email}</h2>
           <h2>名前: {currentUser?.name}</h2>
         </>
