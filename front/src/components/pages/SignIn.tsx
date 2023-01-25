@@ -51,7 +51,7 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        history.push("/material");
+        history.push("/materials");
 
         // メッセージ
         showSnackbar("ログインしました", "success");
@@ -88,7 +88,7 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        history.push("/material");
+        history.push("/materials");
 
         // メッセージ
         showSnackbar("ゲストログインしました", "success");

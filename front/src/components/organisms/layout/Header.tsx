@@ -38,9 +38,9 @@ import { useSnackbar } from "providers/SnackbarProvider";
 // 共通しているものは一つにまとめるか？
 const authPages = [
   { children: "HOME", icon: <HomeIcon />, link: "/", color: "primary" },
-  { children: "教材一覧", icon: <MenuBookIcon />, link: "/material" },
+  { children: "教材一覧", icon: <MenuBookIcon />, link: "/materials" },
   { children: "検索", icon: <SearchIcon />, link: "/" },
-  { children: "投稿", icon: <PostAddIcon />, link: "/" },
+  { children: "投稿", icon: <PostAddIcon />, link: "/materials/new" },
 ];
 const noAuthPages = [
   { children: "HOME", icon: <HomeIcon />, link: "/" },
@@ -51,7 +51,7 @@ const noAuthPages = [
 ];
 const avatarMenu = [
   { children: "マイページ", icon: <AccountCircleIcon />, link: "/" },
-  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/material" },
+  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/user/materials" },
   { children: "いいねした教材", icon: <FavoriteBorderIcon />, link: "/" },
   {
     children: "フォローしている人",
@@ -91,6 +91,7 @@ export const Header: FC = memo(() => {
         setIsSignedIn(false);
         histroy.push("/signin");
 
+        // ログアウトの確認モーダルを表示
         showSnackbar("ログアウトしました", "success");
         console.log("ログアウトしました");
         console.log(res);
@@ -151,7 +152,7 @@ export const Header: FC = memo(() => {
 
   return (
     <>
-      <AppBar>
+      <AppBar position="static">
         <Container>
           <Toolbar disableGutters>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
