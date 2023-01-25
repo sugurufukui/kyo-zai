@@ -9,6 +9,7 @@ import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { MaterialType } from "types/api/materialType";
 
+//教材一覧画面と共有している項目はコンポーネント化して切り分けたい！！
 export const UserMaterial: FC = memo(() => {
   const { currentUser, loading, isSignedIn } = useContext(AuthContext);
   const [userMaterials, setUserMaterials] = useState<Array<MaterialType>>([]);
