@@ -5,8 +5,10 @@ import { FC, memo, useCallback, useEffect, useState } from "react";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
 import { Grid } from "@mui/material";
 import { useAllMaterials } from "hooks/useAllMaterials";
-import { MaterialDetail } from "components/organisms/material/MaterialModal";
+import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { useSelectMaterial } from "hooks/useSelectMaterial";
+
+//ログインユーザー教材(/user/materials)一覧画面と共有している項目はコンポーネント化して切り分けたい！！
 
 export const MaterialList: FC = memo(() => {
   // const { showSnackbar } = useSnackbar();
@@ -19,24 +21,7 @@ export const MaterialList: FC = memo(() => {
     getMaterials();
   }, [getMaterials]);
 
-  // // 削除ボタン押下時
-  // const onClickDelete = async (material) => {
-  //   // ローディングスタート
-  //   console.log("click", material.id);
-  //   try {
-  //     const res = await deleteMaterial(material.id);
-  //     // 削除後に残っているデータの再取得
-  //     getMaterials();
-  //     // 削除の前に確認ボタンが欲しい「削除してもいいですか？」
-  //     // muiのDialogのアラートを参照する
-  //     showSnackbar("削除しました", "success");
-  //   } catch (e) {
-  //     console.log(e);
-  //     showSnackbar("削除に失敗しました。", "error");
-  //   } finally {
-  //     // ローディング停止
-  //   }
-  // };
+  //モーダル関係
   // 作業しやすいように一旦常時表示しておく =>(true)
   const [open, setOpen] = useState(false);
   //教材をクリックした時の挙動
@@ -54,8 +39,6 @@ export const MaterialList: FC = memo(() => {
   return (
     <>
       {/* 編集は作成者のみができるようにする。使用箇所はモーダル内と詳細画面
-      <Link to={`materials/edit/${material.id}`}>編集する</Link>
-      <button onClick={() => onClickDelete(material)}>削除</button>
       レスポンシブデザインにしたい */}
       <Grid
         container
@@ -79,7 +62,7 @@ export const MaterialList: FC = memo(() => {
           </Grid>
         ))}
       </Grid>
-      <MaterialDetail
+      <MaterialModal
         open={open}
         onClose={handleClose}
         material={selectedMaterial}

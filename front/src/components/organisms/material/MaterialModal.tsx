@@ -21,7 +21,7 @@ type Props = {
 };
 
 // 一覧の中のいずれかをクリックすると表示されるモーダル画面
-export const MaterialDetail: FC<Props> = memo((props) => {
+export const MaterialModal: FC<Props> = memo((props) => {
   const { material, open, onClose } = props;
   return (
     <>
