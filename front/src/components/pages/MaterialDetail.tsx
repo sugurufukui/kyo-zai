@@ -44,6 +44,7 @@ export const MaterialDetail: FC = memo(() => {
   }, [query]);
 
   //一覧画面で選択された教材のidに紐づいたデータを取得
+  // likeやcommentのコンポーネントでも使用するため、hook化する？
   const getDetail = async (query) => {
     try {
       const res = await getDetailMaterial(query.id);
