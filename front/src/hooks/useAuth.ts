@@ -17,7 +17,6 @@ export const useAuth = () => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | undefined>();
 
-  //ここはaxiosで書きたい
   const handleGetCurrentUser = useCallback(async () => {
     try {
       const res = await getCurrentUser();
