@@ -6,11 +6,17 @@ import { deleteMaterial, getDetailMaterial } from "lib/api/material";
 import { useSnackbar } from "providers/SnackbarProvider";
 
 import { AuthContext } from "providers/AuthProvider";
+import { LikeButton } from "components/molecules/LikeButton";
+import { likedCheck } from "lib/api/like";
 
 export const MaterialDetail: FC = memo(() => {
   const { currentUser } = useContext(AuthContext);
+  // 教材の情報はdataとなっている
   const [data, setData] = useState<MaterialType>();
   const { showSnackbar } = useSnackbar();
+  const [likeCount, setLikeCount] = useState(0);
+
+  // hooksとしてlikeも追加したほうが、asyncの記述が1箇所で収まるのでhooksとしてlikeの処理を収めるようにするほうが良い？
 
   // { id = 1 } を取得する
   const query = useParams();
@@ -36,13 +42,6 @@ export const MaterialDetail: FC = memo(() => {
     }
   };
 
-  // 画面描画時にidがundefinedだとデータ取得ができないので、
-  // 依存配列にidを入れてidがundefined => 1 と更新された時に
-  // useEffectの副作用を使って処理をもう一度実行させる
-  useEffect(() => {
-    getDetail(query);
-  }, [query]);
-
   //一覧画面で選択された教材のidに紐づいたデータを取得
   // likeやcommentのコンポーネントでも使用するため、hook化する？
   const getDetail = async (query) => {
@@ -55,6 +54,19 @@ export const MaterialDetail: FC = memo(() => {
     }
   };
 
+  const handleGetLike = async (query) => {
+    const res = await likedCheck(query.id);
+    setLikeCount(res.data.likeCount);
+  };
+
+  // 画面描画時にidがundefinedだとデータ取得ができないので、
+  // 依存配列にidを入れてidがundefined => 1 と更新された時に
+  // useEffectの副作用を使って処理をもう一度実行させる
+  useEffect(() => {
+    getDetail(query);
+    handleGetLike(query);
+  }, [query]);
+
   return (
     <>
       {/* useStateによってdataに値がsetされていないタイミングでDOMを形成し、クラッシュするのを防ぐためにオプショナルチェーンを挿入 */}
@@ -63,6 +75,14 @@ export const MaterialDetail: FC = memo(() => {
       <div>名前:{data?.name}</div>
       <div>説明:{data?.description}</div>
       <div>作成者ID:{data?.userId}</div>
+      <div>
+        いいねの数:
+        <LikeButton
+          materials={data?.id}
+          currentUser={currentUser}
+          initialLikeCount={likeCount}
+        />
+      </div>
 
       <button onClick={() => history.goBack()}>戻る</button>
       <button onClick={() => history.push("/materials/new")}>新規登録</button>
