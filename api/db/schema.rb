@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 2023_01_25_214303) do
 
   create_table "likes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.bigint "material_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -55,6 +55,5 @@ ActiveRecord::Schema.define(version: 2023_01_25_214303) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "likes", "users"
   add_foreign_key "materials", "users"
 end
