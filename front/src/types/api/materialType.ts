@@ -4,7 +4,6 @@ export type MaterialType = {
   description: string;
   image?: string;
   userId: number;
-  like: string;
   created_at: Date;
   updated_at: Date;
 };
