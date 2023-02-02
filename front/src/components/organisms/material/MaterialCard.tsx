@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import { LikeButton } from "components/molecules/LikeButton";
 
 type Props = {
   //教材のidの受け渡しができるように定義しておく
@@ -14,13 +15,22 @@ type Props = {
   imageUrl: string;
   materialName: string;
   // いいねの数
+
   // コメントの数
   //クリック時に教材のデータ（id）を取得
   onClick: (id: number) => void;
 };
 
 export const MaterialCard: FC<Props> = memo((props) => {
-  const { id, imageUrl, materialName, onClick } = props;
+  const {
+    id,
+    imageUrl,
+    materialName,
+    // initialLikeCount,
+    onClick,
+    // materials,
+    // currentUser,
+  } = props;
 
   return (
     <>
