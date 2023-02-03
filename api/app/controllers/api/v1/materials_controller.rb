@@ -12,7 +12,8 @@ class Api::V1::MaterialsController < ApplicationController
       id: material.id,
       name: material.name,
       description: material.description,
-      user_id: material.user.id,
+      created_at: material.created_at,
+      user: material.user,
       likes: material.likes
     }
     render json: material_list
