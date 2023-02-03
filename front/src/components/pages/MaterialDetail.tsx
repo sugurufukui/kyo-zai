@@ -6,45 +6,44 @@ import { deleteMaterial, getDetailMaterial } from "lib/api/material";
 import { useSnackbar } from "providers/SnackbarProvider";
 
 import { AuthContext } from "providers/AuthProvider";
-import { LikeButton } from "components/molecules/LikeButton";
 import { createLike, deleteLike } from "lib/api/like";
 import { Like } from "types/api/like";
-// import { likedCheck } from "lib/api/like";
 
 export const MaterialDetail: FC = memo(() => {
-  const { currentUser } = useContext(AuthContext);
-  // 教材の情報はdataとなっている
-  const [data, setData] = useState<MaterialType>();
-  // const [value, setValue] = useState({
-  //   id: 0,
-  //   content: "",
-  //   likes: [],
-  // });
-  const [likes, setLikes] = useState<Like[]>();
-  const { showSnackbar } = useSnackbar();
-  // const [likeCount, setLikeCount] = useState(0);
-
-  // hooksとしてlikeも追加したほうが、asyncの記述が1箇所で収まるのでhooksとしてlikeの処理を収めるようにするほうが良い？
+  const history = useHistory();
 
   // { id = 1 } を取得する
   const query = useParams();
+  const [value, setValue] = useState({
+    id: 0,
+    name: "",
+    description: "",
+    user: {
+      id: 0,
+      name: "",
+    },
 
-  const history = useHistory();
+    likes: [],
+  });
+  // いいねの情報
+  const [likes, setLikes] = useState<Like[]>();
+  const { currentUser } = useContext(AuthContext);
+  const { showSnackbar } = useSnackbar();
 
-  //一覧画面で選択された教材のidに紐づいたデータを取得
-  // likeやcommentのコンポーネントでも使用するため、hook化する？
-  // 一覧画面では、mapを使うことでひとつ一つのlikeの情報を表示できるためquery使ってidを特定する必要はない？からhook化しなくてもいい？
-  //教材詳細API
+  //教材詳細API(materials_controllerのshowの中のjsonの内容を引用)
+
   const getDetail = async (query) => {
     try {
       const res = await getDetailMaterial(query.id);
       console.log(res.data);
-      setData(res.data);
-      // setValue({
-      //   id: res.data.id,
-      //   content: res.data.content,
-      //   likes: [],
-      // });
+      setValue(res.data);
+      setValue({
+        id: res.data.id,
+        name: res.data.name,
+        description: res.data.description,
+        user: { id: res.data.user.id, name: res.data.user.name },
+        likes: [],
+      });
       setLikes(res.data.likes);
     } catch (e) {
       console.log(e);
@@ -52,7 +51,7 @@ export const MaterialDetail: FC = memo(() => {
   };
 
   // 削除ボタン
-  const onClickDelete = async (item) => {
+  const onClickDelete = async (item: MaterialType) => {
     // ローディングスタート
     console.log("click", item.id);
     try {
@@ -70,9 +69,8 @@ export const MaterialDetail: FC = memo(() => {
     }
   };
 
-  //いいね機能
-  // いいね機能関数
-  const handleCreateLike = async (item) => {
+  //いいね作成API
+  const handleCreateLike = async (item: MaterialType) => {
     try {
       const res = await createLike(item.id);
       console.log(res.data);
@@ -82,7 +80,8 @@ export const MaterialDetail: FC = memo(() => {
     }
   };
 
-  const handleDeleteLike = async (item) => {
+  // いいね削除API
+  const handleDeleteLike = async (item: MaterialType) => {
     try {
       const res = await deleteLike(item.id);
       console.log(res.data);
@@ -91,11 +90,6 @@ export const MaterialDetail: FC = memo(() => {
       console.log(e);
     }
   };
-
-  // const handleGetLike = async (query) => {
-  //   const res = await likedCheck(query.id);
-  //   setLikeCount(res.data.likeCount);
-  // };
 
   // 画面描画時にidがundefinedだとデータ取得ができないので、
   // 依存配列にidを入れてidがundefined => 1 と更新された時に
@@ -109,48 +103,36 @@ export const MaterialDetail: FC = memo(() => {
     <>
       {/* useStateによってdataに値がsetされていないタイミングでDOMを形成し、クラッシュするのを防ぐためにオプショナルチェーンを挿入 */}
       <p>教材詳細ページです</p>
-      <div>教材のID:{data?.id}</div>
-      <div>名前:{data?.name}</div>
-      <div>説明:{data?.description}</div>
-      <div>作成者ID:{data?.userId}</div>
+      <div>教材のID:{value?.id}</div>
+      <div>名前:{value?.name}</div>
+      <div>説明:{value?.description}</div>
+      <div>作成者ID:{value?.user.id}</div>
       <div>
-        {/* <LikeButton
-          materialId={data?.id}
-          currentUser={currentUser}
-          initialLikeCount={likeCount}
-        /> */}
-      </div>
-      {/* <div>
         {likes?.find((like) => like.userId === currentUser.id) ? (
           <p onClick={() => handleDeleteLike(value)}>♡{likes?.length}</p>
         ) : (
           <p onClick={() => handleCreateLike(value)}>♡{likes?.length}</p>
         )}
-      </div> */}
-      <div>
-        {likes?.find((like) => like.userId === currentUser.id) ? (
-          <p onClick={() => handleDeleteLike(data)}>♡{likes?.length}</p>
-        ) : (
-          <p onClick={() => handleCreateLike(data)}>♡{likes?.length}</p>
-        )}
       </div>
 
       <button onClick={() => history.goBack()}>戻る</button>
-      <button onClick={() => console.log(data)}>こんソール</button>
+      <button onClick={() => console.log(value)}>valueの値</button>
+      <button onClick={() => console.log(likes)}>likesの値</button>
+
       <button onClick={() => history.push("/materials/new")}>新規登録</button>
 
       {/* ログインユーザーのIDと教材のユーザーIDが一致している場合に編集を表示  */}
-      {/* {currentUser.id === data?.userId ? (
-        <Link to={`/materials/edit/${data?.id}`}>編集</Link>
+      {currentUser.id === value?.user.id ? (
+        <Link to={`/materials/edit/${value?.id}`}>編集</Link>
       ) : (
         <></>
-      )} */}
+      )}
       {/* ログインユーザーのIDと教材のユーザーIDが一致している場合に削除ボタンを表示  */}
-      {/* {currentUser.id === data?.userId ? (
-        <button onClick={() => onClickDelete(data)}>削除</button>
+      {currentUser.id === value?.user.id ? (
+        <button onClick={() => onClickDelete(value)}>削除</button>
       ) : (
         <></>
-      )} */}
+      )}
     </>
   );
 });
