@@ -14,6 +14,7 @@ export const MaterialDetail: FC = memo(() => {
 
   // { id = 1 } を取得する
   const query = useParams();
+
   const [value, setValue] = useState({
     id: 0,
     name: "",
@@ -22,9 +23,9 @@ export const MaterialDetail: FC = memo(() => {
       id: 0,
       name: "",
     },
-
     likes: [],
   });
+
   // いいねの情報
   const [likes, setLikes] = useState<Like[]>();
   const { currentUser } = useContext(AuthContext);
@@ -32,11 +33,11 @@ export const MaterialDetail: FC = memo(() => {
 
   //教材詳細API(materials_controllerのshowの中のjsonの内容を引用)
 
-  const getDetail = async (query) => {
+  const getDetail = async (query: any) => {
     try {
       const res = await getDetailMaterial(query.id);
       console.log(res.data);
-      setValue(res.data);
+      // setValue(res.data);
       setValue({
         id: res.data.id,
         name: res.data.name,
@@ -74,7 +75,10 @@ export const MaterialDetail: FC = memo(() => {
     try {
       const res = await createLike(item.id);
       console.log(res.data);
-      getDetailMaterial(item);
+      // queryにするべき？
+      // Parameters: {"id"=>"[object Object]"}となっていたものはquery.idとすることで解決
+      getDetailMaterial(item.id);
+      // getDetailMaterial(query.id);
     } catch (e) {
       console.log(e);
     }
@@ -85,7 +89,11 @@ export const MaterialDetail: FC = memo(() => {
     try {
       const res = await deleteLike(item.id);
       console.log(res.data);
-      getDetailMaterial(item);
+
+      // Parameters: {"id"=>"[object Object]"}となっていたものはquery.idとすることで解決
+      // queryにするべき？
+      getDetailMaterial(item.id);
+      // getDetailMaterial(query.id);
     } catch (e) {
       console.log(e);
     }
@@ -96,7 +104,6 @@ export const MaterialDetail: FC = memo(() => {
   // useEffectの副作用を使って処理をもう一度実行させる
   useEffect(() => {
     getDetail(query);
-    // handleGetLike(query);
   }, [query]);
 
   return (
@@ -118,6 +125,7 @@ export const MaterialDetail: FC = memo(() => {
       <button onClick={() => history.goBack()}>戻る</button>
       <button onClick={() => console.log(value)}>valueの値</button>
       <button onClick={() => console.log(likes)}>likesの値</button>
+      <button onClick={() => console.log(query)}>queryの値</button>
 
       <button onClick={() => history.push("/materials/new")}>新規登録</button>
 
@@ -128,6 +136,7 @@ export const MaterialDetail: FC = memo(() => {
         <></>
       )}
       {/* ログインユーザーのIDと教材のユーザーIDが一致している場合に削除ボタンを表示  */}
+
       {currentUser.id === value?.user.id ? (
         <button onClick={() => onClickDelete(value)}>削除</button>
       ) : (
