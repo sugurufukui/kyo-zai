@@ -8,15 +8,7 @@ class Api::V1::MaterialsController < ApplicationController
 
   def show
     material = Material.find(params[:id])
-    material_list = {
-      id: material.id,
-      name: material.name,
-      description: material.description,
-      created_at: material.created_at,
-      user: material.user,
-      likes: material.likes
-    }
-    render json: material_list
+    render json: material
   end
 
   def create
