@@ -1,5 +1,3 @@
-import { Like } from "types/api/like";
-
 export type MaterialType = {
   id: number;
   name: string;
@@ -9,5 +7,4 @@ export type MaterialType = {
     id: number;
     name: string;
   };
-  likes: Like[];
 };
