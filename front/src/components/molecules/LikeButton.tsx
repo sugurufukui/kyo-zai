@@ -7,6 +7,8 @@ import { createLike, deleteLike, likedCheck } from "lib/api/like";
 import { Typography } from "@mui/material";
 import { User } from "types/api/user";
 
+import _ from "lodash";
+
 type Props = {
   materialId: number | null;
   currentUser: User;
@@ -47,7 +49,7 @@ export const LikeButton: FC<Props> = memo((props) => {
     }
   };
 
-  const clickToLike = async () => {
+  const clickToLike = _.debounce(async () => {
     //現在のlikeの状態と逆の状態をchangeに代入
     //setLikedの更新。画面が更新される。changeを代入
     const change = true;
@@ -57,14 +59,13 @@ export const LikeButton: FC<Props> = memo((props) => {
     try {
       const res = await createLike(materialId, likeData);
       setLikeCount(likeCount + 1);
-      console.log(likeCount);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, 1000);
 
   //いいね解除時
-  const clickToUnLike = async () => {
+  const clickToUnLike = _.debounce(async () => {
     //現在のlikeの状態と逆の状態をchangeに代入
     //setLikesの更新。画面が更新される。changeを代入
     const change = false;
@@ -75,11 +76,10 @@ export const LikeButton: FC<Props> = memo((props) => {
       const res = await deleteLike(materialId);
       console.log(res.data);
       setLikeCount(likeCount - 1);
-      console.log(likeCount);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, 1000);
 
   useEffect(() => {
     handleGetLike();
