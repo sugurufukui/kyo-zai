@@ -62,7 +62,7 @@ export const LikeButton: FC<Props> = memo((props) => {
     } catch (e) {
       console.log(e);
     }
-  }, 1000);
+  }, 500);
 
   //いいね解除時
   const clickToUnLike = _.debounce(async () => {
@@ -79,7 +79,7 @@ export const LikeButton: FC<Props> = memo((props) => {
     } catch (e) {
       console.log(e);
     }
-  }, 1000);
+  }, 500);
 
   useEffect(() => {
     handleGetLike();
