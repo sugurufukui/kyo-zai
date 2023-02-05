@@ -13,6 +13,7 @@ import { MaterialEdit } from "components/pages/MaterialEdit";
 import { UserMaterial } from "components/pages/UserMaterial";
 // import { homeRoutes } from "./HomeRoutes";
 // import { Page404 } from "../components/pages/Page404";
+import { MyLikeMaterials } from "components/pages/MyLikeMaterials";
 
 export const Router: FC = memo(() => {
   const { loading, isSignedIn } = useAuth();
@@ -46,12 +47,20 @@ export const Router: FC = memo(() => {
           <Private>
             <Switch>
               <Route exact path="/materials" component={MaterialList} />
-              <Route exact path="/materials/new" component={MaterialNew} />
-              <Route exact path="/materials/:id" component={MaterialDetail} />
-              <Route exact path="/user/materials/" component={UserMaterial} />
+              {/* いいねした教材 */}
               <Route
                 exact
-                path="/materials/edit/:id/"
+                path="/mylikematerials"
+                component={MyLikeMaterials}
+              />
+              <Route exact path="/materials/new" component={MaterialNew} />
+              <Route exact path="/materials/:id" component={MaterialDetail} />
+              {/* 自分の教材 */}
+              <Route exact path="/mymaterials" component={UserMaterial} />
+
+              <Route
+                exact
+                path="/materials/edit/:id"
                 component={MaterialEdit}
               />
 

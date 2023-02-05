@@ -44,15 +44,17 @@ const authPages = [
 ];
 const noAuthPages = [
   { children: "HOME", icon: <HomeIcon />, link: "/" },
-  // { children: "教材一覧", icon: <SearchIcon />, link: "/material" },
-  // { children: "検索", icon: <SearchIcon />, link: "/" },
   { children: "新規登録", link: "/signup" },
   { children: "ログイン", link: "/signin" },
 ];
 const avatarMenu = [
   { children: "マイページ", icon: <AccountCircleIcon />, link: "/" },
-  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/user/materials" },
-  { children: "いいねした教材", icon: <FavoriteBorderIcon />, link: "/" },
+  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/mymaterials" },
+  {
+    children: "いいねした教材",
+    icon: <FavoriteBorderIcon />,
+    link: "mylikematerials",
+  },
   {
     children: "フォローしている人",
     icon: <SupervisedUserCircleIcon />,
