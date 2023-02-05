@@ -50,7 +50,8 @@ export const UserMaterial: FC = memo(() => {
   // );
   const handleClose = () => setOpen(false);
 
-  const UserTable = () => {
+  // 投稿した教材があれば表示して、なければないことを表示する
+  const MaterialData = () => {
     // ログインユーザーの教材が1つ以上あればそのユーザーの教材のみを表示
     if (userMaterials.length >= 1) {
       return (
@@ -93,7 +94,7 @@ export const UserMaterial: FC = memo(() => {
     <>
       <h1>{currentUser.email}の投稿一覧</h1>
       <button onClick={() => history.goBack}>戻る</button>
-      <UserTable />
+      <MaterialData />
     </>
   );
 });
