@@ -91,6 +91,7 @@ export const LikeButton: FC<Props> = memo((props) => {
       {liked === false && (
         <IconButton onClick={() => clickToLike()} aria-label="いいねを追加する">
           <FavoriteBorderIcon />
+          <Typography>{likeCount}</Typography>
         </IconButton>
       )}
       {liked === true && (
@@ -99,9 +100,9 @@ export const LikeButton: FC<Props> = memo((props) => {
           aria-label="いいねを解除する"
         >
           <FavoriteIcon />
+          <Typography>{likeCount}</Typography>
         </IconButton>
       )}
-      <Typography>いいね{likeCount}</Typography>
     </>
   );
 });
