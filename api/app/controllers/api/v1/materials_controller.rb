@@ -15,7 +15,7 @@ class Api::V1::MaterialsController < ApplicationController
     # ひとつずつ返していく
     @my_like_materials = @my_like_materials.map { |m| Material.find_by(id: m.material_id) }
 
-    render json: @my_liked_materials
+    render json: @my_like_materials
   end
 
   def show
