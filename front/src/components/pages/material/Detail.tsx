@@ -9,8 +9,14 @@ import { AuthContext } from "providers/AuthProvider";
 import { LikeButton } from "components/molecules/LikeButton";
 
 import { likedCheck } from "lib/api/like";
+import { useLike } from "hooks/useLike";
 
-export const MaterialDetail: FC = memo(() => {
+type Props = {
+  initialLikeCount: number;
+};
+
+export const Detail: FC<Props> = memo((props) => {
+  const { initialLikeCount } = props;
   const history = useHistory();
 
   // { id = 1 } を取得する
@@ -23,11 +29,12 @@ export const MaterialDetail: FC = memo(() => {
     userId: 0,
   });
 
-  // いいねの数の情報
-  const [likeCount, setLikeCount] = useState(0);
+  // // いいねの数の情報
+  // const [likeCount, setLikeCount] = useState(0);
 
   const { currentUser } = useContext(AuthContext);
   const { showSnackbar } = useSnackbar();
+  const { handleGetLike, likeCount } = useLike(props);
 
   //教材詳細API(materials_controllerのshowの中のjsonの内容を引用)
   const getDetail = async (query: any) => {
@@ -64,17 +71,6 @@ export const MaterialDetail: FC = memo(() => {
     }
   };
 
-  //いいね確認API
-  const handleGetLike = async () => {
-    try {
-      const res = await likedCheck(query.id);
-      console.log(res.data);
-      setLikeCount(res.data.likeCount);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   // 画面描画時にidがundefinedだとデータ取得ができないので、
   // 依存配列にidを入れてidがundefined => 1 と更新された時に
   // useEffectの副作用を使って処理をもう一度実行させる
@@ -93,14 +89,15 @@ export const MaterialDetail: FC = memo(() => {
       <div>作成者ID:{value?.userId}</div>
 
       <LikeButton
-        materialId={query.id}
-        currentUser={currentUser}
+        // materialId={query.id}
+        // currentUser={currentUser}
         initialLikeCount={likeCount}
       />
 
       <button onClick={() => history.goBack()}>戻る</button>
       <button onClick={() => console.log(value)}>valueの値</button>
       <button onClick={() => console.log(query)}>queryの値</button>
+      <button onClick={() => console.log(likeCount)}>likeの値</button>
 
       <button onClick={() => history.push("/materials/new")}>新規登録</button>
 

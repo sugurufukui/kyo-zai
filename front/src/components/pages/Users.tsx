@@ -10,7 +10,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import { MaterialType } from "types/api/materialType";
 
 //教材一覧画面と共有している項目はコンポーネント化して切り分けたい！！
-export const UserMaterial: FC = memo(() => {
+export const Users: FC = memo(() => {
   const { currentUser, loading, isSignedIn } = useContext(AuthContext);
   const [userMaterials, setUserMaterials] = useState<Array<MaterialType>>([]);
   const { onSelectMaterial, selectedMaterial } = useSelectMaterial();
@@ -66,7 +66,8 @@ export const UserMaterial: FC = memo(() => {
               m: "4",
             }}
           >
-            {userMaterials.map((userMaterial) => (
+            {/* 全一覧でいいね機能を表示させるために一度コメントアウト */}
+            {/* {userMaterials.map((userMaterial) => (
               <Grid key={userMaterial.id} sx={{ m: "auto", p: "4" }}>
                 <MaterialCard
                   id={userMaterial.id}
@@ -74,15 +75,19 @@ export const UserMaterial: FC = memo(() => {
                   // imageUrl={material.image}
                   materialName={userMaterial.name}
                   onClick={onClickMaterial}
+                  materialId={material.id}
+                  currentUser={currentUser}
+                  initialLikeCount={likeCount}
                 />
               </Grid>
-            ))}
+            ))} */}
           </Grid>
-          <MaterialModal
+          d
+          {/* <MaterialModal
             open={open}
             onClose={handleClose}
             material={selectedMaterial}
-          />
+          /> */}
         </>
       );
     } else {

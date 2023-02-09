@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       end
 
       #自分がいいねした教材
-      get "/mylikematerials", to: "materials#my_like_materials", as: :my_like_materials
+      get "/my_like", to: "materials#my_like_materials", as: :my_like_materials
 
       mount_devise_token_auth_for 'User', at: 'auth',
         controllers: {

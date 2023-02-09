@@ -49,11 +49,11 @@ const noAuthPages = [
 ];
 const avatarMenu = [
   { children: "マイページ", icon: <AccountCircleIcon />, link: "/" },
-  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/mymaterials" },
+  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/my_materials" },
   {
     children: "いいねした教材",
     icon: <FavoriteBorderIcon />,
-    link: "mylikematerials",
+    link: "my_like",
   },
   {
     children: "フォローしている人",

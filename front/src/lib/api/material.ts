@@ -8,7 +8,7 @@ export const getAllMaterial = () => {
 
 // 自分がいいねした教材一覧
 export const getMyLikeMaterial = () => {
-  return client.get("/mylikematerials", {
+  return client.get("/my_like", {
     headers: {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
