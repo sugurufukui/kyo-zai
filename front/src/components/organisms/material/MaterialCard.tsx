@@ -16,8 +16,8 @@ type Props = {
   id: number;
   imageUrl: string;
   materialName: string;
-  // materialId: number | null;
-  // currentUser: User;
+  materialId: number | null;
+  currentUser: User;
   initialLikeCount: number;
   // コメントの数
   //クリック時に教材のデータ（id）を取得
@@ -30,8 +30,8 @@ export const MaterialCard: FC<Props> = memo((props) => {
     imageUrl,
     materialName,
     onClick,
-    // materialId,
-    // currentUser,
+    materialId,
+    currentUser,
     initialLikeCount,
   } = props;
 
@@ -71,8 +71,8 @@ export const MaterialCard: FC<Props> = memo((props) => {
             <Typography sx={{ variant: "h3" }}>{materialName}</Typography>
           </CardContent>
           <LikeButton
-            // materialId={materialId}
-            // currentUser={currentUser}
+            materialId={materialId}
+            currentUser={currentUser}
             initialLikeCount={initialLikeCount}
           />
 
