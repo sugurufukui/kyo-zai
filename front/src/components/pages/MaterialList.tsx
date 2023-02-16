@@ -1,20 +1,13 @@
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
-
-// import { deleteMaterial } from "lib/api/material";
-// import { useSnackbar } from "providers/SnackbarProvider";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
 import { Box, Grid } from "@mui/material";
 import { useAllMaterials } from "hooks/useAllMaterials";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { useSelectMaterial } from "hooks/useSelectMaterial";
 import { AuthContext } from "providers/AuthProvider";
-import { likedCheck } from "lib/api/like";
-import { useLike } from "hooks/useLike";
-import { Pagination } from "components/molecules/Pagination";
-import ReactPaginate from "react-paginate";
-// import { LikeButton } from "components/molecules/LikeButton";
 
-//ログインユーザー教材(/user/materials)一覧画面と共有している項目はコンポーネント化して切り分けたい！！
+import ReactPaginate from "react-paginate";
+
 type Props = {
   initialLikeCount: number;
 };
@@ -25,11 +18,10 @@ export const MaterialList: FC<Props> = memo((props) => {
   const { getMaterials, materials, loading } = useAllMaterials();
   const { currentUser } = useContext(AuthContext);
   const { onSelectMaterial, selectedMaterial } = useSelectMaterial();
-  const { liked, likeCount, handleGetLike, clickToLike, clickToUnLike } =
-    useLike(props);
 
-  // // いいねの数の情報
-  // const [likeCount, setLikeCount] = useState(0);
+  // いいね関係
+  //いいねの数を管理
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
 
   //モーダル関係
   // 作業しやすいように一旦常時表示しておく =>(true)
@@ -40,38 +32,33 @@ export const MaterialList: FC<Props> = memo((props) => {
       // 教材を特定する為にuseSelectMaterialのidとmaterialを与える
       onSelectMaterial({ id, materials });
       console.log(selectedMaterial);
+      console.log(likeCount);
       setOpen(true);
     },
-    [materials, onSelectMaterial, selectedMaterial]
+    [materials, onSelectMaterial, selectedMaterial, likeCount]
   );
   const handleClose = () => setOpen(false);
 
   // 教材データの取得
   useEffect(() => {
     getMaterials();
-    handleGetLike();
-  }, [getMaterials, handleGetLike]);
+  }, [getMaterials]);
 
   // pagination関係
 
   // 1ページに表示する数を指定
   const itemsPerPage = 6;
-
   // ページの先頭の教材(何番目のアイテムから表示するか)
   const [itemsOffset, setItemsOffset] = useState(0);
-
   // 次のページの先頭の教材 ページ番号＋1ページに表示する教材の数(6)
   const endOffset = itemsOffset + itemsPerPage;
   // 一つのページに表示する教材
   const currentMaterials = materials?.slice(itemsOffset, endOffset);
-
   // 全ページ数 ＝ 全教材数から1ページに表示する教材(6)を割った値を繰り上げた値
   const pageCount = Math.ceil(materials?.length / itemsPerPage);
-
   const handlePageClick = (e: { selected: number }) => {
     // クリックされた値から -1したもの
     console.log(e.selected);
-
     const newOffset = (e.selected * itemsPerPage) % materials.length; // クリックした部分のページ数が{selected: 2}のような形で返ってくる
     setItemsOffset(newOffset); // offsetを変更し、表示開始するアイテムの番号を変更
   };
@@ -103,23 +90,21 @@ export const MaterialList: FC<Props> = memo((props) => {
               // imageUrl={material.image}
               materialName={material.name}
               onClick={onClickMaterial}
-              // materialId={material.id}
-              // currentUser={currentUser}
+              materialId={material.id}
+              currentUser={currentUser}
               initialLikeCount={likeCount}
             />
           </Grid>
         ))}
       </Grid>
-      {/* idの値が取れずに画面表示されないので一時コメントアウト */}
       <MaterialModal
         open={open}
         onClose={handleClose}
         material={selectedMaterial}
-        // materialId={materials[0].id}
-        // currentUser={currentUser}
+        materialId={selectedMaterial.id}
+        currentUser={currentUser}
         initialLikeCount={likeCount}
       />
-      {/* <Pagination /> */}
       <Box sx={{ justifyContent: "center", textAlign: "center" }}>
         <ReactPaginate
           pageCount={pageCount}
