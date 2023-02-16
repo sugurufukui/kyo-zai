@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -32,7 +32,7 @@ export const LikeButton: FC<Props> = memo((props) => {
   });
 
   // いいね追加時の挙動
-  const handleGetLike = async () => {
+  const handleGetLike = useCallback(async () => {
     setLikeData({
       userId: currentUser.id,
       materialId: materialId,
@@ -47,7 +47,7 @@ export const LikeButton: FC<Props> = memo((props) => {
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [currentUser.id, materialId]);
 
   const clickToLike = _.debounce(async () => {
     //現在のlikeの状態と逆の状態をchangeに代入
@@ -83,7 +83,7 @@ export const LikeButton: FC<Props> = memo((props) => {
 
   useEffect(() => {
     handleGetLike();
-  }, [currentUser]);
+  }, [handleGetLike]);
 
   return (
     // likedがfalseであれば作成(true)にする（clickToLike）
