@@ -24,7 +24,7 @@ export const useAllMaterials = () => {
       console.log(e);
       showSnackbar("教材情報の取得に失敗しました。", "error");
     } finally {
-      // ローディング停止
+      // ローディング停止use
       setLoading(false);
     }
   }, [showSnackbar]);
@@ -35,8 +35,8 @@ export const useAllMaterials = () => {
     // setLoading(true);
     try {
       const res = await getMyLikeMaterial();
-      //dataの値がnullとなっている
-      console.log(res);
+      //dataの値がnullとなっている=>materials_controllerのrenderの値を正確にすることで解決
+      console.log(res.data);
       setLikeMaterials(res.data);
     } catch (e) {
       console.log(e);
