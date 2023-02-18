@@ -6,6 +6,17 @@ export const getAllMaterial = () => {
   return client.get("/materials");
 };
 
+// 自分がいいねした教材一覧
+export const getMyLikeMaterial = () => {
+  return client.get("/my_like", {
+    headers: {
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
+    },
+  });
+};
+
 // 教材詳細
 export const getDetailMaterial = (id) => {
   return client.get(`/materials/${id}`);
