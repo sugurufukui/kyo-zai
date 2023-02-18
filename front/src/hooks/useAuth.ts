@@ -53,25 +53,3 @@ export const useAuth = () => {
     setCurrentUser,
   };
 };
-// export const useAuth = () => {
-//   const history = useHistory();
-
-//   //ローディング中に表示するもの
-//   const [loading, setLoading] = useState(false);
-
-//   const login = useCallback(() => {
-//     setLoading(true);
-//     axios
-//       .get<SignInparams>(`https://jsonplaceholder.typicode.com/users/${email}`)(`http://localhost:3000/api/v1/user/${email}`)
-//       .then((res) => {
-//         if (res.data) {
-//           history.push("/home");
-//         } else {
-//           alert("ユーザーが見つかりません");
-//         }
-//       })
-//       .catch((err) => alert("ログインできません"))
-//       .finally(() => setLoading(false));
-//   }, [history]);
-//   return { login };
-// };

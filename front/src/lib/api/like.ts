@@ -1,24 +1,32 @@
 import { client } from "lib/api/client";
 import Cookies from "js-cookie";
 
-//LIKEする
-export const createLike = (id) => {
-  return client.post(
-    `/materials/${id}/likes`,
-    {}, // createにはデータ追加の箱が必要
-    {
-      headers: {
-        "access-token": Cookies.get("_access_token"),
-        client: Cookies.get("_client"),
-        uid: Cookies.get("_uid"),
-      },
-    }
-  );
+// Likeする
+export const createLike = (id, params) => {
+  return client.post(`/materials/${id}/likes`, params, {
+    // getじゃなくてpostにするべきか？
+    headers: {
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
+    },
+  });
 };
 
-// LIKEを解除する
+// Likeを解除する
 export const deleteLike = (id) => {
-  return client.delete(`/likes/${id}`, {
+  return client.delete(`/materials/${id}/likes`, {
+    headers: {
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
+    },
+  });
+};
+
+// すでにLikeしているか確認する
+export const likedCheck = (id) => {
+  return client.get(`/materials/${id}/likes`, {
     headers: {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
