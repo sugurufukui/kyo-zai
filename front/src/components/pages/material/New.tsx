@@ -1,10 +1,10 @@
 import { FC, memo, useState } from "react";
-import { MaterialFormBody } from "components/pages/MaterialFormBody";
+import { MaterialFormBody } from "components/organisms/material/MaterialFormBody";
 import { createMaterial } from "lib/api/material";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "providers/SnackbarProvider";
 
-export const MaterialNew: FC = memo(() => {
+export const New: FC = memo(() => {
   const [value, setValue] = useState([]);
   const history = useHistory();
   const { showSnackbar } = useSnackbar();

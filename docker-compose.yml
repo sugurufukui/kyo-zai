@@ -16,7 +16,7 @@ services:
       - ./api:/kyo-zai
       - gem_data:/usr/local/bundle
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       - db
     stdin_open: true
@@ -25,7 +25,7 @@ services:
     build: ./front
     command: yarn start
     ports:
-      - '8000:3000'
+      - '3000:3000'
     volumes:
       - ./front:/kyo-zai
     depends_on:
