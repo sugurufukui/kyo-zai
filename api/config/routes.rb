@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :materials
       resources :users
+      resources :materials do
+        resource :likes, only: %i[show create destroy]
+      end
+
+      #自分がいいねした教材
+      get "/my_like", to: "materials#my_like_materials", as: :my_like_materials
 
       mount_devise_token_auth_for 'User', at: 'auth',
         controllers: {
