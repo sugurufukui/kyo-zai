@@ -1,10 +1,10 @@
 import { getDetailMaterial, updateMaterial } from "lib/api/material";
 import { FC, memo, useEffect, useState } from "react";
-import { MaterialFormBody } from "components/pages/MaterialFormBody";
+import { MaterialFormBody } from "components/organisms/material/MaterialFormBody";
 import { useHistory, useParams } from "react-router-dom";
 import { useSnackbar } from "providers/SnackbarProvider";
 
-export const MaterialEdit: FC = memo(() => {
+export const Edit: FC = memo(() => {
   // 一覧からreact-router-domを使ってidを取得
   const query = useParams<{ id: string }>();
   // apiで取得したデータを管理するためのstate

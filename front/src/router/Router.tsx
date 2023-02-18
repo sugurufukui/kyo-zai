@@ -7,12 +7,13 @@ import { Home } from "components/pages/Home";
 import { AuthProvider } from "providers/AuthProvider";
 import { useAuth } from "hooks/useAuth";
 import { MaterialList } from "components/pages/MaterialList";
-import { MaterialDetail } from "components/pages/MaterialDetail";
-import { MaterialNew } from "components/pages/MaterialNew";
-import { MaterialEdit } from "components/pages/MaterialEdit";
-import { UserMaterial } from "components/pages/UserMaterial";
+import { Detail } from "components/pages/material/Detail";
+import { New } from "components/pages/material/New";
+import { Edit } from "components/pages/material/Edit";
+import { Users } from "components/pages/Users";
 // import { homeRoutes } from "./HomeRoutes";
 // import { Page404 } from "../components/pages/Page404";
+import { MyLike } from "components/pages/material/MyLike";
 
 export const Router: FC = memo(() => {
   const { loading, isSignedIn } = useAuth();
@@ -46,14 +47,14 @@ export const Router: FC = memo(() => {
           <Private>
             <Switch>
               <Route exact path="/materials" component={MaterialList} />
-              <Route exact path="/materials/new" component={MaterialNew} />
-              <Route exact path="/materials/:id" component={MaterialDetail} />
-              <Route exact path="/user/materials/" component={UserMaterial} />
-              <Route
-                exact
-                path="/materials/edit/:id/"
-                component={MaterialEdit}
-              />
+              {/* いいねした教材 */}
+              <Route exact path="/my_like" component={MyLike} />
+              <Route exact path="/materials/new" component={New} />
+              <Route exact path="/materials/:id" component={Detail} />
+              {/* 自分の教材 */}
+              <Route exact path="/users" component={Users} />
+
+              <Route exact path="/materials/edit/:id" component={Edit} />
 
               {/* 検索ページ */}
               {/* 投稿ページ */}
@@ -65,33 +66,3 @@ export const Router: FC = memo(() => {
     </Switch>
   );
 });
-// export const Router: FC = memo(() => {
-//   return (
-//     <HeaderLayout>
-//       <Switch>
-//         <Route exact path="/">
-//           <Login />
-//         </Route>
-//         <Route
-//           path="/home"
-//           render={({ match: { url } }) => (
-//             <Switch>
-//               {homeRoutes.map((route) => (
-//                 <Route
-//                   key={route.path}
-//                   exact={route.exact}
-//                   path={`${url}${route.path}`}
-//                 >
-//                   {route.children}
-//                 </Route>
-//               ))}
-//             </Switch>
-//           )}
-//         />
-//         <Route path="*">
-//           <Page404 />
-//         </Route>
-//       </Switch>
-//     </HeaderLayout>
-//   );
-// });
