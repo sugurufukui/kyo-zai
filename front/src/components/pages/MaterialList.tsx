@@ -6,22 +6,88 @@ import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { useSelectMaterial } from "hooks/useSelectMaterial";
 import { AuthContext } from "providers/AuthProvider";
 
+import { createLike, deleteLike, likedCheck } from "lib/api/like";
+import _ from "lodash";
+
 import ReactPaginate from "react-paginate";
 
 type Props = {
   initialLikeCount: number;
+  materialId: number | null;
 };
 
 export const MaterialList: FC<Props> = memo((props) => {
-  const { initialLikeCount } = props;
+  const { initialLikeCount, materialId } = props;
   // const { showSnackbar } = useSnackbar();
   const { getMaterials, materials, loading } = useAllMaterials();
   const { currentUser } = useContext(AuthContext);
   const { onSelectMaterial, selectedMaterial } = useSelectMaterial();
+  console.log(selectedMaterial);
 
   // いいね関係
   //いいねの数を管理
   const [likeCount, setLikeCount] = useState(initialLikeCount);
+
+  //いいねの🤍の色を管理
+  const [liked, setLiked] = useState(false);
+  // 誰がどの教材にいいねしたのか
+  const [likeData, setLikeData] = useState({
+    userId: 0,
+    materialId: 0,
+  });
+
+  // いいね情報を確認
+  const handleGetLike = useCallback(async () => {
+    setLikeData({
+      userId: currentUser.id,
+      materialId: materialId,
+    });
+    try {
+      // いいねボタンを押したらいいねしているかを確認。
+      const res = await likedCheck(materialId);
+      setLikeCount(res.data.likeCount);
+      if (res.data.like) {
+        setLiked(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [currentUser.id, materialId]);
+
+  //いいね追加時
+  const clickToLike = _.debounce(async () => {
+    //現在のlikeの状態と逆の状態をchangeに代入
+    //setLikedの更新。画面が更新される。changeを代入
+    const change = true;
+    setLiked(change);
+
+    //いいねの数を＋1する
+    try {
+      const res = await createLike(materialId, likeData);
+      setLikeCount(likeCount + 1);
+      console.log(likeCount + 1);
+    } catch (e) {
+      console.log(e);
+    }
+  }, 500);
+
+  //いいね解除時
+  const clickToUnLike = _.debounce(async () => {
+    //現在のlikeの状態と逆の状態をchangeに代入
+    //setLikesの更新。画面が更新される。changeを代入
+    const change = false;
+    setLiked(change);
+
+    //いいねの数を-1にする
+    try {
+      const res = await deleteLike(materialId);
+      console.log(res.data);
+      setLikeCount(likeCount - 1);
+      console.log(likeCount - 1);
+    } catch (e) {
+      console.log(e);
+    }
+  }, 500);
 
   //モーダル関係
   // 作業しやすいように一旦常時表示しておく =>(true)
@@ -31,8 +97,6 @@ export const MaterialList: FC<Props> = memo((props) => {
     (id: number) => {
       // 教材を特定する為にuseSelectMaterialのidとmaterialを与える
       onSelectMaterial({ id, materials });
-      console.log(selectedMaterial);
-      console.log(likeCount);
       setOpen(true);
     },
     [materials, onSelectMaterial, selectedMaterial, likeCount]
@@ -101,7 +165,9 @@ export const MaterialList: FC<Props> = memo((props) => {
         open={open}
         onClose={handleClose}
         material={selectedMaterial}
-        materialId={selectedMaterial.id}
+        // Uncaught TypeError: Cannot read properties of null (reading 'id')
+        // => useSelectMaterialでnullの可能性も示しているので"?"追加
+        materialId={selectedMaterial?.id}
         currentUser={currentUser}
         initialLikeCount={likeCount}
       />
