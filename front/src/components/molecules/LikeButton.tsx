@@ -31,7 +31,7 @@ export const LikeButton: FC<Props> = memo((props) => {
     materialId: 0,
   });
 
-  // いいね追加時の挙動
+  // いいね情報を確認
   const handleGetLike = useCallback(async () => {
     setLikeData({
       userId: currentUser.id,
@@ -43,12 +43,14 @@ export const LikeButton: FC<Props> = memo((props) => {
       setLikeCount(res.data.likeCount);
       if (res.data.like) {
         setLiked(true);
+        // console.log("いいね確認");
       }
     } catch (e) {
       console.log(e);
     }
   }, [currentUser.id, materialId]);
 
+  //いいね追加時
   const clickToLike = _.debounce(async () => {
     //現在のlikeの状態と逆の状態をchangeに代入
     //setLikedの更新。画面が更新される。changeを代入
@@ -59,6 +61,7 @@ export const LikeButton: FC<Props> = memo((props) => {
     try {
       const res = await createLike(materialId, likeData);
       setLikeCount(likeCount + 1);
+      console.log(likeCount + 1);
     } catch (e) {
       console.log(e);
     }
@@ -76,6 +79,7 @@ export const LikeButton: FC<Props> = memo((props) => {
       const res = await deleteLike(materialId);
       console.log(res.data);
       setLikeCount(likeCount - 1);
+      console.log(likeCount - 1);
     } catch (e) {
       console.log(e);
     }
