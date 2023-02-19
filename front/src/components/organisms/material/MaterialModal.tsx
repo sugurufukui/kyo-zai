@@ -18,12 +18,20 @@ type Props = {
   materialId: number | null;
   currentUser: User;
   initialLikeCount: number;
+  imageUrl: string;
 };
 
 // 一覧の中のいずれかをクリックすると表示されるモーダル画面
 export const MaterialModal: FC<Props> = memo((props) => {
-  const { material, open, onClose, materialId, currentUser, initialLikeCount } =
-    props;
+  const {
+    material,
+    open,
+    onClose,
+    materialId,
+    currentUser,
+    initialLikeCount,
+    imageUrl,
+  } = props;
 
   const history = useHistory();
 
@@ -62,10 +70,7 @@ export const MaterialModal: FC<Props> = memo((props) => {
                 alineItems: "center",
               }}
             >
-              <CardMedia
-                component="img"
-                src="https://source.unsplash.com/random"
-              ></CardMedia>
+              <CardMedia component="img" src={imageUrl}></CardMedia>
             </Card>
           </Grid>
           {/* materialはnullの可能性もあるので許容する為にオプショナルチェイニングを使用する */}

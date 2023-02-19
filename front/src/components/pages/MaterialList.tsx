@@ -148,16 +148,18 @@ export const MaterialList: FC<Props> = memo((props) => {
               p: "4",
             }}
           >
-            <MaterialCard
-              id={material.id}
-              imageUrl="https://source.unsplash.com/random"
-              // imageUrl={material.image}
-              materialName={material.name}
-              onClick={onClickMaterial}
-              materialId={material.id}
-              currentUser={currentUser}
-              initialLikeCount={likeCount}
-            />
+            {material.image?.url ? (
+              <MaterialCard
+                id={material.id}
+                // imageUrl="https://source.unsplash.com/random"
+                imageUrl={material.image.url}
+                materialName={material.name}
+                onClick={onClickMaterial}
+                materialId={material.id}
+                currentUser={currentUser}
+                initialLikeCount={likeCount}
+              />
+            ) : null}
           </Grid>
         ))}
       </Grid>
@@ -169,6 +171,7 @@ export const MaterialList: FC<Props> = memo((props) => {
         // => useSelectMaterialでnullの可能性も示しているので"?"追加
         materialId={selectedMaterial?.id}
         currentUser={currentUser}
+        imageUrl={selectedMaterial?.image.url}
         initialLikeCount={likeCount}
       />
       <Box sx={{ justifyContent: "center", textAlign: "center" }}>

@@ -52,6 +52,7 @@ export const MaterialCard: FC<Props> = memo((props) => {
           // // カードをクリック時にどのカードをクリックしたのかをidで判別
           // onClick={() => onClick(id)}
         >
+          {/* {material.image?.url ? ( */}
           <CardMedia
             sx={{
               p: 1,
@@ -59,14 +60,15 @@ export const MaterialCard: FC<Props> = memo((props) => {
               ":hover": { cursor: "pointer", opacity: "0.8" },
             }}
             component="img"
+            // src={material.image.url}
+            src={imageUrl}
             height="260"
             alt={materialName}
-            src={imageUrl}
             // 写真をクリックしたときにモーダル表示することにしてみる
             // カードをクリック時にどのカードをクリックしたのかをidで判別
             onClick={() => onClick(id)}
-            // image="/static/images/cards/paella.jpg"
           />
+          {/* // ) : null} */}
           <CardContent sx={{ p: 1, textAlign: "center" }}>
             <Typography sx={{ variant: "h3" }}>{materialName}</Typography>
           </CardContent>
