@@ -16,6 +16,7 @@ export const New: FC = memo(() => {
     });
   };
 
+  // ここに画像登録についてのことも隠蔽する？
   const onClickSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,6 +29,9 @@ export const New: FC = memo(() => {
       console.log(e);
     }
   };
+  // const handleGetPosts = async () => {
+  //   const { data }  = await getPosts()
+  //   setPosts(data.posts)
 
   return (
     <>
@@ -36,6 +40,7 @@ export const New: FC = memo(() => {
         onClickSubmit={onClickSubmit}
         value={value}
         buttonType="登録"
+        handleGetPosts={onClickSubmit}
       />
       <button onClick={() => history.goBack()}>戻る</button>
     </>
