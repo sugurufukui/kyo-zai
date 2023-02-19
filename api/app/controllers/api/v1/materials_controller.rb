@@ -32,6 +32,11 @@ class Api::V1::MaterialsController < ApplicationController
     end
   end
 
+  def post_image
+    material = Material.create(image: params[:material][:image])
+    render json: material
+  end
+
   def update
     material = Material.find(params[:id])
     # current_user.idとmaterial.user_idが一致した場合に更新する条件を追加

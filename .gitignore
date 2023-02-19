@@ -5,6 +5,8 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 #backend
+/.env
+/public/uploads/
 
 # Ignore bundler config.
 /api/.bundle
