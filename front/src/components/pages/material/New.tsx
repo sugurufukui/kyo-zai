@@ -40,7 +40,6 @@ export const New: FC = memo(() => {
         onClickSubmit={onClickSubmit}
         value={value}
         buttonType="登録"
-        handleGetPosts={onClickSubmit}
       />
       <button onClick={() => history.goBack()}>戻る</button>
     </>

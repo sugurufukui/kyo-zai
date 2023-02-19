@@ -9,12 +9,17 @@ type Props = {
   handleChange: any;
   value: any;
   buttonType: string;
-  handleGetPosts: any;
+  // handleGetPosts: any;
 };
 
 export const MaterialFormBody: FC<Props> = memo((props) => {
-  const { onClickSubmit, handleChange, value, buttonType, handleGetPosts } =
-    props;
+  const {
+    onClickSubmit,
+    handleChange,
+    value,
+    buttonType,
+    // handleGetPosts
+  } = props;
   return (
     <>
       <form>
