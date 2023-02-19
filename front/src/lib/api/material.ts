@@ -13,6 +13,7 @@ export const getMyLikeMaterial = () => {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
       uid: Cookies.get("_uid"),
+      "Content-Type": "multipart/form-data", // 画像ファイルを取り扱うのでform-dataで送信
     },
   });
 };
@@ -30,6 +31,7 @@ export const createMaterial = (params) => {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
       uid: Cookies.get("_uid"),
+      "Content-Type": "multipart/form-data", // 画像ファイルを取り扱うのでform-dataで送信
     },
   });
 };
@@ -42,6 +44,7 @@ export const updateMaterial = (id, params) => {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
       uid: Cookies.get("_uid"),
+      "Content-Type": "multipart/form-data", // 画像ファイルを取り扱うのでform-dataで送信
     },
   });
 };
@@ -54,6 +57,7 @@ export const deleteMaterial = (id) => {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
       uid: Cookies.get("_uid"),
+      "Content-Type": "multipart/form-data", // 画像ファイルを取り扱うのでform-dataで送信
     },
   });
 };
