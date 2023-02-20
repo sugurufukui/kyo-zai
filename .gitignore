@@ -6,7 +6,7 @@
 
 #backend
 /.env
-api/public/uploads/tmp
+api/public/uploads
 
 # Ignore bundler config.
 /api/.bundle
