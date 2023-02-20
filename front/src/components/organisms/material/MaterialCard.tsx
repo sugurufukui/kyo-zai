@@ -52,7 +52,6 @@ export const MaterialCard: FC<Props> = memo((props) => {
           // // カードをクリック時にどのカードをクリックしたのかをidで判別
           // onClick={() => onClick(id)}
         >
-          {/* {material.image?.url ? ( */}
           <CardMedia
             sx={{
               p: 1,
@@ -64,11 +63,9 @@ export const MaterialCard: FC<Props> = memo((props) => {
             src={imageUrl}
             height="260"
             alt={materialName}
-            // 写真をクリックしたときにモーダル表示することにしてみる
             // カードをクリック時にどのカードをクリックしたのかをidで判別
             onClick={() => onClick(id)}
           />
-          {/* // ) : null} */}
           <CardContent sx={{ p: 1, textAlign: "center" }}>
             <Typography sx={{ variant: "h3" }}>{materialName}</Typography>
           </CardContent>
