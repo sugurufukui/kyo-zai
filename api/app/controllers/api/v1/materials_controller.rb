@@ -3,7 +3,7 @@ class Api::V1::MaterialsController < ApplicationController
   before_action :authenticate_api_v1_user!, only: %i[create update destroy my_like_materials]
 
   def index
-    render json: Material.all
+    render json: Material.all.order("created_at DESC")
   end
 
   # 自分がいいねした教材
@@ -32,10 +32,10 @@ class Api::V1::MaterialsController < ApplicationController
     end
   end
 
-  def post_image
-    material = Material.create(image: params[:material][:image])
-    render json: material
-  end
+  # def post_image
+  #   material = Material.create(image: params[:material][:image])
+  #   render json: material
+  # end
 
   def update
     material = Material.find(params[:id])
@@ -66,6 +66,6 @@ class Api::V1::MaterialsController < ApplicationController
 
   # 新規作成する時にuser_idを一緒に保存できるように、ストロングパラメータに.merge(user_id: current_api_v1_user.id)を追加
   def material_params
-    params.require(:material).permit(:name, :description, :image).merge(user_id: current_api_v1_user.id)
+    params.permit(:name, :description, :image).merge(user_id: current_api_v1_user.id)
   end
 end
