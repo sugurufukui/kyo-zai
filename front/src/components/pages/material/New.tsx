@@ -1,63 +1,105 @@
-import { FC, memo, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import { MaterialFormBody } from "components/organisms/material/MaterialFormBody";
-import { createMaterial, getAllMaterial } from "lib/api/material";
+import { createMaterial } from "lib/api/material";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "providers/SnackbarProvider";
-import { MaterialType } from "types/api/materialType";
 
 export const New: FC = memo(() => {
-  // const [value, setValue] = useState([]);
   const history = useHistory();
-  // const { showSnackbar } = useSnackbar();
+  const [value, setValue] = useState([]);
 
-  // const handleChange = (e) => {
-  //   setValue({
-  //     ...value,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-  // const [file, setFile] = useState<File | null>(null);
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [image, setImage] = useState<File>();
+  const [preview, setPreview] = useState<
+    string | ArrayBuffer | null | undefined
+  >(undefined);
 
-  // // ここに画像登録についてのことも隠蔽する？
-  // const onClickSubmit = () => {
-  //   const Submit = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //       // const res = createMaterial(value);
-  //       // console.log(res);・
-  //       // 登録できたら一覧画面へ推移
-  //       history.push("/materials");
-  //       showSnackbar("教材を登録しました", "success");
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   // apiとの連携のためにデータを送る
-  //   const createFormData = () => {
-  //     const formData = new FormData();
-  //     // file形式にコンバート
-  //     // formData.append("Railsのテーブル名[カラム名]", ファイルが格納された変数);
-  //     formData.append("material[image]", file!);
-  //     return formData;
-  //   };
-  // };
+  const { showSnackbar } = useSnackbar();
 
-  const [materials, setMaterials] = useState<MaterialType[]>([]);
+  // // 画像選択機能
+  // const uploadImage = useCallback((e) => {
+  //   const file = e.target.files[0];
+  //   // image以外のファイルはnullにしてプレビューさせずにアラート表示;
 
-  const handleGetPosts = async () => {
-    const { data } = await getAllMaterial();
-    setMaterials(data.materials);
+  //   if (file.type.includes("image/")) {
+  //     setImage(file);
+  //     console.log(file);
+  //   } else {
+  //     setImage(null);
+  //     showSnackbar("そのファイルは登録できません", "error");
+  //     return;
+  //   }
+  // }, []);
+
+  // // プレビュー機能
+  // const previewImage = useCallback((e) => {
+  //   const file = e.target.files[0];
+  //   setPreview(window.URL.createObjectURL(file));
+  //   console.log(file);
+  //   console.log(preview);
+  // }, []);
+
+  // // 画像選択取り消し
+  // const resetFile = useCallback(() => {
+  //   setImage(null);
+  //   setPreview(null);
+  //   console.log(image, preview);
+  // }, []);
+
+  // FormData形式でデータを作成
+  const createFormData = (): FormData => {
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("description", description);
+    if (image) formData.append("image", image);
+    return formData;
+  };
+
+  // 教材新規登録
+  const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const data = createFormData();
     console.log(data);
+    await createMaterial(data).then(() => {
+      setName("");
+      setDescription("");
+      setPreview("");
+      setImage(undefined);
+      console.log(name);
+      console.log(description);
+      console.log(image);
+      console.log(value);
+
+      history.push("/materials");
+      showSnackbar("教材を登録しました", "success");
+    });
   };
 
   return (
     <>
       <MaterialFormBody
-        // handleChange={handleChange}
-        // onClickSubmit={onClickSubmit}
-        handleGetPosts={handleGetPosts}
-        // value={value}
-        buttonType="登録"
+        onClickSubmit={handleCreatePost}
+        value={value}
+        children="登録"
+        // resetFile={resetFile}
+        // onChangeFileInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+        // uploadImage(e);
+        // previewImage(e);
+        // }}
+        onChangeName={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setName(e.target.value);
+        }}
+        onChangeDescription={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setDescription(e.target.value);
+        }}
+        image={image}
+        setImage={setImage}
+        preview={preview}
+        setPreview={setPreview}
+        disabled={!name || !description || !image}
       />
       <button onClick={() => history.goBack()}>戻る</button>
     </>
