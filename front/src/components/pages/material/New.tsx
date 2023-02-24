@@ -3,6 +3,7 @@ import { MaterialFormBody } from "components/organisms/material/MaterialFormBody
 import { createMaterial } from "lib/api/material";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "providers/SnackbarProvider";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 
 export const New: FC = memo(() => {
   const history = useHistory();
@@ -60,30 +61,33 @@ export const New: FC = memo(() => {
   // 教材新規登録
   const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const data = createFormData();
-    console.log(data);
-    await createMaterial(data).then(() => {
-      setName("");
-      setDescription("");
-      setPreview("");
-      setImage(undefined);
-      console.log(name);
-      console.log(description);
-      console.log(image);
-      console.log(value);
+    try {
+      const data = createFormData();
+      console.log(data);
+      const res = await createMaterial(data);
+      console.log(res);
+      // setName("");
+      // setDescription("");
+      // setPreview("");
+      // setImage(undefined);
+      // console.log(name);
+      // console.log(description);
+      // console.log(image);
+      // console.log(value);
 
       history.push("/materials");
       showSnackbar("教材を登録しました", "success");
-    });
+    } catch (e) {
+      console.log(e);
+    }
   };
-
   return (
     <>
       <MaterialFormBody
         onClickSubmit={handleCreatePost}
         value={value}
         children="登録"
+        startIcon={<PostAddIcon />}
         // resetFile={resetFile}
         // onChangeFileInput={(e: React.ChangeEvent<HTMLInputElement>) => {
         // uploadImage(e);

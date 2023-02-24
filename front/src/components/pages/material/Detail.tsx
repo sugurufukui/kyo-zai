@@ -13,7 +13,8 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { likedCheck } from "lib/api/like";
 // import { useLike } from "hooks/useLike";
 import { Button, Grid } from "@mui/material";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 type Props = {
   initialLikeCount: number;
 };
@@ -112,24 +113,36 @@ export const Detail: FC<Props> = memo((props) => {
           作成したユーザーの情報
           <Button
             // color=""
+            startIcon={<ReplyIcon />}
             onClick={() => history.goBack()}
           >
-            <ReplyIcon />
             戻る
           </Button>
-          <button onClick={() => console.log(value)}>valueの値</button>
+          {/* <button onClick={() => console.log(value)}>valueの値</button>
           <button onClick={() => console.log(query)}>queryの値</button>
           <button onClick={() => console.log(likeCount)}>likeの値</button>
           <button onClick={() => history.push("/materials/new")}>
             新規登録
-          </button>
+          </button> */}
           {currentUser.id === value?.userId ? (
-            <Link to={`/materials/edit/${value?.id}`}>編集</Link>
+            <Button
+              onClick={() => history.push(`/materials/edit/${value?.id}`)}
+              startIcon={<BuildRoundedIcon />}
+            >
+              編集する
+            </Button>
           ) : (
             <></>
           )}
           {currentUser.id === value.userId ? (
-            <button onClick={() => onClickDelete(query)}>削除</button>
+            <Button
+              variant="outlined"
+              startIcon={<DeleteIcon />}
+              onClick={() => onClickDelete(query)}
+              color="error"
+            >
+              削除する
+            </Button>
           ) : (
             <></>
           )}
