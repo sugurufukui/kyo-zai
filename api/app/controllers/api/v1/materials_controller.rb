@@ -1,9 +1,16 @@
 class Api::V1::MaterialsController < ApplicationController
   # 自分の投稿のみ作成、更新、削除する
-  before_action :authenticate_api_v1_user!, only: %i[create update destroy my_like_materials]
+  before_action :authenticate_api_v1_user!, only: %i[my_like_materials my_materials create update destroy ]
 
   def index
     render json: Material.all.order("created_at DESC")
+  end
+
+  # 自分が投稿した教材
+  def my_materials
+    @user = current_api_v1_user
+    @my_materials = Material.where(user_id: @user.id)
+    render json: @my_materials
   end
 
   # 自分がいいねした教材
@@ -31,11 +38,6 @@ class Api::V1::MaterialsController < ApplicationController
       render json: material.errors, status: :unprocessable_entity
     end
   end
-
-  # def post_image
-  #   material = Material.create(image: params[:material][:image])
-  #   render json: material
-  # end
 
   def update
     material = Material.find(params[:id])
