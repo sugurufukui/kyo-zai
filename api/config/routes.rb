@@ -6,6 +6,10 @@ Rails.application.routes.draw do
         resource :likes, only: %i[show create destroy]
       end
 
+      # 自分が投稿した教材
+      get "/my_materials", to: "materials#my_materials", as:
+      :my_materials
+
       #自分がいいねした教材
       get "/my_like", to: "materials#my_like_materials", as: :my_like_materials
 
