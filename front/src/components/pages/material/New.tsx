@@ -86,7 +86,7 @@ export const New: FC = memo(() => {
       <MaterialFormBody
         onClickSubmit={handleCreatePost}
         value={value}
-        children="登録"
+        children="教材を登録する"
         startIcon={<PostAddIcon />}
         // resetFile={resetFile}
         // onChangeFileInput={(e: React.ChangeEvent<HTMLInputElement>) => {
