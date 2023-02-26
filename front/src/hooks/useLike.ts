@@ -6,11 +6,12 @@ import { AuthContext } from "providers/AuthProvider";
 import { useAllMaterials } from "hooks/useAllMaterials";
 import { Box } from "@mui/material";
 import { MaterialType } from "types/api/materialType";
-import { getUserMaterials } from "lib/api/user";
+import { getMyMaterial } from "lib/api/material";
 
 type Props = {
   initialLikeCount: number;
 };
+// 使用していないコンポーネント
 // いいねの追加、確認、削除データを取得するカスタムフック
 export const useLike = (props: Props) => {
   // いいね数の変数を用意

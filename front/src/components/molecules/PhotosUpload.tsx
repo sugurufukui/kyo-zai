@@ -10,6 +10,7 @@ import { useSnackbar } from "providers/SnackbarProvider";
 
 type Props = { fileName: string };
 
+// 使用していないコンポーネント
 // 画像を選択してプレビューするコンポーネント
 export const PhotosUpload: FC<Props> = (props) => {
   const { fileName } = props;
@@ -66,6 +67,7 @@ export const PhotosUpload: FC<Props> = (props) => {
         data
         // , {
         //   headers: {
+        // "multipart/form-data": 1回のHTTP通信で、複数の種類（テキストやファイルなど）を一度に扱うことが可能
         //     "content-type": "multipart/form-data",
         //   },
         // }
@@ -74,7 +76,8 @@ export const PhotosUpload: FC<Props> = (props) => {
         //成功したときの処理
         console.log("画像投稿できました");
         console.log(file);
-        console.log(data);
+        // res.data.dataには画像情報が愛っているが、それ以外の情報はnull
+        console.log(res.data.data);
       })
       .catch((e) => {
         console.log(e, "画像投稿できませんでした");
