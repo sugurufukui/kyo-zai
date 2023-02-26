@@ -53,7 +53,7 @@ const avatarMenu = [
   {
     children: "いいねした教材",
     icon: <FavoriteBorderIcon />,
-    link: "my_like",
+    link: "/my_like",
   },
   {
     children: "フォローしている人",
