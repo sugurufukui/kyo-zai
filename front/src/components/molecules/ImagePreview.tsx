@@ -5,7 +5,7 @@ type Props = {
   file: File | null;
   height: number;
 };
-
+// 使用していないコンポーネント
 export const ImagePreview: FC<Props> = memo((props) => {
   const { file, height } = props;
 
