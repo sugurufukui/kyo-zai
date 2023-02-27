@@ -1,4 +1,4 @@
-import { Button, Grid, Link } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Link } from "@mui/material";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { useAllMaterials } from "hooks/useAllMaterials";
@@ -111,7 +111,18 @@ export const MyMaterial: FC<Props> = memo((props) => {
     <>
       <h1>{currentUser.email}さんの投稿一覧</h1>
       <button onClick={() => history.goBack}>戻る</button>
-      <MaterialData />
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <MaterialData />
+      )}
     </>
   );
 });

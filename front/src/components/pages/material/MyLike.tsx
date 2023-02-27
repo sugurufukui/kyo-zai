@@ -1,6 +1,6 @@
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
-import { Grid } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import { useAllMaterials } from "hooks/useAllMaterials";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { AuthContext } from "providers/AuthProvider";
@@ -104,7 +104,18 @@ export const MyLike: FC<Props> = memo((props) => {
     <>
       <h1>{currentUser.name}さんがいいねした教材一覧</h1>
       <button onClick={() => history.goBack}>戻る</button>
-      <MaterialData />
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <MaterialData />
+      )}
     </>
   );
 });
