@@ -1,6 +1,6 @@
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
-import { Box, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import { useAllMaterials } from "hooks/useAllMaterials";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { useSelectMaterial } from "hooks/useSelectMaterial";
@@ -228,5 +228,15 @@ export const MaterialList: FC<Props> = memo((props) => {
     // selectedMaterial,
   ]);
 
-  return <MaterialData />;
+  return (
+    <>
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <MaterialData />
+      )}
+    </>
+  );
 });

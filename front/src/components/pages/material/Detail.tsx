@@ -14,6 +14,7 @@ import { likedCheck } from "lib/api/like";
 // import { useLike } from "hooks/useLike";
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -22,6 +23,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
+import { Box } from "@mui/system";
 // import { DeleteDialog } from "components/molecules/DeleteDialog";
 type Props = {
   initialLikeCount: number;
@@ -30,6 +32,7 @@ type Props = {
 export const Detail: FC<Props> = memo((props) => {
   const { initialLikeCount } = props;
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   // { id = 1 } を取得する
   const query: any = useParams();
@@ -81,7 +84,7 @@ export const Detail: FC<Props> = memo((props) => {
   );
 
   //削除確認用ダイアログ用
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
   };
@@ -98,12 +101,15 @@ export const Detail: FC<Props> = memo((props) => {
         >
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              削除すると2度と復元することができません。本当に削除してもよろしいですか？
+              削除すると2度と復元することができません。
+            </DialogContentText>
+            <DialogContentText id="alert-dialog-description">
+              本当に削除してもよろしいですか？
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button variant="outlined" onClick={handleClose} autoFocus>
-              戻る
+              やめる
             </Button>
             <Button
               variant="outlined"
@@ -124,12 +130,15 @@ export const Detail: FC<Props> = memo((props) => {
 
   //いいね確認API
   const handleGetLike = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await likedCheck(query.id);
       console.log(res.data);
       setLikeCount(res.data.likeCount);
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -144,55 +153,68 @@ export const Detail: FC<Props> = memo((props) => {
 
   return (
     <>
-      <Grid container justifyContent="center" textAlign="center">
-        <Grid item xs={8}>
-          教材の情報
-          <p>教材詳細ページです</p>
-          <div>教材のID:{value?.id}</div>
-          <div>名前:{value?.name}</div>
-          <div>説明:{value?.description}</div>
-          <div>作成者ID:{value?.userId}</div>
-          <LikeButton
-            materialId={query.id}
-            currentUser={currentUser}
-            initialLikeCount={likeCount}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          作成したユーザーの情報
-          <Button
-            // color=""
-            startIcon={<ReplyIcon />}
-            onClick={() => history.goBack()}
-          >
-            戻る
-          </Button>
-          {currentUser.id === value?.userId ? (
-            <Button
-              onClick={() => history.push(`/materials/edit/${value?.id}`)}
-              startIcon={<BuildRoundedIcon />}
-            >
-              編集する
-            </Button>
-          ) : (
-            <></>
-          )}
-          {currentUser.id === value.userId ? (
-            <Button
-              variant="outlined"
-              startIcon={<DeleteIcon />}
-              onClick={() => deleteDialogOpen()}
-              color="error"
-            >
-              削除する
-            </Button>
-          ) : (
-            <></>
-          )}
-          {/*  削除確認用ダイアログ */}
-          <DeleteDialog />
-        </Grid>
-      </Grid>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <Grid container justifyContent="center" textAlign="center">
+            <Grid item xs={8}>
+              教材の情報
+              <p>教材詳細ページです</p>
+              <div>教材のID:{value?.id}</div>
+              <div>名前:{value?.name}</div>
+              <div>説明:{value?.description}</div>
+              <div>作成者ID:{value?.userId}</div>
+              <LikeButton
+                materialId={query.id}
+                currentUser={currentUser}
+                initialLikeCount={likeCount}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              作成したユーザーの情報
+              <Button
+                // color=""
+                startIcon={<ReplyIcon />}
+                onClick={() => history.goBack()}
+              >
+                戻る
+              </Button>
+              {currentUser.id === value?.userId ? (
+                <Button
+                  onClick={() => history.push(`/materials/edit/${value?.id}`)}
+                  startIcon={<BuildRoundedIcon />}
+                >
+                  編集する
+                </Button>
+              ) : (
+                <></>
+              )}
+              {currentUser.id === value.userId ? (
+                <Button
+                  variant="outlined"
+                  startIcon={<DeleteIcon />}
+                  onClick={() => deleteDialogOpen()}
+                  color="error"
+                >
+                  削除する
+                </Button>
+              ) : (
+                <></>
+              )}
+              {/*  削除確認用ダイアログ */}
+              <DeleteDialog />
+            </Grid>
+          </Grid>
+        </>
+      )}
     </>
   );
 });
