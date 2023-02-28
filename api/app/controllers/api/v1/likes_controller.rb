@@ -1,14 +1,13 @@
 class Api::V1::LikesController < ApplicationController
-
   def show
-    if current_api_v1_user
-      @material = Material.find(params[:material_id])
-      @like = current_api_v1_user.likes.find_by(material_id: @material.id)
-      @like_count = Like.where(material_id: @material.id)
-      @like_count = @like_count.length
+    return unless current_api_v1_user
 
-      render json: { like: @like, like_count: @like_count }
-    end
+    @material = Material.find(params[:material_id])
+    @like = current_api_v1_user.likes.find_by(material_id: @material.id)
+    @like_count = Like.where(material_id: @material.id)
+    @like_count = @like_count.length
+
+    render json: { like: @like, like_count: @like_count }
   end
 
   def create
@@ -18,8 +17,8 @@ class Api::V1::LikesController < ApplicationController
 
       if @like.save
         render json: {
-        status: :created,
-        like: @like,
+          status: :created,
+          like: @like
         }
       else
         render json: { status: 500, like: @like.errors }
@@ -27,9 +26,9 @@ class Api::V1::LikesController < ApplicationController
 
     else
       render json: {
-              status: 500,
-              errors: ["LIKEできませんでした"]
-            }
+        status: 500,
+        errors: ["LIKEできませんでした"]
+      }
     end
   end
 
@@ -39,9 +38,9 @@ class Api::V1::LikesController < ApplicationController
     @like = Like.find_by(material_id: @material.id, user_id: @user.id)
 
     @like.destroy
-      render json: {
-              status: :delete,
-            }
+    render json: {
+      status: :delete
+    }
   end
 
   private
@@ -49,5 +48,4 @@ class Api::V1::LikesController < ApplicationController
   def like_params
     params.permit(:material_id, :user_id)
   end
-
 end
