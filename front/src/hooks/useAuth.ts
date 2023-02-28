@@ -1,9 +1,5 @@
-// import axios from "axios";
-// import { useCallback, useState } from "react";
-// import { LoginParams } from "../types/api/LoginParams";
-// import { useHistory } from "react-router-dom";
-
 import { getCurrentUser } from "lib/api/auth";
+import { useSnackbar } from "providers/SnackbarProvider";
 import { useCallback, useEffect, useState } from "react";
 import { User } from "types/api/user";
 
@@ -16,8 +12,10 @@ export const useAuth = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | undefined>();
+  const { showSnackbar } = useSnackbar();
 
   const handleGetCurrentUser = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await getCurrentUser();
       console.log(res);
@@ -27,8 +25,7 @@ export const useAuth = () => {
         setCurrentUser(res?.data.data);
         console.log(res?.data);
       } else {
-        // alert("ユーザーがいません");
-        console.log("ユーザーがいません");
+        showSnackbar("ユーザーが見つかりませんでした。", "error");
         console.log(res?.data);
       }
     } catch (err) {
@@ -36,7 +33,7 @@ export const useAuth = () => {
     }
 
     setLoading(false);
-  }, []);
+  }, [showSnackbar]);
 
   //サインイン時にhandleGetCurrentUserしてユーザーの情報をもたせた方がいい？
   useEffect(() => {
