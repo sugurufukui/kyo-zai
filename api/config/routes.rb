@@ -10,13 +10,13 @@ Rails.application.routes.draw do
       get "/my_materials", to: "materials#my_materials", as:
       :my_materials
 
-      #自分がいいねした教材
+      # 自分がいいねした教材
       get "/my_like", to: "materials#my_like_materials", as: :my_like_materials
 
       mount_devise_token_auth_for 'User', at: 'auth',
-        controllers: {
-          registrations: 'api/v1/auth/registrations'
-      }
+                                          controllers: {
+                                            registrations: 'api/v1/auth/registrations'
+                                          }
 
       namespace :auth do
         resources :sessions, only: %i[index]
