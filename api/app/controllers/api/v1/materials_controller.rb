@@ -1,6 +1,6 @@
 class Api::V1::MaterialsController < ApplicationController
   # 自分の投稿のみ作成、更新、削除する
-  before_action :authenticate_api_v1_user!, only: %i[my_like_materials my_materials create update destroy ]
+  before_action :authenticate_api_v1_user!, only: %i[my_like_materials my_materials create update destroy]
 
   def index
     render json: Material.all.order("created_at DESC")
