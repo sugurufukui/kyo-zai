@@ -1,4 +1,4 @@
-import { FC, memo, useContext } from "react";
+import { FC, memo } from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { LikeButton } from "components/molecules/LikeButton";
 import { User } from "types/api/user";
-import { LikeContext } from "providers/LikeProvider";
 import { Box } from "@mui/system";
 
 type Props = {
@@ -35,7 +34,6 @@ export const MaterialCard: FC<Props> = memo((props) => {
     initialLikeCount,
   } = props;
 
-  // const { initialLikeCount } = useContext(LikeContext);
   return (
     <>
       <Box m={1}>
@@ -49,8 +47,6 @@ export const MaterialCard: FC<Props> = memo((props) => {
             m: "2",
             borderRadius: "10px",
           }}
-          // // カードをクリック時にどのカードをクリックしたのかをidで判別
-          // onClick={() => onClick(id)}
         >
           <CardMedia
             sx={{
@@ -59,8 +55,8 @@ export const MaterialCard: FC<Props> = memo((props) => {
               ":hover": { cursor: "pointer", opacity: "0.8" },
             }}
             component="img"
-            // src={material.image.url}
             src={imageUrl}
+            width="(260 * 4) / 3"
             height="260"
             alt={materialName}
             // カードをクリック時にどのカードをクリックしたのかをidで判別
