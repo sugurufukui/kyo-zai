@@ -1,10 +1,10 @@
-import React, { FC, ReactNode, useCallback } from "react";
+import React, { FC, ReactNode } from "react";
 
 import {
   Button,
+  CircularProgress,
   IconButton,
   Paper,
-  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -13,21 +13,18 @@ import { Box } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 
-import { useSnackbar } from "providers/SnackbarProvider";
-
 type Props = {
   value: any;
   onClickSubmit: any;
   children: ReactNode;
   onChangeName: any;
   onChangeDescription: any;
-  image?: any;
-  setImage: any;
-  preview?: any;
-  setPreview: any;
-  disabled: any;
-  onChangeImage?: any;
+  image?: File;
+  preview: any;
+  disabled: boolean;
+  onChangeImage: any;
   startIcon: any;
+  onClickResetFile: any;
 };
 
 // 新規登録と編集のフォームと、画像プレビューを表示するコンポーネント
@@ -39,53 +36,14 @@ export const MaterialFormBody: FC<Props> = (props) => {
     onChangeName,
     onChangeDescription,
     image,
-    setImage,
     preview,
-    setPreview,
     disabled,
     onChangeImage,
     startIcon,
+    onClickResetFile,
   } = props;
 
-  const { showSnackbar } = useSnackbar();
   const isLoading = !image && !preview;
-
-  // 画像選択機能
-  const uploadImage = useCallback(
-    (e) => {
-      const file = e.target.files[0];
-      // image以外のファイルはnullにしてプレビューさせずにアラート表示;
-      if (file.type.includes("image/")) {
-        setImage(file);
-        console.log("file", file);
-        console.log("image", image);
-      } else {
-        setImage(null);
-        showSnackbar("そのファイルは登録できません", "error");
-        return;
-      }
-    },
-    [setImage, showSnackbar, image]
-  );
-
-  // プレビュー機能
-  const previewImage = useCallback(
-    (e) => {
-      const file = e.target.files[0];
-      setPreview(window.URL.createObjectURL(file));
-      console.log("file", file);
-      console.log("value.file", value.file);
-    },
-    [setPreview]
-  );
-
-  // 画像選択取り消し
-  const resetFile = useCallback(() => {
-    setImage(null);
-    setPreview(null);
-    console.log("image", image);
-    console.log("preview", preview);
-  }, [setImage, setPreview, image, preview]);
 
   return (
     <>
@@ -124,7 +82,7 @@ export const MaterialFormBody: FC<Props> = (props) => {
               <div>
                 <Box>
                   <img
-                    src={value.image?.url}
+                    src={value.image}
                     alt="変更前の写真"
                     width={(260 * 4) / 3}
                     height={260}
@@ -150,11 +108,6 @@ export const MaterialFormBody: FC<Props> = (props) => {
                   id="icon-button-file"
                   type="file"
                   hidden
-                  // 一度プレビューとアップロードをコメントアウトしてedit画面でvalueを編集できるようにする
-                  // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  //   uploadImage(e);
-                  //   previewImage(e);
-                  // }}
                   onChange={onChangeImage}
                 />
 
@@ -187,12 +140,14 @@ export const MaterialFormBody: FC<Props> = (props) => {
         <div>
           {preview ? (
             isLoading ? (
-              <Skeleton />
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress />
+              </Box>
             ) : (
               <div>
                 <Box>
                   <Box sx={{ height: 0, textAlign: "right" }}>
-                    <IconButton onClick={resetFile}>
+                    <IconButton onClick={onClickResetFile}>
                       <CloseIcon />
                     </IconButton>
                   </Box>
@@ -219,12 +174,6 @@ export const MaterialFormBody: FC<Props> = (props) => {
             fullWidth
             color="primary"
             disabled={disabled}
-            // onClick="disabled = true"
-            // onKeyDown={(e) => {
-            //   if (e.key === "Enter") {
-            //     onClickSubmit();
-            //   }
-            // }}
           >
             {children}
           </Button>

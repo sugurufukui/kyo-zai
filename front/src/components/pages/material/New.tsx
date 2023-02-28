@@ -18,35 +18,34 @@ export const New: FC = memo(() => {
 
   const { showSnackbar } = useSnackbar();
 
-  // // 画像選択機能
-  // const uploadImage = useCallback((e) => {
-  //   const file = e.target.files[0];
-  //   // image以外のファイルはnullにしてプレビューさせずにアラート表示;
+  // 画像選択機能
+  const uploadImage = useCallback((e) => {
+    const file = e.target.files[0];
+    // image以外のファイルはnullにしてプレビューさせずにアラート表示;
+    if (file.type.includes("image/")) {
+      setImage(file);
+      console.log(file);
+    } else {
+      setImage(null);
+      showSnackbar("そのファイルは登録できません", "error");
+      return;
+    }
+  }, []);
 
-  //   if (file.type.includes("image/")) {
-  //     setImage(file);
-  //     console.log(file);
-  //   } else {
-  //     setImage(null);
-  //     showSnackbar("そのファイルは登録できません", "error");
-  //     return;
-  //   }
-  // }, []);
+  // プレビュー機能
+  const previewImage = useCallback((e) => {
+    const file = e.target.files[0];
+    setPreview(window.URL.createObjectURL(file));
+    console.log(file);
+    console.log(preview);
+  }, []);
 
-  // // プレビュー機能
-  // const previewImage = useCallback((e) => {
-  //   const file = e.target.files[0];
-  //   setPreview(window.URL.createObjectURL(file));
-  //   console.log(file);
-  //   console.log(preview);
-  // }, []);
-
-  // // 画像選択取り消し
-  // const resetFile = useCallback(() => {
-  //   setImage(null);
-  //   setPreview(null);
-  //   console.log(image, preview);
-  // }, []);
+  // 画像選択取り消し
+  const resetFile = useCallback(() => {
+    setImage(null);
+    setPreview(null);
+    console.log(image, preview);
+  }, []);
 
   // FormData形式でデータを作成
   const createFormData = (): FormData => {
@@ -66,14 +65,6 @@ export const New: FC = memo(() => {
       console.log(data);
       const res = await createMaterial(data);
       console.log(res);
-      // setName("");
-      // setDescription("");
-      // setPreview("");
-      // setImage(undefined);
-      // console.log(name);
-      // console.log(description);
-      // console.log(image);
-      // console.log(value);
 
       history.push("/materials");
       showSnackbar("教材を登録しました", "success");
@@ -88,21 +79,19 @@ export const New: FC = memo(() => {
         value={value}
         children="教材を登録する"
         startIcon={<PostAddIcon />}
-        // resetFile={resetFile}
-        // onChangeFileInput={(e: React.ChangeEvent<HTMLInputElement>) => {
-        // uploadImage(e);
-        // previewImage(e);
-        // }}
         onChangeName={(e: React.ChangeEvent<HTMLInputElement>) => {
           setName(e.target.value);
         }}
         onChangeDescription={(e: React.ChangeEvent<HTMLInputElement>) => {
           setDescription(e.target.value);
         }}
+        onChangeImage={(e: React.ChangeEvent<HTMLInputElement>) => {
+          uploadImage(e);
+          previewImage(e);
+        }}
+        onClickResetFile={resetFile}
         image={image}
-        setImage={setImage}
         preview={preview}
-        setPreview={setPreview}
         disabled={!name || !description || !image}
       />
       <button onClick={() => history.goBack()}>戻る</button>
