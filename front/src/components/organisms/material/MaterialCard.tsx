@@ -18,7 +18,6 @@ type Props = {
   materialId: number | null;
   currentUser: User;
   initialLikeCount: number;
-  // コメントの数
   //クリック時に教材のデータ（id）を取得
   onClick: (id: number) => void;
 };
@@ -70,15 +69,6 @@ export const MaterialCard: FC<Props> = memo((props) => {
             currentUser={currentUser}
             initialLikeCount={initialLikeCount}
           />
-
-          <CardActions sx={{ p: 1 }}>
-            <IconButton aria-label="add to comment">
-              <ChatBubbleOutlineIcon />
-            </IconButton>
-            <CardContent sx={{ p: 1 }}>
-              <Typography sx={{ variant: "h5" }}>5</Typography>
-            </CardContent>
-          </CardActions>
         </Card>
       </Box>
     </>
