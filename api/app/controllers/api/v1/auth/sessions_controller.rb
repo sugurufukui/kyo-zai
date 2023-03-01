@@ -2,7 +2,6 @@
 class Api::V1::Auth::SessionsController < ApplicationController
   def index
     if current_api_v1_user
-      # status: 200からis_login: falseに変更してみたけどどうなるか => 変わらない
 
       render json: { is_login: true, data: current_api_v1_user }
     else
@@ -10,7 +9,7 @@ class Api::V1::Auth::SessionsController < ApplicationController
     end
   end
 
-  #ゲストユーザーでログイン
+  # ゲストユーザーでログイン
   def guest_sign_in
     @resource = User.guest
     @token = @resource.create_token
@@ -50,7 +49,7 @@ class Api::V1::Auth::SessionsController < ApplicationController
 
   private
 
-    def login_params
-      params.permit(:session)
-    end
+  def login_params
+    params.permit(:session)
+  end
 end

@@ -8,15 +8,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
-
-// import { AuthContext } from "App";
-// import AlertMessage from "components/organisms/layout/AlertMessage";
-// import { signIn } from "lib/api/auth/signIn";
 import { SignInParams } from "types/api/SignInParams";
 import { signIn } from "lib/api/auth";
 import { PrimaryButton } from "components/atoms/PrimaryButton";
 import { Divider } from "@mui/material";
-// import { Material } from "components/page//Material";
 import { AuthContext } from "providers/AuthProvider";
 import { useSnackbar } from "providers/SnackbarProvider";
 
@@ -24,7 +19,7 @@ import { useSnackbar } from "providers/SnackbarProvider";
 export const SignIn: FC = memo(() => {
   const history = useHistory();
 
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const { setIsSignedIn, setCurrentUser, loading } = useContext(AuthContext);
   const { showSnackbar } = useSnackbar();
 
   const [email, setEmail] = useState<string>("");
@@ -53,14 +48,13 @@ export const SignIn: FC = memo(() => {
 
         history.push("/materials");
 
-        // メッセージ
         showSnackbar("ログインしました", "success");
         console.log("ログインしました");
         console.log(res.data.data);
       } else {
       }
     } catch (err) {
-      showSnackbar("そのユーザーは登録されていません", "error");
+      showSnackbar("ユーザーが見つかりませんでした。", "error");
 
       console.log(err);
     }
@@ -90,7 +84,6 @@ export const SignIn: FC = memo(() => {
 
         history.push("/materials");
 
-        // メッセージ
         showSnackbar("ゲストログインしました", "success");
         console.log("ゲストログインしました");
         console.log(res.data.data);
@@ -163,12 +156,6 @@ export const SignIn: FC = memo(() => {
           </CardContent>
         </Card>
       </form>
-      {/* <AlertMessage // エラーが発生した場合はアラートを表示 */}
-      {/* open={alertMessageOpen} */}
-      {/* setOpen={setAlertMessageOpen} */}
-      {/* severity="error" */}
-      {/* message="メールアドレスかパスワードが間違っています" */}
-      {/* /> */}
     </>
   );
 });

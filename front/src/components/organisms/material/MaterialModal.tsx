@@ -9,21 +9,29 @@ import { Box, Button, Grid, Modal } from "@mui/material";
 import { MaterialType } from "types/api/materialType";
 import { LikeButton } from "components/molecules/LikeButton";
 import { User } from "types/api/user";
+import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 
 type Props = {
-  //useSelectMaterialのselectMaterialから持ってくるので同じ型にする
   material: MaterialType | null;
   open: boolean;
   onClose: () => void;
   materialId: number | null;
   currentUser: User;
   initialLikeCount: number;
+  imageUrl: string;
 };
 
 // 一覧の中のいずれかをクリックすると表示されるモーダル画面
 export const MaterialModal: FC<Props> = memo((props) => {
-  const { material, open, onClose, materialId, currentUser, initialLikeCount } =
-    props;
+  const {
+    material,
+    open,
+    onClose,
+    materialId,
+    currentUser,
+    initialLikeCount,
+    imageUrl,
+  } = props;
 
   const history = useHistory();
 
@@ -62,10 +70,7 @@ export const MaterialModal: FC<Props> = memo((props) => {
                 alineItems: "center",
               }}
             >
-              <CardMedia
-                component="img"
-                src="https://source.unsplash.com/random"
-              ></CardMedia>
+              <CardMedia component="img" src={imageUrl}></CardMedia>
             </Card>
           </Grid>
           {/* materialはnullの可能性もあるので許容する為にオプショナルチェイニングを使用する */}
@@ -77,7 +82,6 @@ export const MaterialModal: FC<Props> = memo((props) => {
 
             <Typography>{material?.description}</Typography>
           </Box>
-          {/* <CardActions sx={{ p: 1 }}> */}
           <LikeButton
             materialId={materialId}
             currentUser={currentUser}
@@ -93,6 +97,17 @@ export const MaterialModal: FC<Props> = memo((props) => {
             >
               もっと詳しく
             </Button>
+            {/* ログインユーザーと作成者が同じ場合に「編集ボタン」を表示 */}
+            {currentUser.id === material?.userId ? (
+              <Button
+                onClick={() => history.push(`/materials/edit/${material?.id}`)}
+                startIcon={<BuildRoundedIcon />}
+              >
+                編集する
+              </Button>
+            ) : (
+              <></>
+            )}
           </Box>
         </Box>
       </Modal>

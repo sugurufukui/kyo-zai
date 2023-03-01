@@ -10,8 +10,7 @@ import { MaterialList } from "components/pages/MaterialList";
 import { Detail } from "components/pages/material/Detail";
 import { New } from "components/pages/material/New";
 import { Edit } from "components/pages/material/Edit";
-import { Users } from "components/pages/Users";
-// import { homeRoutes } from "./HomeRoutes";
+import { MyMaterial } from "components/pages/material/MyMaterial";
 // import { Page404 } from "../components/pages/Page404";
 import { MyLike } from "components/pages/material/MyLike";
 
@@ -52,7 +51,7 @@ export const Router: FC = memo(() => {
               <Route exact path="/materials/new" component={New} />
               <Route exact path="/materials/:id" component={Detail} />
               {/* 自分の教材 */}
-              <Route exact path="/users" component={Users} />
+              <Route exact path="/my_materials" component={MyMaterial} />
 
               <Route exact path="/materials/edit/:id" component={Edit} />
 
