@@ -81,10 +81,6 @@ export const MaterialModal: FC<Props> = memo((props) => {
             <Typography>説明</Typography>
 
             <Typography>{material?.description}</Typography>
-            <Button onClick={() => console.log(currentUser.id)}>
-              今ログインしているユーザーID
-            </Button>
-            <Button onClick={() => console.log(material.userId)}>作成者</Button>
           </Box>
           <LikeButton
             materialId={materialId}
@@ -102,7 +98,7 @@ export const MaterialModal: FC<Props> = memo((props) => {
               もっと詳しく
             </Button>
             {/* ログインユーザーと作成者が同じ場合に「編集ボタン」を表示 */}
-            {currentUser.id === material.userId ? (
+            {currentUser.id === material?.userId ? (
               <Button
                 onClick={() => history.push(`/materials/edit/${material?.id}`)}
                 startIcon={<BuildRoundedIcon />}
