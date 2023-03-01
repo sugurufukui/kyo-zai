@@ -3,7 +3,8 @@ export type MaterialType = {
   name: string;
   description: string;
   image?: string;
-  userId: number;
-  created_at: Date;
-  updated_at: Date;
+  user: {
+    id: number;
+    name: string;
+  };
 };
