@@ -9,9 +9,9 @@ import { Box, Button, Grid, Modal } from "@mui/material";
 import { MaterialType } from "types/api/materialType";
 import { LikeButton } from "components/molecules/LikeButton";
 import { User } from "types/api/user";
+import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 
 type Props = {
-  //useSelectMaterialのselectMaterialから持ってくるので同じ型にする
   material: MaterialType | null;
   open: boolean;
   onClose: () => void;
@@ -81,8 +81,11 @@ export const MaterialModal: FC<Props> = memo((props) => {
             <Typography>説明</Typography>
 
             <Typography>{material?.description}</Typography>
+            <Button onClick={() => console.log(currentUser.id)}>
+              今ログインしているユーザーID
+            </Button>
+            <Button onClick={() => console.log(material.userId)}>作成者</Button>
           </Box>
-          {/* <CardActions sx={{ p: 1 }}> */}
           <LikeButton
             materialId={materialId}
             currentUser={currentUser}
@@ -98,6 +101,17 @@ export const MaterialModal: FC<Props> = memo((props) => {
             >
               もっと詳しく
             </Button>
+            {/* ログインユーザーと作成者が同じ場合に「編集ボタン」を表示 */}
+            {currentUser.id === material.userId ? (
+              <Button
+                onClick={() => history.push(`/materials/edit/${material?.id}`)}
+                startIcon={<BuildRoundedIcon />}
+              >
+                編集する
+              </Button>
+            ) : (
+              <></>
+            )}
           </Box>
         </Box>
       </Modal>
