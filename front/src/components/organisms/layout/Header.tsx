@@ -33,38 +33,10 @@ import { AuthContext } from "providers/AuthProvider";
 import LogoIcon from "images/top.png";
 import { useSnackbar } from "providers/SnackbarProvider";
 
-// if文 三項演算子でかけるか？
-// auth ? authPages : noAuthPages;
-// 共通しているものは一つにまとめるか？
-const authPages = [
-  { children: "HOME", icon: <HomeIcon />, link: "/", color: "primary" },
-  { children: "教材一覧", icon: <MenuBookIcon />, link: "/materials" },
-  { children: "検索", icon: <SearchIcon />, link: "/" },
-  { children: "投稿", icon: <PostAddIcon />, link: "/materials/new" },
-];
-const noAuthPages = [
-  { children: "HOME", icon: <HomeIcon />, link: "/" },
-  { children: "新規登録", link: "/signup" },
-  { children: "ログイン", link: "/signin" },
-];
-const avatarMenu = [
-  { children: "マイページ", icon: <AccountCircleIcon />, link: "/" },
-  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/my_materials" },
-  {
-    children: "いいねした教材",
-    icon: <FavoriteBorderIcon />,
-    link: "/my_like",
-  },
-  {
-    children: "フォローしている人",
-    icon: <SupervisedUserCircleIcon />,
-    link: "/signup",
-  },
-];
-
 export const Header: FC = memo(() => {
   const [menuOpened, setMenuOpened] = useState(null);
   const [drawerOpened, setDrawerOpened] = useState(false);
+
   const { showSnackbar } = useSnackbar();
 
   const onClickAvatar = (event: React.MouseEvent<HTMLElement>) => {
@@ -75,9 +47,39 @@ export const Header: FC = memo(() => {
     setMenuOpened(null);
   };
 
-  const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext);
+  const { loading, isSignedIn, setIsSignedIn, currentUser } =
+    useContext(AuthContext);
 
   const histroy = useHistory();
+
+  // if文 三項演算子でかけるか？
+  // auth ? authPages : noAuthPages;
+  // 共通しているものは一つにまとめるか？
+  const authPages = [
+    { children: "HOME", icon: <HomeIcon />, link: "/", color: "primary" },
+    { children: "教材一覧", icon: <MenuBookIcon />, link: "/materials" },
+    // { children: "検索", icon: <SearchIcon />, link: "/" },
+    { children: "投稿", icon: <PostAddIcon />, link: "/materials/new" },
+  ];
+  const noAuthPages = [
+    { children: "HOME", icon: <HomeIcon />, link: "/" },
+    { children: "新規登録", link: "/signup" },
+    { children: "ログイン", link: "/signin" },
+  ];
+  const avatarMenu = [
+    {
+      children: "マイページ",
+      icon: <AccountCircleIcon />,
+      link: `/user/${currentUser?.id}`,
+    },
+    { children: "投稿した教材", icon: <MenuBookIcon />, link: "/my_materials" },
+    {
+      children: "いいねした教材",
+      icon: <FavoriteBorderIcon />,
+      link: "/my_like",
+    },
+    // {
+  ];
 
   // サインアウトボタンをクリックした時
   const onClickSignOut = async (event) => {
