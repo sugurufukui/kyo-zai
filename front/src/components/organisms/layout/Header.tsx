@@ -18,10 +18,12 @@ import {
 } from "@mui/material";
 import { HamburgerButton } from "components/atoms/button/HamburgerButton";
 import HomeIcon from "@mui/icons-material/Home";
+import LoginIcon from "@mui/icons-material/Login";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@mui/icons-material/Search";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+// import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
@@ -63,8 +65,8 @@ export const Header: FC = memo(() => {
   ];
   const noAuthPages = [
     { children: "HOME", icon: <HomeIcon />, link: "/" },
-    { children: "新規登録", link: "/signup" },
-    { children: "ログイン", link: "/signin" },
+    { children: "新規登録", icon: <PersonAddIcon />, link: "/signup" },
+    { children: "ログイン", icon: <LoginIcon />, link: "/signin" },
   ];
   const avatarMenu = [
     {
@@ -179,7 +181,7 @@ export const Header: FC = memo(() => {
             {isSignedIn ? (
               <Box sx={{ flexGrow: 0 }}>
                 <IconButton onClick={onClickAvatar} sx={{ p: 1.5 }}>
-                  <Avatar alt="alt" src="https://source.unsplash.com/random" />
+                  <Avatar />
                 </IconButton>
                 <Menu
                   sx={{ mt: "45px" }}
