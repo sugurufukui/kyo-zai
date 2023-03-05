@@ -75,6 +75,7 @@ export const New: FC = memo(() => {
   return (
     <>
       <MaterialFormBody
+        title="教材新規作成"
         onClickSubmit={handleCreatePost}
         value={value}
         children="教材を登録する"

@@ -122,8 +122,8 @@ export const Edit: FC = memo(() => {
 
   return (
     <>
-      <p>編集画面です</p>
       <MaterialFormBody
+        title="教材編集"
         onClickSubmit={handleUpdatePost}
         value={value}
         children="教材の編集を完了する"
