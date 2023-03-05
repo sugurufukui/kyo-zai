@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  mount_uploader :image, ImageUploader
   has_many :materials, dependent: :destroy
   has_many :likes, dependent: :destroy
 
