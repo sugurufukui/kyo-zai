@@ -13,19 +13,23 @@ Rails.application.routes.draw do
       # 自分がいいねした教材
       get "/my_like", to: "materials#my_like_materials", as: :my_like_materials
 
-      mount_devise_token_auth_for 'User', at: 'auth',
-                                          controllers: {
-                                            registrations: 'api/v1/auth/registrations'
-                                          }
+      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+        registrations: 'api/v1/auth/registrations'
+      }
 
-      namespace :auth do
-        resources :sessions, only: %i[index]
+      # namespace :auth do
+      #   resources :sessions, only: %i[index]
+      # end
+
+      devise_scope :api_v1_user do
+        post 'auth/guest_sign_in', to: 'auth/sessions#guest_sign_in'
+        get 'auth/sessions', to: 'auth/sessions#index'
       end
 
-      # ゲストログイン機能
-      devise_scope :v1_user do
-        post "auth/guest_sign_in", to: "auth/sessions#guest_sign_in/"
-      end
+      # # ゲストログイン機能
+      # devise_scope :v1_user do
+      #   post "api/v1/auth/guest_sign_in", to: "api/v1/auth/sessions#guest_sign_in/"
+      # end
     end
   end
 end

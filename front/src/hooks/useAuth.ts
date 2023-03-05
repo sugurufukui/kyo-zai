@@ -1,5 +1,4 @@
 import { getCurrentUser } from "lib/api/auth";
-import { useSnackbar } from "providers/SnackbarProvider";
 import { useCallback, useEffect, useState } from "react";
 import { User } from "types/api/user";
 
@@ -12,28 +11,24 @@ export const useAuth = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | undefined>();
-  const { showSnackbar } = useSnackbar();
 
   const handleGetCurrentUser = useCallback(async () => {
     setLoading(true);
     try {
       const res = await getCurrentUser();
-      console.log(res);
-
       if (res?.status === 200) {
         setIsSignedIn(true);
         setCurrentUser(res?.data.data);
-        console.log(res?.data);
+        console.log(res?.data.data);
       } else {
-        showSnackbar("ユーザーが見つかりませんでした。", "error");
-        console.log(res?.data);
+        console.log("未ログイン状態");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }
 
     setLoading(false);
-  }, [showSnackbar]);
+  }, []);
 
   //サインイン時にhandleGetCurrentUserしてユーザーの情報をもたせた方がいい？
   useEffect(() => {
