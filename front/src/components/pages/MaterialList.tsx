@@ -7,6 +7,7 @@ import { useSelectMaterial } from "hooks/useSelectMaterial";
 import { AuthContext } from "providers/AuthProvider";
 
 import ReactPaginate from "react-paginate";
+import { Pagenate } from "components/molecules/Pagenate";
 
 type Props = {
   initialLikeCount: number;
@@ -38,10 +39,10 @@ export const MaterialList: FC<Props> = memo((props) => {
   );
   const handleClose = useCallback(() => setOpen(false), []);
 
-  // // 教材データの取得
-  // useEffect(() => {
-  //   getMaterials();
-  // }, [getMaterials]);
+  // 教材データの取得
+  useEffect(() => {
+    getMaterials();
+  }, [getMaterials]);
 
   // pagination関係
   // 1ページに表示する数を指定
@@ -68,41 +69,46 @@ export const MaterialList: FC<Props> = memo((props) => {
 
   // function PaginatedItems({ itemsPerPage }) {
 
-  // 1ページに表示する数を指定
-  const itemsPerPage = 8;
+  // // 1ページに表示する数を指定
+  // const itemsPerPage = 8;
 
   // 一つのページに表示する教材
   const [currentMaterials, setCurrentMaterials] = useState(null);
 
-  // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
-  const [pageCount, setPageCount] = useState(0);
+  // // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
+  // const [pageCount, setPageCount] = useState(0);
 
-  // ページの先頭の教材(何番目のアイテムから表示するか)
-  const [itemOffset, setItemOffset] = useState(0);
+  // // ページの先頭の教材(何番目のアイテムから表示するか)
+  // const [itemOffset, setItemOffset] = useState(0);
 
-  useEffect(() => {
-    // 教材データの取得
+  // useEffect(() => {
+  //   // 教材データの取得
 
-    getMaterials();
+  //   getMaterials();
 
-    // 次のページの先頭の教材 ページ番号＋1ページに表示する教材の数(8)
-    const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    // 一つのページに表示する教材
-    setCurrentMaterials(materials.slice(itemOffset, endOffset));
-    // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
-    setPageCount(Math.ceil(materials.length / itemsPerPage));
-  }, [getMaterials, itemOffset, itemsPerPage]);
+  //   // 次のページの先頭の教材 ページ番号＋1ページに表示する教材の数(8)
+  //   const endOffset = itemOffset + itemsPerPage;
+  //   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  //   // 一つのページに表示する教材
+  //   setCurrentMaterials(materials.slice(itemOffset, endOffset));
+  //   // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
+  //   setPageCount(Math.ceil(materials.length / itemsPerPage));
+  // }, [
+  //   getMaterials,
+  //   itemOffset,
+  //   itemsPerPage,
+  //   //  materials
+  // ]);
 
-  // クリック時のfunction
-  const handlePageClick = useCallback((e) => {
-    const newOffset = (e.selected * itemsPerPage) % materials.length;
-    console.log(
-      `User requested page number ${e.selected}, which is offset ${newOffset}`
-    );
-    // offsetを変更し、表示開始するアイテムの番号を変更
-    setItemOffset(newOffset);
-  }, []);
+  // // クリック時のfunction
+  // const handlePageClick = (e) => {
+  //   const newOffset = (e.selected * itemsPerPage) % materials.length;
+  //   console.log(
+  //     `User requested page number ${e.selected}, which is offset ${newOffset}`
+  //   );
+  //   // offsetを変更し、表示開始するアイテムの番号を変更
+  //   setItemOffset(newOffset);
+  // };
 
   // 教材があれば表示して、なければないことを表示する
   const MaterialData = useCallback(() => {
@@ -118,14 +124,9 @@ export const MaterialList: FC<Props> = memo((props) => {
               p: { xs: 3, md: 6 },
             }}
           >
-            {currentMaterials.map((material) => (
-              <Grid
-                key={material.id}
-                sx={{
-                  m: "auto",
-                  p: "4",
-                }}
-              >
+            {materials.map((material) => (
+              // {currentMaterials.map((material) => (
+              <Grid key={material.id} sx={{ m: "auto", p: "4" }}>
                 <MaterialCard
                   id={material.id}
                   imageUrl={material.image.url}
@@ -147,7 +148,11 @@ export const MaterialList: FC<Props> = memo((props) => {
             imageUrl={selectedMaterial?.image.url}
             initialLikeCount={likeCount}
           />
-          <Box sx={{ justifyContent: "center", textAlign: "center" }}>
+          {/* <Pagenate
+            materials={currentMaterials}
+            setCurrentMaterials={setCurrentMaterials}
+          /> */}
+          {/* <Box sx={{ justifyContent: "center", textAlign: "center" }}>
             <ReactPaginate
               pageCount={pageCount}
               onPageChange={handlePageClick} // クリック時のfunction
@@ -173,19 +178,20 @@ export const MaterialList: FC<Props> = memo((props) => {
               containerClassName="pagination"
               activeClassName="active"
             />
-          </Box>
+          </Box> */}
         </>
       );
     }
   }, [
-    currentMaterials,
+    materials,
+    // currentMaterials,
     // currentUser,
     handleClose,
     // handlePageClick,
     // likeCount,
     // materials.length,
     // onClickMaterial,
-    // open,
+    open,
     // pageCount,
     // selectedMaterial,
   ]);
