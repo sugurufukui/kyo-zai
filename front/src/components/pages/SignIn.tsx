@@ -9,7 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
 import { SignInParams } from "types/api/SignInParams";
-import { signIn } from "lib/api/auth";
+import { getGuestUserSignIn, signIn } from "lib/api/auth";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
 import { Divider } from "@mui/material";
 import { AuthContext } from "providers/AuthProvider";
@@ -46,16 +46,15 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        history.push("/materials");
-
-        // メッセージ
         showSnackbar("ログインしました", "success");
-        console.log("ログインしました");
-        console.log(res.data.data);
+        history.push("/materials");
       } else {
       }
     } catch (err) {
-      showSnackbar("そのユーザーは登録されていません", "error");
+      showSnackbar(
+        "メールアドレス または パスワード に誤りがあります",
+        "error"
+      );
 
       console.log(err);
     }
@@ -65,17 +64,11 @@ export const SignIn: FC = memo(() => {
   const onClickGuestSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const params: SignInParams = {
-      email: email,
-      password: password,
-    };
-
     try {
-      const res = await signIn(params);
+      const res = await getGuestUserSignIn();
       console.log(res);
 
       if (res.status === 200) {
-        // 成功した場合はCookieに各値を格納
         Cookies.set("_access_token", res.headers["access-token"]);
         Cookies.set("_client", res.headers["client"]);
         Cookies.set("_uid", res.headers["uid"]);
@@ -83,17 +76,11 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
+        showSnackbar("ゲストユーザーとしてログインしました", "success");
         history.push("/materials");
-
-        showSnackbar("ゲストログインしました", "success");
-        console.log("ゲストログインしました");
-        console.log(res.data.data);
-      } else {
       }
-    } catch (err) {
-      showSnackbar("ゲストログインできませんでした", "error");
-
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -129,8 +116,6 @@ export const SignIn: FC = memo(() => {
               autoComplete="current-password"
               onChange={(event) => setPassword(event.target.value)}
             />
-            {/* パスワードを表示するボタン */}
-            {/* パスワードを記憶するボタン */}
             <Box sx={{ flexGrow: 1 }}>
               <PrimaryButton
                 onClick={onClickSignIn}

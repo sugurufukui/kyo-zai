@@ -34,6 +34,7 @@ import {
   CardHeader,
   TextField,
 } from "@mui/material";
+import { CanNotUserEditToastButton } from "components/molecules/CanNotUserEditToastButton";
 
 // const useStyles = makeStyles((theme) => ({
 //   container: {
@@ -156,8 +157,7 @@ export const Account: FC = memo(() => {
                 margin="dense"
                 value={`${userProfile}`}
               /> */}
-              {/* ログインユーザーのidとqurryで取得したidが同じであるが「編集ボタン」は表示されない */}
-              {/* 編集画面を出すために一時コメントアウト */}
+
               {currentUser.id == query.id &&
               currentUser.email != "guest@example.com" ? (
                 <Button
@@ -174,8 +174,7 @@ export const Account: FC = memo(() => {
                 <></>
               )}
               {currentUser.email === "guest@example.com" && (
-                // <CanNotUserEditToastButton />
-                <p>あなたはデータ編集ができません</p>
+                <CanNotUserEditToastButton />
               )}
             </Box>
           </CardContent>
@@ -185,9 +184,9 @@ export const Account: FC = memo(() => {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => history.push("/materials")}
+        onClick={() => history.push("/my_materials")}
       >
-        ＜＜ マイページへ
+        ＜＜ あなたが投稿した教材を見る
       </Button>
     </>
   );
