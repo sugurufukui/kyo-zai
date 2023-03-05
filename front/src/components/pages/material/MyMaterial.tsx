@@ -46,7 +46,6 @@ export const MyMaterial: FC<Props> = memo((props) => {
 
   // 投稿した教材があれば表示して、なければないことを表示する
   const MaterialData = useCallback(() => {
-    // ログインユーザーの教材が1つ以上あればそのユーザーの教材のみを表示
     if (myMaterials.length >= 1) {
       return (
         <>
@@ -56,7 +55,7 @@ export const MyMaterial: FC<Props> = memo((props) => {
             sx={{
               flexWrap: "wrap",
               alignContent: "center",
-              p: { xs: 4, md: 10 },
+              p: { xs: 3, md: 6 },
               m: "4",
             }}
           >
@@ -109,7 +108,7 @@ export const MyMaterial: FC<Props> = memo((props) => {
 
   return (
     <>
-      <h1>{currentUser.email}さんの投稿一覧</h1>
+      <h1>{currentUser.name}さんの投稿一覧</h1>
       <button onClick={() => history.goBack}>戻る</button>
       {loading ? (
         <Box
