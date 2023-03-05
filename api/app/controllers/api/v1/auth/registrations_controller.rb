@@ -1,6 +1,5 @@
 # アカウント作成用コントローラー
 class Api::V1::Auth::RegistrationsController < DeviseTokenAuth::RegistrationsController
-
   # before_action :ensure_normal_user, %i[update destroy]
   # def ensure_normal_user
   #   if resource.email == 'guest@example.com'

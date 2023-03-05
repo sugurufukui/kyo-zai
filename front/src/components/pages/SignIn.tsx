@@ -8,15 +8,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
-
-// import { AuthContext } from "App";
-// import AlertMessage from "components/organisms/layout/AlertMessage";
-// import { signIn } from "lib/api/auth/signIn";
 import { SignInParams } from "types/api/SignInParams";
-import { signIn } from "lib/api/auth";
-import { PrimaryButton } from "components/atoms/PrimaryButton";
+import { getGuestUserSignIn, signIn } from "lib/api/auth";
+import { PrimaryButton } from "components/molecules/PrimaryButton";
 import { Divider } from "@mui/material";
-// import { Material } from "components/page//Material";
 import { AuthContext } from "providers/AuthProvider";
 import { useSnackbar } from "providers/SnackbarProvider";
 
@@ -51,16 +46,15 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        history.push("/materials");
-
-        // メッセージ
         showSnackbar("ログインしました", "success");
-        console.log("ログインしました");
-        console.log(res.data.data);
+        history.push("/materials");
       } else {
       }
     } catch (err) {
-      showSnackbar("そのユーザーは登録されていません", "error");
+      showSnackbar(
+        "メールアドレス または パスワード に誤りがあります",
+        "error"
+      );
 
       console.log(err);
     }
@@ -70,17 +64,11 @@ export const SignIn: FC = memo(() => {
   const onClickGuestSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const params: SignInParams = {
-      email: email,
-      password: password,
-    };
-
     try {
-      const res = await signIn(params);
+      const res = await getGuestUserSignIn();
       console.log(res);
 
       if (res.status === 200) {
-        // 成功した場合はCookieに各値を格納
         Cookies.set("_access_token", res.headers["access-token"]);
         Cookies.set("_client", res.headers["client"]);
         Cookies.set("_uid", res.headers["uid"]);
@@ -88,18 +76,11 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
+        showSnackbar("ゲストユーザーとしてログインしました", "success");
         history.push("/materials");
-
-        // メッセージ
-        showSnackbar("ゲストログインしました", "success");
-        console.log("ゲストログインしました");
-        console.log(res.data.data);
-      } else {
       }
-    } catch (err) {
-      showSnackbar("ゲストログインできませんでした", "error");
-
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -114,7 +95,7 @@ export const SignIn: FC = memo(() => {
             <TextField
               // textfieldと文字が重なる問題あり
               variant="outlined"
-              // required
+              required
               fullWidth
               label="メールアドレス"
               value={email}
@@ -125,7 +106,7 @@ export const SignIn: FC = memo(() => {
             <TextField
               // パスワードの表示非表示ボタンの追加
               variant="outlined"
-              // required
+              required
               fullWidth
               label="パスワード"
               type="password"
@@ -135,8 +116,6 @@ export const SignIn: FC = memo(() => {
               autoComplete="current-password"
               onChange={(event) => setPassword(event.target.value)}
             />
-            {/* パスワードを表示するボタン */}
-            {/* パスワードを記憶するボタン */}
             <Box sx={{ flexGrow: 1 }}>
               <PrimaryButton
                 onClick={onClickSignIn}
@@ -163,12 +142,6 @@ export const SignIn: FC = memo(() => {
           </CardContent>
         </Card>
       </form>
-      {/* <AlertMessage // エラーが発生した場合はアラートを表示 */}
-      {/* open={alertMessageOpen} */}
-      {/* setOpen={setAlertMessageOpen} */}
-      {/* severity="error" */}
-      {/* message="メールアドレスかパスワードが間違っています" */}
-      {/* /> */}
     </>
   );
 });

@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2023_01_25_214303) do
     t.string "name", null: false
     t.text "description", null: false
     t.bigint "user_id"
+    t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_materials_on_user_id"
