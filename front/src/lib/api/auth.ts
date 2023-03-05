@@ -26,7 +26,7 @@ export const signOut = () => {
   });
 };
 
-//認証済みのユーザーを取得
+//ログインユーザーを取得
 export const getCurrentUser = () => {
   if (
     !Cookies.get("_access_token") ||
@@ -35,6 +35,17 @@ export const getCurrentUser = () => {
   )
     return;
   return client.get("/auth/sessions", {
+    headers: {
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
+    },
+  });
+};
+
+// ゲストログイン
+export const getGuestUserSignIn = () => {
+  return client.post("/auth/guest_sign_in", {
     headers: {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
