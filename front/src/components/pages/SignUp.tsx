@@ -13,7 +13,7 @@ import { signUp } from "lib/api/auth";
 import { SignUpParams } from "types/api/SignUpParams";
 import { Box, Divider } from "@mui/material";
 import { useSnackbar } from "providers/SnackbarProvider";
-import { PrimaryButton } from "components/atoms/PrimaryButton";
+import { PrimaryButton } from "components/molecules/PrimaryButton";
 // サインアップ用ページ
 export const SignUp: FC = memo(() => {
   const histroy = useHistory();

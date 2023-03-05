@@ -10,7 +10,7 @@ import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
 import { SignInParams } from "types/api/SignInParams";
 import { signIn } from "lib/api/auth";
-import { PrimaryButton } from "components/atoms/PrimaryButton";
+import { PrimaryButton } from "components/molecules/PrimaryButton";
 import { Divider } from "@mui/material";
 import { AuthContext } from "providers/AuthProvider";
 import { useSnackbar } from "providers/SnackbarProvider";
@@ -19,7 +19,7 @@ import { useSnackbar } from "providers/SnackbarProvider";
 export const SignIn: FC = memo(() => {
   const history = useHistory();
 
-  const { setIsSignedIn, setCurrentUser, loading } = useContext(AuthContext);
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const { showSnackbar } = useSnackbar();
 
   const [email, setEmail] = useState<string>("");
@@ -48,13 +48,14 @@ export const SignIn: FC = memo(() => {
 
         history.push("/materials");
 
+        // メッセージ
         showSnackbar("ログインしました", "success");
         console.log("ログインしました");
         console.log(res.data.data);
       } else {
       }
     } catch (err) {
-      showSnackbar("ユーザーが見つかりませんでした。", "error");
+      showSnackbar("そのユーザーは登録されていません", "error");
 
       console.log(err);
     }
@@ -107,7 +108,7 @@ export const SignIn: FC = memo(() => {
             <TextField
               // textfieldと文字が重なる問題あり
               variant="outlined"
-              // required
+              required
               fullWidth
               label="メールアドレス"
               value={email}
@@ -118,7 +119,7 @@ export const SignIn: FC = memo(() => {
             <TextField
               // パスワードの表示非表示ボタンの追加
               variant="outlined"
-              // required
+              required
               fullWidth
               label="パスワード"
               type="password"
