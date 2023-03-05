@@ -13,6 +13,8 @@ import { Edit } from "components/pages/material/Edit";
 import { MyMaterial } from "components/pages/material/MyMaterial";
 // import { Page404 } from "../components/pages/Page404";
 import { MyLike } from "components/pages/material/MyLike";
+import { Account } from "components/pages/Account";
+import { AccountEdit } from "components/pages/AccountEdit";
 
 export const Router: FC = memo(() => {
   const { loading, isSignedIn } = useAuth();
@@ -46,18 +48,13 @@ export const Router: FC = memo(() => {
           <Private>
             <Switch>
               <Route exact path="/materials" component={MaterialList} />
-              {/* いいねした教材 */}
               <Route exact path="/my_like" component={MyLike} />
               <Route exact path="/materials/new" component={New} />
               <Route exact path="/materials/:id" component={Detail} />
-              {/* 自分の教材 */}
               <Route exact path="/my_materials" component={MyMaterial} />
-
               <Route exact path="/materials/edit/:id" component={Edit} />
-
-              {/* 検索ページ */}
-              {/* 投稿ページ */}
-              {/* マイページ */}
+              <Route exact path="/user/:id" component={Account} />
+              <Route exact path="/user/edit/:id" component={AccountEdit} />
             </Switch>
           </Private>
         </CommonLayout>
