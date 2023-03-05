@@ -1,10 +1,14 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
 
 import {
   Button,
   Card,
   CardHeader,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
   IconButton,
   Paper,
   TextField,
@@ -14,6 +18,12 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { Box } from "@mui/system";
 import CloseIcon from "@mui/icons-material/Close";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteMaterial } from "lib/api/material";
+import { useHistory, useParams } from "react-router-dom";
+import { MaterialType } from "types/api/materialType";
+
+import { useSnackbar } from "providers/SnackbarProvider";
 
 type Props = {
   title: string;
@@ -47,7 +57,76 @@ export const MaterialFormBody: FC<Props> = (props) => {
     onClickResetFile,
   } = props;
 
+  const history = useHistory();
+  const { showSnackbar } = useSnackbar();
+
   const isLoading = !image && !preview;
+
+  //削除する
+  const onClickDelete = useCallback(
+    async (item: MaterialType) => {
+      // ローディングスタート
+      console.log("click", item.id);
+      try {
+        const res = await deleteMaterial(item.id);
+        // 削除後に一覧ページに遷移する
+        history.push("/materials");
+        showSnackbar("削除しました", "success");
+      } catch (e) {
+        console.log(e);
+        showSnackbar("削除に失敗しました。", "error");
+      } finally {
+        // ローディング停止
+      }
+    },
+    [history, showSnackbar]
+  );
+  //削除確認用ダイアログ用
+  const [open, setOpen] = useState(false);
+  const query: any = useParams();
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const deleteDialogOpen = () => {
+    setOpen(true);
+  };
+  const DeleteDialog = useCallback(() => {
+    return (
+      <div>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              削除すると2度と復元することができません。
+            </DialogContentText>
+            <DialogContentText id="alert-dialog-description">
+              本当に削除してもよろしいですか？
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="outlined" onClick={handleClose} autoFocus>
+              やめる
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<DeleteIcon />}
+              onClick={() => onClickDelete(query)}
+            >
+              削除する
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  }, [onClickDelete, open, query]);
+
+  useEffect(() => {
+    DeleteDialog();
+  }, [DeleteDialog]);
 
   return (
     <>
@@ -90,7 +169,7 @@ export const MaterialFormBody: FC<Props> = (props) => {
             {/* 変更前の写真を表示 */}
             {value.image ? (
               <>
-                <Typography>変更前</Typography>
+                <Typography>現在使用している写真</Typography>
                 <div>
                   <Box>
                     <img
@@ -104,7 +183,7 @@ export const MaterialFormBody: FC<Props> = (props) => {
                 <Box sx={{ m: 4, height: 0, textAlign: "center" }}>
                   <KeyboardDoubleArrowDownRoundedIcon fontSize="large" />
                 </Box>
-                <Typography>変更後</Typography>
+                {/* <Typography>変更後</Typography> */}
               </>
             ) : (
               <></>
@@ -147,6 +226,13 @@ export const MaterialFormBody: FC<Props> = (props) => {
               <></>
             )}
           </div>
+          <Box>
+            {value.image && preview ? (
+              <Typography>新しい写真</Typography>
+            ) : (
+              <></>
+            )}
+          </Box>
 
           {/* 新規作成時 */}
           <div>
@@ -188,6 +274,24 @@ export const MaterialFormBody: FC<Props> = (props) => {
           >
             {children}
           </Button>
+          {value.image ? (
+            <>
+              <Button
+                variant="outlined"
+                size="large"
+                startIcon={<DeleteIcon />}
+                fullWidth
+                color="error"
+                onClick={() => deleteDialogOpen()}
+              >
+                削除する
+              </Button>
+              {/* /* 削除確認用ダイアログ  */}
+              <DeleteDialog />
+            </>
+          ) : (
+            <></>
+          )}
         </Card>
       </form>
     </>

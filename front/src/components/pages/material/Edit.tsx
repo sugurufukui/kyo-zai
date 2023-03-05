@@ -143,9 +143,6 @@ export const Edit: FC = memo(() => {
         preview={preview}
         disabled={!value}
       />
-      <Button variant="outlined" startIcon={<DeleteIcon />} color="error">
-        削除する
-      </Button>
       <Button
         variant="outlined"
         startIcon={<ReplyIcon />}
