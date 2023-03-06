@@ -18,18 +18,15 @@ export const useAuth = () => {
     setLoading(true);
     try {
       const res = await getCurrentUser();
-      console.log(res);
-
       if (res?.status === 200) {
         setIsSignedIn(true);
         setCurrentUser(res?.data.data);
-        console.log(res?.data);
+        console.log(res?.data.data);
       } else {
-        showSnackbar("ユーザーが見つかりませんでした。", "error");
-        console.log(res?.data);
+        console.log("未ログイン状態");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }
 
     setLoading(false);
