@@ -6,6 +6,7 @@ type Props = {
   materials: any;
   setCurrentMaterials: any;
 };
+// 使用していないコンポーネント
 
 export const Pagenate: FC<Props> = memo((props) => {
   const { materials, setCurrentMaterials } = props;

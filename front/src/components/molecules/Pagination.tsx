@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { MaterialType } from "types/api/materialType";
 
 // import "styles/App.scss";
 
-export const Pagination = (props) => {
+type Props = {
+  materials: MaterialType[];
+};
+// 使用していないコンポーネント
+export const Paginate: FC<Props> = (props) => {
   const { materials } = props;
 
   // 1ページに表示する数を指定
