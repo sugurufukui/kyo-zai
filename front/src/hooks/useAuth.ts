@@ -1,8 +1,3 @@
-// import axios from "axios";
-// import { useCallback, useState } from "react";
-// import { LoginParams } from "../types/api/LoginParams";
-// import { useHistory } from "react-router-dom";
-
 import { getCurrentUser } from "lib/api/auth";
 import { useCallback, useEffect, useState } from "react";
 import { User } from "types/api/user";
@@ -18,21 +13,18 @@ export const useAuth = () => {
   const [currentUser, setCurrentUser] = useState<User | undefined>();
 
   const handleGetCurrentUser = useCallback(async () => {
+    setLoading(true);
     try {
       const res = await getCurrentUser();
-      console.log(res);
-
       if (res?.status === 200) {
         setIsSignedIn(true);
         setCurrentUser(res?.data.data);
-        console.log(res?.data);
+        console.log(res?.data.data);
       } else {
-        // alert("ユーザーがいません");
-        console.log("ユーザーがいません");
-        console.log(res?.data);
+        console.log("未ログイン状態");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
     }
 
     setLoading(false);
