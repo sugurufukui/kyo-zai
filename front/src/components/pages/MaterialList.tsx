@@ -1,13 +1,14 @@
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid, Pagination } from "@mui/material";
 import { useAllMaterials } from "hooks/useAllMaterials";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { useSelectMaterial } from "hooks/useSelectMaterial";
 import { AuthContext } from "providers/AuthProvider";
+import { Paginate } from "components/molecules/Paginate";
+// import Paginate from "components/molecules/Pagenate";
 
-import ReactPaginate from "react-paginate";
-import { Pagenate } from "components/molecules/Pagenate";
+// import ReactPaginate from "react-paginate";
 
 type Props = {
   initialLikeCount: number;
@@ -15,7 +16,7 @@ type Props = {
 
 export const MaterialList: FC<Props> = memo((props) => {
   const { initialLikeCount } = props;
-  const { getMaterials, materials, loading } = useAllMaterials();
+  const { getMaterials, setMaterials, materials, loading } = useAllMaterials();
   const { currentUser } = useContext(AuthContext);
   const { onSelectMaterial, selectedMaterial } = useSelectMaterial();
   console.log(selectedMaterial);
@@ -44,70 +45,38 @@ export const MaterialList: FC<Props> = memo((props) => {
     getMaterials();
   }, [getMaterials]);
 
-  // pagination関係
-  // 1ページに表示する数を指定
-  // const itemsPerPage = 8;
-  // // ページの先頭の教材(何番目のアイテムから表示するか)
-  // const [itemsOffset, setItemsOffset] = useState(0);
-  // // 次のページの先頭の教材 ページ番号＋1ページに表示する教材の数(6)
-  // const endOffset = itemsOffset + itemsPerPage;
-  // // 一つのページに表示する教材
-  // const currentMaterials = materials?.slice(itemsOffset, endOffset);
-  // // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
-  // const pageCount = Math.ceil(materials?.length / itemsPerPage);
-  // // const handlePageClick = (e: { selected: number }) => {
-  // //   // クリックされた値から -1したもの
-  // //   console.log(e.selected);
-  // //   const newOffset = (e.selected * itemsPerPage) % materials.length; // クリックした部分のページ数が{selected: 2}のような形で返ってくる
-  // //   setItemsOffset(newOffset); // offsetを変更し、表示開始するアイテムの番号を変更
-  // // };
-  // // クリック時のfunction
-  // const handlePageClick = (data) => {
-  //   let page_number = data["selected"]; // クリックした部分のページ数が{selected: 2}のような形で返ってくる
-  //   setItemsOffset(page_number * itemsPerPage); // offsetを変更し、表示開始するアイテムの番号を変更
-  // };
-
-  // function PaginatedItems({ itemsPerPage }) {
+  // // // pagination関係
+  // // Paginateで表示する現在のページ番号
+  // const [page, setPage] = useState(1);
 
   // // 1ページに表示する数を指定
   // const itemsPerPage = 8;
-
-  // 一つのページに表示する教材
-  const [currentMaterials, setCurrentMaterials] = useState(null);
-
-  // // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
+  // // 一つのページに表示する教材
+  // const [currentMaterials, setCurrentMaterials] = useState(null);
+  // // 全ページ数
   // const [pageCount, setPageCount] = useState(0);
 
   // // ページの先頭の教材(何番目のアイテムから表示するか)
   // const [itemOffset, setItemOffset] = useState(0);
-
+  // const endOffset = itemOffset + itemsPerPage;
   // useEffect(() => {
-  //   // 教材データの取得
-
-  //   getMaterials();
-
-  //   // 次のページの先頭の教材 ページ番号＋1ページに表示する教材の数(8)
+  //   // endOffset: 次のページの先頭の教材 ページ番号＋1ページに表示する教材の数(8)
   //   const endOffset = itemOffset + itemsPerPage;
   //   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   //   // 一つのページに表示する教材
   //   setCurrentMaterials(materials.slice(itemOffset, endOffset));
   //   // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
   //   setPageCount(Math.ceil(materials.length / itemsPerPage));
-  // }, [
-  //   getMaterials,
-  //   itemOffset,
-  //   itemsPerPage,
-  //   //  materials
-  // ]);
+  // }, [itemOffset, itemsPerPage, materials]);
 
-  // // クリック時のfunction
-  // const handlePageClick = (e) => {
+  // // newOffset: offsetを変更し、表示開始するアイテムの番号を変更
+  // const handlePageClick = (e: React.ChangeEvent, value) => {
   //   const newOffset = (e.selected * itemsPerPage) % materials.length;
   //   console.log(
   //     `User requested page number ${e.selected}, which is offset ${newOffset}`
   //   );
-  //   // offsetを変更し、表示開始するアイテムの番号を変更
   //   setItemOffset(newOffset);
+  //   setPage(currentMaterials);
   // };
 
   // 教材があれば表示して、なければないことを表示する
@@ -117,6 +86,9 @@ export const MaterialList: FC<Props> = memo((props) => {
         <>
           <Grid
             container
+            display="flex"
+            // flexDirection={"column"}
+            alignItems="center"
             spacing={6}
             sx={{
               flexWrap: "wrap",
@@ -125,7 +97,6 @@ export const MaterialList: FC<Props> = memo((props) => {
             }}
           >
             {materials.map((material) => (
-              // {currentMaterials.map((material) => (
               <Grid key={material.id} sx={{ m: "auto", p: "4" }}>
                 <MaterialCard
                   id={material.id}
@@ -148,52 +119,39 @@ export const MaterialList: FC<Props> = memo((props) => {
             imageUrl={selectedMaterial?.image.url}
             initialLikeCount={likeCount}
           />
-          {/* <Pagenate
-            materials={currentMaterials}
-            setCurrentMaterials={setCurrentMaterials}
-          /> */}
-          {/* <Box sx={{ justifyContent: "center", textAlign: "center" }}>
-            <ReactPaginate
-              pageCount={pageCount}
-              onPageChange={handlePageClick} // クリック時のfunction
-              previousLabel="<"
-              nextLabel=">"
-              breakLabel="..."
-              marginPagesDisplayed={5} // 一番最初と最後を基準にして、そこからいくつページ数を表示するか
-              pageRangeDisplayed={5} // アクティブなページを基準にして、そこからいくつページ数を表示するか
-              // containerClassName={"pagination"} // ページネーションであるulに着くクラス名
-              // subContainerClassName={"pages pagination"}
-              // activeClassName={"active"} // アクティブなページのliに着くクラス名
-              // previousClassName={"pagination__previous"} // 「<」のliに着けるクラス名
-              // nextClassName={"pagination__next"} // 「>」のliに着けるクラス名
-              disabledClassName={"pagination__disabled"} // 使用不可の「<,>」に着くクラス名
-              pageClassName="page-item"
-              pageLinkClassName="page-link"
-              previousClassName="page-item"
-              previousLinkClassName="page-link"
-              nextClassName="page-item"
-              nextLinkClassName="page-link"
-              breakClassName="page-item"
-              breakLinkClassName="page-link"
-              containerClassName="pagination"
-              activeClassName="active"
-            />
-          </Box> */}
+          <Paginate
+          // setMaterials={(m) => setMaterials(m)}
+          />
+          //{" "}
+          {/* <Box
+            //   sx={{
+            //     justifyContent: "center",
+            //     alignItems: "center",
+            //     textAlign: "center",
+            //   }}
+            // > */}
+          //{" "}
+          {/* <Pagination
+            //     // The total number of pages.
+            //     count={pageCount}
+            //     // The current page.
+            //     page={page}
+            //     onChange={(e) => handlePageClick}
+            //     color="primary"
+            //   /> */}
+          // {/* </Box> */}
         </>
       );
     }
   }, [
-    materials,
-    // currentMaterials,
-    // currentUser,
+    currentUser,
     handleClose,
-    // handlePageClick,
-    // likeCount,
-    // materials.length,
-    // onClickMaterial,
+    likeCount,
+    materials,
+    onClickMaterial,
     open,
-    // pageCount,
-    // selectedMaterial,
+    selectedMaterial,
+    setMaterials,
   ]);
 
   return (

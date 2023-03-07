@@ -6,7 +6,6 @@ import {
 import { useCallback, useState } from "react";
 import { MaterialType } from "types/api/materialType";
 import { useSnackbar } from "providers/SnackbarProvider";
-import { User } from "types/api/user";
 
 export const useAllMaterials = () => {
   const [loading, setLoading] = useState(false);
@@ -75,6 +74,7 @@ export const useAllMaterials = () => {
     getMyMaterials,
     getLikeMaterials,
     materials,
+    setMaterials,
     myMaterials,
     likeMaterials,
     loading,
