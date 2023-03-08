@@ -74,7 +74,6 @@ export const useAllMaterials = () => {
     getMyMaterials,
     getLikeMaterials,
     materials,
-    setMaterials,
     myMaterials,
     likeMaterials,
     loading,
