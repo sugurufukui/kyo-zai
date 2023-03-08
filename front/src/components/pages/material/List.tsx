@@ -33,7 +33,7 @@ type Props = {
   initialLikeCount: number;
 };
 
-export const MaterialList: FC<Props> = memo((props) => {
+export const List: FC<Props> = memo((props) => {
   const { initialLikeCount } = props;
   const { getMaterials, materials, loading } = useAllMaterials();
   const { currentUser } = useContext(AuthContext);
