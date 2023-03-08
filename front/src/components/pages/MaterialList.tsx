@@ -5,10 +5,29 @@ import { useAllMaterials } from "hooks/useAllMaterials";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { useSelectMaterial } from "hooks/useSelectMaterial";
 import { AuthContext } from "providers/AuthProvider";
-import { Paginate } from "components/molecules/Paginate";
-// import Paginate from "components/molecules/Pagenate";
 
-// import ReactPaginate from "react-paginate";
+export const paginator = (items, current_page, per_page_items) => {
+  let page = current_page || 1, // page = 現在のページまたは1ページ目
+    per_page = per_page_items, // 1ページに表示する数を指定
+    offset = (page - 1) * per_page, //  ページの先頭の教材(何番目のアイテムから表示するか)(ページ数 - 1 * 1ページに表示する数) 3ページ目の場合は、(3-1)*8=16 ページの先頭の教材は16番目
+    paginatedItems = items.slice(offset).slice(0, per_page_items), //1ページに表示する教材の配列
+    total_pages = Math.ceil(items.length / per_page); // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
+  console.log(
+    `${page}ページ目を表示中。（${offset}番目から${
+      offset + per_page_items
+    }番目の教材）`
+  );
+
+  return {
+    page: page,
+    per_page: per_page,
+    pre_page: page - 1 ? page - 1 : null, //現在のページ数-1ができるなら表示させて押下時にページ数を-1に できないのであれば、非活性にする
+    next_page: total_pages > page ? page + 1 : null, //現在のページよりも全ページ数の方が大きければ、押下可能。できない場合は非活性。
+    total: items.length,
+    total_pages: total_pages,
+    data: paginatedItems,
+  };
+};
 
 type Props = {
   initialLikeCount: number;
@@ -16,13 +35,37 @@ type Props = {
 
 export const MaterialList: FC<Props> = memo((props) => {
   const { initialLikeCount } = props;
-  const { getMaterials, setMaterials, materials, loading } = useAllMaterials();
+  const { getMaterials, materials, loading } = useAllMaterials();
   const { currentUser } = useContext(AuthContext);
   const { onSelectMaterial, selectedMaterial } = useSelectMaterial();
-  console.log(selectedMaterial);
+  console.log("選択した教材", selectedMaterial);
+
+  //ページネーション関係
+  const count = Math.ceil(materials.length / 8);
+  const [page, setPage] = useState(1);
+  const handleChange = useCallback(
+    (event, value) => {
+      setPage(paginator(materials, value, 8).page);
+    },
+    [materials]
+  );
+  // const [checked, setChecked] = useState([]);
+  // const handleOnChange = useCallback(
+  //   (e, index) => {
+  //     let prev = checked;
+  //     let itemIndex = prev.indexOf(index);
+  //     if (itemIndex !== -1) {
+  //       prev.splice(itemIndex, 1);
+  //     } else {
+  //       prev.push(index);
+  //     }
+  //     setChecked([...prev]);
+  //   },
+  //   [checked]
+  // );
+  // console.log(checked);
 
   // いいね関係
-  //いいねの数を管理
   const [likeCount, setLikeCount] = useState(initialLikeCount);
 
   //モーダル関係
@@ -45,40 +88,6 @@ export const MaterialList: FC<Props> = memo((props) => {
     getMaterials();
   }, [getMaterials]);
 
-  // // // pagination関係
-  // // Paginateで表示する現在のページ番号
-  // const [page, setPage] = useState(1);
-
-  // // 1ページに表示する数を指定
-  // const itemsPerPage = 8;
-  // // 一つのページに表示する教材
-  // const [currentMaterials, setCurrentMaterials] = useState(null);
-  // // 全ページ数
-  // const [pageCount, setPageCount] = useState(0);
-
-  // // ページの先頭の教材(何番目のアイテムから表示するか)
-  // const [itemOffset, setItemOffset] = useState(0);
-  // const endOffset = itemOffset + itemsPerPage;
-  // useEffect(() => {
-  //   // endOffset: 次のページの先頭の教材 ページ番号＋1ページに表示する教材の数(8)
-  //   const endOffset = itemOffset + itemsPerPage;
-  //   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  //   // 一つのページに表示する教材
-  //   setCurrentMaterials(materials.slice(itemOffset, endOffset));
-  //   // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
-  //   setPageCount(Math.ceil(materials.length / itemsPerPage));
-  // }, [itemOffset, itemsPerPage, materials]);
-
-  // // newOffset: offsetを変更し、表示開始するアイテムの番号を変更
-  // const handlePageClick = (e: React.ChangeEvent, value) => {
-  //   const newOffset = (e.selected * itemsPerPage) % materials.length;
-  //   console.log(
-  //     `User requested page number ${e.selected}, which is offset ${newOffset}`
-  //   );
-  //   setItemOffset(newOffset);
-  //   setPage(currentMaterials);
-  // };
-
   // 教材があれば表示して、なければないことを表示する
   const MaterialData = useCallback(() => {
     if (materials.length >= 1) {
@@ -87,16 +96,14 @@ export const MaterialList: FC<Props> = memo((props) => {
           <Grid
             container
             display="flex"
-            // flexDirection={"column"}
             alignItems="center"
             spacing={6}
             sx={{
               flexWrap: "wrap",
-              // alignContent: "center",
               p: { xs: 3, md: 6 },
             }}
           >
-            {materials.map((material) => (
+            {paginator(materials, page, 8).data.map((material) => (
               <Grid key={material.id} sx={{ m: "auto", p: "4" }}>
                 <MaterialCard
                   id={material.id}
@@ -119,39 +126,31 @@ export const MaterialList: FC<Props> = memo((props) => {
             imageUrl={selectedMaterial?.image.url}
             initialLikeCount={likeCount}
           />
-          <Paginate
-          // setMaterials={(m) => setMaterials(m)}
-          />
-          //{" "}
-          {/* <Box
-            //   sx={{
-            //     justifyContent: "center",
-            //     alignItems: "center",
-            //     textAlign: "center",
-            //   }}
-            // > */}
-          //{" "}
-          {/* <Pagination
-            //     // The total number of pages.
-            //     count={pageCount}
-            //     // The current page.
-            //     page={page}
-            //     onChange={(e) => handlePageClick}
-            //     color="primary"
-            //   /> */}
-          // {/* </Box> */}
+          <Box style={{ display: "flex", justifyContent: "center" }}>
+            <Pagination
+              count={count}
+              page={page}
+              onChange={handleChange}
+              // onClick={(e) => {
+              //   handleOnChange(e, page);
+              // }}
+              color="primary"
+            />
+          </Box>
         </>
       );
     }
   }, [
+    count,
     currentUser,
+    handleChange,
     handleClose,
     likeCount,
     materials,
     onClickMaterial,
     open,
+    page,
     selectedMaterial,
-    setMaterials,
   ]);
 
   return (
