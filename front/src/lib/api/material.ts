@@ -1,27 +1,10 @@
 import { client } from "lib/api/client";
 import Cookies from "js-cookie";
-import { useAllMaterials } from "hooks/useAllMaterials";
 
 // 教材一覧
 export const getAllMaterial = () => {
   return client.get("/materials");
 };
-
-// // const { materials } = useAllMaterials();
-// export const service = {
-//   getData: ({ from, to }) => {
-//     return new Promise((resolve, reject) => {
-//       const data = materials.slice(from, to);
-
-//       resolve({
-//         count: materials.length,
-//         data: data,
-//       });
-//     });
-//   },
-// };
-
-// // export default service;
 
 // 自分が作成した教材一覧
 // export const getUserMaterial = () => {
