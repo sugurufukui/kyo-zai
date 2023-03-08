@@ -86,14 +86,14 @@ export const Account: FC = memo(() => {
       if (!loading) {
         if (isSignedIn) {
           const res = await getUserId(query.id);
-          console.log("query", query);
+          // console.log("query", query);
           console.log(res.data);
           setUserProfile(res.data);
-          console.log(userProfile);
+          // console.log(userProfile);
           setAccountId(res.data.id);
-          console.log(accountId);
-          console.log(query.id);
-          console.log(currentUser.id);
+          // console.log(accountId);
+          // console.log(query.id);
+          // console.log(currentUser.id);
 
           // setImageUrl(res.data.image.url);
         } else {
@@ -180,14 +180,23 @@ export const Account: FC = memo(() => {
           </CardContent>
         </Card>
       </form>
-
+      <Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => history.push("/my_materials")}
+        >
+          ＜＜ あなたが投稿した教材を見る
+        </Button>
+      </Box>
       <Button
         variant="contained"
         color="primary"
-        onClick={() => history.push("/my_materials")}
+        onClick={() => history.push("/my_like")}
       >
-        ＜＜ あなたが投稿した教材を見る
+        ＜＜ あなたがいいね🤍した教材を見る
       </Button>
+      <Box></Box>
     </>
   );
 });
