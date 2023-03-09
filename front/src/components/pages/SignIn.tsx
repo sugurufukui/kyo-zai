@@ -25,6 +25,7 @@ export const SignIn: FC = memo(() => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  // 通常ログインボタン押下時
   const onClickSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -86,8 +87,7 @@ export const SignIn: FC = memo(() => {
 
   return (
     <>
-      <form noValidate autoComplete="off">
-        {/* カードとして教材一覧等にも使えるようにコンポーネント化する */}
+      <form noValidate>
         <Card sx={{ p: 4, borderRadius: "md" }}>
           <CardHeader sx={{ textAlign: "center" }} title="ログイン" />
           <Divider sx={{ my: 2 }} />
@@ -99,21 +99,22 @@ export const SignIn: FC = memo(() => {
               fullWidth
               label="メールアドレス"
               value={email}
+              type="email"
+              autoComplete="email"
               margin="dense"
               onChange={(event) => setEmail(event.target.value)}
               autoFocus
             />
             <TextField
-              // パスワードの表示非表示ボタンの追加
               variant="outlined"
               required
               fullWidth
               label="パスワード"
-              type="password"
-              placeholder="6文字以上"
               value={password}
-              margin="dense"
+              type="password"
               autoComplete="current-password"
+              margin="dense"
+              placeholder="6文字以上"
               onChange={(event) => setPassword(event.target.value)}
             />
             <Box sx={{ flexGrow: 1 }}>
@@ -125,16 +126,20 @@ export const SignIn: FC = memo(() => {
                 ログイン
               </PrimaryButton>
             </Box>
-            <Box textAlign="center">
+            <Box textAlign="center" sx={{ pt: 2 }}>
               <Typography variant="body2">
                 まだアカウントをお持ちでない方は
                 <Link to="/signup">こちら</Link>
                 から作成してください。
               </Typography>
             </Box>
-            <Divider sx={{ my: 4 }} />
-            {/* ゲストログイン機能 */}
+            <Divider sx={{ my: 3 }} />
             <Box sx={{ flexGrow: 1 }}>
+              <Box textAlign="center" sx={{ pb: 1 }}>
+                <Typography variant="body2">
+                  お試しで使ってみたい方はゲストとしてログインしてください。
+                </Typography>
+              </Box>
               <PrimaryButton onClick={onClickGuestSignIn} fullWidth>
                 ゲストログインはこちら
               </PrimaryButton>
