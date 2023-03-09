@@ -15,6 +15,7 @@ import { MyMaterial } from "components/pages/material/MyMaterial";
 import { MyLike } from "components/pages/material/MyLike";
 import { Account } from "components/pages/Account";
 import { AccountEdit } from "components/pages/AccountEdit";
+import { Page404 } from "components/pages/Page404";
 
 export const Router: FC = memo(() => {
   const { loading, isSignedIn } = useAuth();
@@ -55,6 +56,9 @@ export const Router: FC = memo(() => {
               <Route exact path="/materials/edit/:id" component={Edit} />
               <Route exact path="/user/:id" component={Account} />
               <Route exact path="/user/edit/:id" component={AccountEdit} />
+              <Route path="*">
+                <Page404 />
+              </Route>
             </Switch>
           </Private>
         </CommonLayout>
