@@ -59,7 +59,7 @@ export const Header: FC = memo(() => {
   // auth ? authPages : noAuthPages;
   // 共通しているものは一つにまとめるか？
   const authPages = [
-    { children: "HOME", icon: <HomeIcon />, link: "/", color: "primary" },
+    { children: "HOME", icon: <HomeIcon />, link: "/" },
     { children: "教材一覧", icon: <MenuBookIcon />, link: "/materials" },
     // { children: "検索", icon: <SearchIcon />, link: "/" },
     { children: "投稿", icon: <PostAddIcon />, link: "/materials/new" },
