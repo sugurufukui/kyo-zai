@@ -5,8 +5,8 @@ const theme = createTheme({
     mode: "light",
     primary: {
       main: "#319795",
-      // light: "#33ab9f",
-      // dark: "#00695f",
+      light: "#33ab9f",
+      dark: "#00695f",
     },
     error: {
       main: "#CE3256",
