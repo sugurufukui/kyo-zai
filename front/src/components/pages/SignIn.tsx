@@ -95,7 +95,6 @@ export const SignIn: FC = memo(() => {
             <TextField
               // textfieldと文字が重なる問題あり
               variant="outlined"
-              required
               fullWidth
               label="メールアドレス"
               value={email}
@@ -107,7 +106,6 @@ export const SignIn: FC = memo(() => {
             />
             <TextField
               variant="outlined"
-              required
               fullWidth
               label="パスワード"
               value={password}
@@ -117,7 +115,7 @@ export const SignIn: FC = memo(() => {
               placeholder="6文字以上"
               onChange={(event) => setPassword(event.target.value)}
             />
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, mt: 3 }}>
               <PrimaryButton
                 onClick={onClickSignIn}
                 disabled={!email || !password ? true : false}
@@ -128,7 +126,7 @@ export const SignIn: FC = memo(() => {
             </Box>
             <Box textAlign="center" sx={{ pt: 2 }}>
               <Typography variant="body2">
-                まだアカウントをお持ちでない方は
+                アカウントをお持ちでない方は
                 <Link to="/signup">こちら</Link>
                 から作成してください。
               </Typography>
