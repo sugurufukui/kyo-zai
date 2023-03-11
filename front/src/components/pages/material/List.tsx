@@ -49,21 +49,6 @@ export const List: FC<Props> = memo((props) => {
     },
     [materials]
   );
-  // const [checked, setChecked] = useState([]);
-  // const handleOnChange = useCallback(
-  //   (e, index) => {
-  //     let prev = checked;
-  //     let itemIndex = prev.indexOf(index);
-  //     if (itemIndex !== -1) {
-  //       prev.splice(itemIndex, 1);
-  //     } else {
-  //       prev.push(index);
-  //     }
-  //     setChecked([...prev]);
-  //   },
-  //   [checked]
-  // );
-  // console.log(checked);
 
   // いいね関係
   const [likeCount, setLikeCount] = useState(initialLikeCount);
@@ -82,7 +67,6 @@ export const List: FC<Props> = memo((props) => {
     [materials, onSelectMaterial]
   );
   const handleClose = useCallback(() => setOpen(false), []);
-
   // 教材データの取得
   useEffect(() => {
     getMaterials();
@@ -131,9 +115,6 @@ export const List: FC<Props> = memo((props) => {
               count={count}
               page={page}
               onChange={handleChange}
-              // onClick={(e) => {
-              //   handleOnChange(e, page);
-              // }}
               color="primary"
             />
           </Box>

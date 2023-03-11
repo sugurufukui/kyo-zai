@@ -93,7 +93,6 @@ export const SignIn: FC = memo(() => {
           <Divider sx={{ my: 2 }} />
           <CardContent>
             <TextField
-              // textfieldと文字が重なる問題あり
               variant="outlined"
               fullWidth
               label="メールアドレス"
