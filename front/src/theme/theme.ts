@@ -74,7 +74,7 @@ const theme = createTheme({
         },
         input: {
           // paddingTop: "10px",
-          paddingBottom: "8px",
+          // paddingBottom: "8px",
           height: "auto",
         },
         notchedOutline: {

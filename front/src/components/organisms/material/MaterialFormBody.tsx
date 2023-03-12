@@ -9,6 +9,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Divider,
   IconButton,
   Paper,
   TextField,
@@ -16,7 +17,7 @@ import {
 } from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { Box } from "@mui/system";
-import CloseIcon from "@mui/icons-material/Close";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteMaterial } from "lib/api/material";
@@ -24,6 +25,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { MaterialType } from "types/api/materialType";
 
 import { useSnackbar } from "providers/SnackbarProvider";
+import { grey } from "@mui/material/colors";
 
 type Props = {
   title: string;
@@ -131,47 +133,43 @@ export const MaterialFormBody: FC<Props> = (props) => {
   return (
     <>
       <form autoComplete="off" onSubmit={onClickSubmit}>
-        <Card>
-          <CardHeader title={title} />
+        <Card sx={{ p: 4, borderRadius: "md" }}>
+          <CardHeader sx={{ textAlign: "center" }} title={title} />
+          <Divider sx={{ my: 2 }} />
           <TextField
             variant="outlined"
-            required
             fullWidth
             id="name"
             label="教材の名前"
-            name="name"
-            type="text"
-            margin="dense"
-            autoFocus
-            // placeholder="教材の名前"
-            // rows="2"
             value={value.name}
+            type="text"
+            name="name"
+            margin="dense"
             onChange={onChangeName}
+            autoFocus
           />
           <TextField
             variant="outlined"
-            required
             fullWidth
             id="description"
             label="教材の説明文"
+            value={value.description}
             type="description"
             name="description"
-            // placeholder="教材の説明文"
             multiline
             rows="4"
             margin="dense"
-            value={value.description}
             onChange={onChangeDescription}
           />
-
-          {/* 編集画面に表示 */}
           <div>
-            {/* 変更前の写真を表示 */}
+            {/* 編集時に変更前の写真を表示 */}
             {value.image ? (
-              <>
-                <Typography>現在使用している写真</Typography>
+              <Box sx={{ mt: 1 }}>
+                <Typography fontWeight="bold" color="gray" variant="subtitle2">
+                  現在使用している写真
+                </Typography>
                 <div>
-                  <Box>
+                  <Box textAlign="center" sx={{ pt: 2 }}>
                     <img
                       src={value.image}
                       alt="変更前の写真"
@@ -183,16 +181,15 @@ export const MaterialFormBody: FC<Props> = (props) => {
                 <Box sx={{ m: 4, height: 0, textAlign: "center" }}>
                   <KeyboardDoubleArrowDownRoundedIcon fontSize="large" />
                 </Box>
-                {/* <Typography>変更後</Typography> */}
-              </>
+              </Box>
             ) : (
               <></>
             )}
           </div>
-          {/* 新しい画像を未選択時には選択ボタン表示。選択後は非表示*/}
+          {/* 新規投稿時、編集時共に新しい画像を未選択時には選択ボタン表示。選択後は非表示*/}
           <div>
             {!preview ? (
-              <>
+              <Box sx={{ mt: 1 }}>
                 <label htmlFor="icon-button-file">
                   <input
                     accept="image/*"
@@ -204,88 +201,91 @@ export const MaterialFormBody: FC<Props> = (props) => {
 
                   <IconButton color="inherit" component="span">
                     <PhotoCameraIcon />
-                    <Typography>教材の写真を選択</Typography>
+                    <Typography
+                      fontWeight="bold"
+                      color="gray"
+                      variant="subtitle2"
+                    >
+                      教材の写真を選択
+                    </Typography>
                   </IconButton>
-                </label>
-                <Box
-                  sx={{
-                    display: "flex",
 
-                    "& > :not(style)": {
-                      m: 1,
-                      width: (260 * 4) / 3,
+                  <Box
+                    textAlign="center"
+                    sx={{
+                      pt: 2,
                       height: 260,
                       backgroundColor: "#EDF2F7",
-                    },
-                  }}
-                >
-                  <Paper elevation={3} />
-                </Box>
-              </>
-            ) : (
-              <></>
-            )}
-          </div>
-          <Box>
-            {value.image && preview ? (
-              <Typography>新しい写真</Typography>
-            ) : (
-              <></>
-            )}
-          </Box>
-
-          {/* 新規作成時 */}
-          <div>
-            {preview ? (
-              isLoading ? (
-                <Box sx={{ display: "flex", justifyContent: "center" }}>
-                  <CircularProgress />
-                </Box>
-              ) : (
-                <div>
-                  <Box>
-                    <Box sx={{ height: 0, textAlign: "right" }}>
-                      <IconButton onClick={onClickResetFile}>
-                        <CloseIcon />
-                      </IconButton>
-                    </Box>
-
-                    <img
-                      src={preview}
-                      alt="preview img"
-                      width={(260 * 4) / 3}
-                      height={260}
-                    />
+                      ":hover": { cursor: "pointer" },
+                    }}
+                  >
+                    <Paper elevation={3} />
                   </Box>
-                </div>
-              )
-            ) : null}
+                </label>
+              </Box>
+            ) : (
+              <Box sx={{ mt: 1 }}>
+                <Typography fontWeight="bold" color="gray" variant="subtitle2">
+                  新しい写真
+                </Typography>
+                {isLoading ? (
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <CircularProgress />
+                  </Box>
+                ) : (
+                  <div>
+                    <Box>
+                      <Box sx={{ height: 0, textAlign: "right" }}>
+                        <IconButton onClick={onClickResetFile}>
+                          <HighlightOffIcon
+                            fontSize="large"
+                            sx={{ color: grey[800] }}
+                          />
+                        </IconButton>
+                      </Box>
+                      <Box textAlign="center">
+                        <img
+                          src={preview}
+                          alt="preview img"
+                          width={(260 * 4) / 3}
+                          height={260}
+                        />
+                      </Box>
+                    </Box>
+                  </div>
+                )}
+              </Box>
+            )}
           </div>
 
           {/* 一度押したら画面遷移するまで押せない仕様に */}
-          <Button
-            type="submit"
-            variant="outlined"
-            startIcon={startIcon}
-            size="large"
-            fullWidth
-            color="primary"
-            disabled={disabled}
-          >
-            {children}
-          </Button>
+          <Box sx={{ flexGrow: 1, mt: 3 }}>
+            <Button
+              type="submit"
+              variant="outlined"
+              startIcon={startIcon}
+              size="large"
+              fullWidth
+              color="primary"
+              disabled={disabled}
+            >
+              {children}
+            </Button>
+          </Box>
           {value.image ? (
             <>
-              <Button
-                variant="outlined"
-                size="large"
-                startIcon={<DeleteIcon />}
-                fullWidth
-                color="error"
-                onClick={() => deleteDialogOpen()}
-              >
-                削除する
-              </Button>
+              <Box sx={{ flexGrow: 1, mt: 3 }}>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  startIcon={<DeleteIcon />}
+                  fullWidth
+                  color="error"
+                  onClick={() => deleteDialogOpen()}
+                >
+                  削除する
+                </Button>
+              </Box>
               {/* /* 削除確認用ダイアログ  */}
               <DeleteDialog />
             </>
