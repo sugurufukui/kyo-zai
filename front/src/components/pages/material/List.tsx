@@ -66,6 +66,7 @@ export const List: FC<Props> = memo((props) => {
     },
     [materials, onSelectMaterial]
   );
+
   const handleClose = useCallback(() => setOpen(false), []);
   // 教材データの取得
   useEffect(() => {
