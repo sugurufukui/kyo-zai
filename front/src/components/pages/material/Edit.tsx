@@ -1,7 +1,7 @@
 import { getDetailMaterial, updateMaterial } from "lib/api/material";
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { MaterialFormBody } from "components/organisms/material/MaterialFormBody";
-import { Redirect, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useSnackbar } from "providers/SnackbarProvider";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 import ReplyIcon from "@mui/icons-material/Reply";
@@ -54,7 +54,8 @@ export const Edit: FC = memo(() => {
       }
     } catch (e) {
       console.log(e);
-      history.push("/notfound404");
+      alert("あかんん");
+      // history.push("/notfound404");
     }
   };
 
@@ -120,8 +121,8 @@ export const Edit: FC = memo(() => {
       // paramsの値にdata=formDataの値を代入
       const res = await updateMaterial(query.id, data);
       console.log(res);
-      // リクエストが成功したら一覧画面に推移
-      history.push("/materials/:id");
+      // リクエストが成功したら編集した教材の詳細画面に推移
+      history.push(`/materials/${query.id}`);
       showSnackbar("教材を編集しました", "success");
     } catch (e) {
       console.log(e);
