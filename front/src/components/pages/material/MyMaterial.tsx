@@ -7,6 +7,7 @@ import { useSelectMyMaterial } from "hooks/useSelectMyMaterial";
 import { AuthContext } from "providers/AuthProvider";
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 
 export const paginator = (items, current_page, per_page_items) => {
   let page = current_page || 1, // page = 現在のページまたは1ページ目
@@ -19,6 +20,7 @@ export const paginator = (items, current_page, per_page_items) => {
       offset + per_page_items
     }番目の教材）`
   );
+
   return {
     page: page,
     per_page: per_page,
@@ -53,7 +55,6 @@ export const MyMaterial: FC<Props> = memo((props) => {
   );
 
   // いいね関係
-  //いいねの数を管理
   const [likeCount, setLikeCount] = useState(initialLikeCount);
 
   // //モーダル関係
@@ -83,12 +84,12 @@ export const MyMaterial: FC<Props> = memo((props) => {
         <>
           <Grid
             container
+            display="flex"
+            alignItems="center"
             spacing={6}
             sx={{
               flexWrap: "wrap",
-              alignContent: "center",
               p: { xs: 3, md: 6 },
-              m: "4",
             }}
           >
             {paginator(myMaterials, page, 8).data.map((myMaterial) => (
@@ -129,9 +130,16 @@ export const MyMaterial: FC<Props> = memo((props) => {
         <>
           <h2>投稿した教材はありません</h2>
           <h2>ぜひ投稿してみましょう！！</h2>
-          <Button onClick={() => history.push("/materials/new")}>
-            教材を投稿してみる
-          </Button>
+          <Box sx={{ mt: 5 }}>
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={() => history.push("/materials/new")}
+            >
+              <PostAddIcon /> 教材を投稿してみる
+            </Button>
+          </Box>
         </>
       );
     }
@@ -152,7 +160,7 @@ export const MyMaterial: FC<Props> = memo((props) => {
   return (
     <>
       <h1>{currentUser.name}さんの投稿一覧</h1>
-      <Button variant="contained" onClick={() => history.goBack()}>
+      <Button variant="outlined" onClick={() => history.goBack()}>
         戻る
       </Button>{" "}
       {loading ? (
