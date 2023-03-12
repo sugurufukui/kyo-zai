@@ -24,7 +24,8 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import { Box } from "@mui/system";
-// import { DeleteDialog } from "components/molecules/DeleteDialog";
+import { Page404 } from "components/pages/Page404";
+
 type Props = {
   initialLikeCount: number;
 };
@@ -60,6 +61,7 @@ export const Detail: FC<Props> = memo((props) => {
       });
     } catch (e) {
       console.log(e);
+      history.push("/notfound404");
     }
   };
 
