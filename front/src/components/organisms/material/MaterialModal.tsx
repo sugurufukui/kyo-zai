@@ -1,13 +1,15 @@
 import { FC, memo } from "react";
 import { useHistory } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import { Box, Button, Modal, TextField } from "@mui/material";
+import { Box, Button, IconButton, Modal, TextField } from "@mui/material";
 
 import { MaterialType } from "types/api/materialType";
 import { LikeButton } from "components/molecules/LikeButton";
 import { User } from "types/api/user";
 import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import ImageSearchTwoToneIcon from "@mui/icons-material/ImageSearchTwoTone";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { grey } from "@mui/material/colors";
 
 type Props = {
   material: MaterialType | null;
@@ -52,6 +54,11 @@ export const MaterialModal: FC<Props> = memo((props) => {
             my: 3,
           }}
         >
+          <Box sx={{ height: 0, textAlign: "right" }}>
+            <IconButton onClick={onClose}>
+              <HighlightOffIcon fontSize="large" sx={{ color: grey[800] }} />
+            </IconButton>
+          </Box>
           <Box alignItems="center" textAlign="center" sx={{ pt: 2 }}>
             <img
               src={imageUrl}
