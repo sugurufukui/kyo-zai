@@ -18,6 +18,7 @@ export const paginator = (items, current_page, per_page_items) => {
       offset + per_page_items
     }番目の教材）`
   );
+
   return {
     page: page,
     per_page: per_page,
@@ -54,7 +55,6 @@ export const MyLike: FC<Props> = memo((props) => {
   );
 
   // いいね関係
-  //いいねの数を管理
   const [likeCount, setLikeCount] = useState(initialLikeCount);
 
   //モーダル関係
@@ -85,12 +85,12 @@ export const MyLike: FC<Props> = memo((props) => {
         <>
           <Grid
             container
+            display="flex"
+            alignItems="center"
             spacing={6}
             sx={{
               flexWrap: "wrap",
-              alignContent: "center",
-              p: { xs: 4, md: 10 },
-              m: "4",
+              p: { xs: 3, md: 6 },
             }}
           >
             {paginator(likeMaterials, page, 8).data.map((likeMaterial) => (
