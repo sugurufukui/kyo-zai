@@ -157,7 +157,6 @@ export const MaterialFormBody: FC<Props> = (props) => {
             type="description"
             name="description"
             multiline
-            rows="4"
             margin="dense"
             onChange={onChangeDescription}
           />
