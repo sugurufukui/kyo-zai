@@ -54,8 +54,7 @@ export const Edit: FC = memo(() => {
       }
     } catch (e) {
       console.log(e);
-      alert("あかんん");
-      // history.push("/notfound404");
+      history.push("/notfound404");
     }
   };
 
