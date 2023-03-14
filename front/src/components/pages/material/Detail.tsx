@@ -9,22 +9,32 @@ import { useSnackbar } from "providers/SnackbarProvider";
 import { AuthContext } from "providers/AuthProvider";
 import { LikeButton } from "components/molecules/LikeButton";
 import ReplyIcon from "@mui/icons-material/Reply";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import { likedCheck } from "lib/api/like";
-// import { useLike } from "hooks/useLike";
 import {
+  Avatar,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   Grid,
+  Paper,
+  Stack,
+  styled,
+  TextField,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import { Box } from "@mui/system";
-import { Page404 } from "components/pages/Page404";
+import moment from "moment";
 
 type Props = {
   initialLikeCount: number;
@@ -43,6 +53,8 @@ export const Detail: FC<Props> = memo((props) => {
     name: "",
     description: "",
     userId: 0,
+    image: undefined,
+    createdAt: "",
   });
 
   const { currentUser } = useContext(AuthContext);
@@ -58,9 +70,12 @@ export const Detail: FC<Props> = memo((props) => {
         name: res.data.name,
         description: res.data.description,
         userId: res.data.userId,
+        image: res.data.image.url,
+        createdAt: res.data.createdAt,
       });
     } catch (e) {
       console.log(e);
+      showSnackbar("その教材は存在しません", "error");
       history.push("/notfound404");
     }
   };
@@ -166,53 +181,108 @@ export const Detail: FC<Props> = memo((props) => {
         </Box>
       ) : (
         <>
-          <Grid container justifyContent="center" textAlign="center">
-            <Grid item xs={8}>
-              教材の情報
-              <p>教材詳細ページです</p>
-              <div>教材のID:{value?.id}</div>
-              <div>名前:{value?.name}</div>
-              <div>説明:{value?.description}</div>
-              <div>作成者ID:{value?.userId}</div>
-              <LikeButton
-                materialId={query.id}
-                currentUser={currentUser}
-                initialLikeCount={likeCount}
-              />
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={8}>
+              <Card>
+                <CardContent sx={{ textAlign: "center" }}>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {value?.name}
+                  </Typography>
+                </CardContent>
+                <CardContent sx={{ textAlign: "center" }}>
+                  <CardMedia
+                    component="img"
+                    sx={{ width: "90%", display: "inline" }}
+                    image={value?.image}
+                    title={value?.name}
+                  />
+                </CardContent>
+                <CardContent sx={{ pl: { xs: 3, md: 5 } }}>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    sx={{ mb: 1 }}
+                  >
+                    教材の説明
+                  </Typography>
+                  <Typography variant="body1">{value?.description}</Typography>
+                </CardContent>
+                <CardContent sx={{ pl: { xs: 3, md: 5 } }}>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    sx={{ mb: 1 }}
+                  >
+                    いいねの数
+                  </Typography>
+                  <LikeButton
+                    materialId={value?.id}
+                    currentUser={currentUser}
+                    initialLikeCount={initialLikeCount}
+                  />
+                </CardContent>
+                <CardContent>
+                  <Typography variant="body2" color="text.secondary">
+                    投稿日：{moment(value?.createdAt).format("YYYY-MM-DD")}
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
-            <Grid item xs={4}>
-              作成したユーザーの情報
+
+            <Grid item xs={12} md={4}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" color="text.secondary">
+                    つくったひと
+                  </Typography>
+                </CardContent>
+                <CardContent>
+                  <Avatar />
+                  <Typography
+                    variant="h6"
+                    color="text.secondary"
+                    sx={{ mb: 1 }}
+                  >
+                    {currentUser.name}
+                  </Typography>
+                </CardContent>
+                <CardContent sx={{ textAlign: "center" }}>
+                  <Stack spacing={2}>
+                    {currentUser.id === value?.userId ? (
+                      <>
+                        <Button
+                          variant="outlined"
+                          onClick={() =>
+                            history.push(`/materials/edit/${value?.id}`)
+                          }
+                          startIcon={<BuildRoundedIcon />}
+                          sx={{ p: "3" }}
+                        >
+                          教材を編集する
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          startIcon={<DeleteIcon />}
+                          onClick={() => deleteDialogOpen()}
+                          color="error"
+                        >
+                          教材を削除する
+                        </Button>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </Stack>
+                </CardContent>
+                <DeleteDialog />
+              </Card>
               <Button
-                // color=""
+                variant="contained"
                 startIcon={<ReplyIcon />}
-                onClick={() => history.goBack()}
+                onClick={() => history.push("/materials")}
               >
-                戻る
+                教材一覧ページへ
               </Button>
-              {currentUser.id === value?.userId ? (
-                <Button
-                  onClick={() => history.push(`/materials/edit/${value?.id}`)}
-                  startIcon={<BuildRoundedIcon />}
-                >
-                  編集する
-                </Button>
-              ) : (
-                <></>
-              )}
-              {currentUser.id === value.userId ? (
-                <Button
-                  variant="outlined"
-                  startIcon={<DeleteIcon />}
-                  onClick={() => deleteDialogOpen()}
-                  color="error"
-                >
-                  削除する
-                </Button>
-              ) : (
-                <></>
-              )}
-              {/*  削除確認用ダイアログ */}
-              <DeleteDialog />
             </Grid>
           </Grid>
         </>
