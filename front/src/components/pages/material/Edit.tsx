@@ -54,6 +54,7 @@ export const Edit: FC = memo(() => {
       }
     } catch (e) {
       console.log(e);
+      showSnackbar("その教材は存在しません", "error");
       history.push("/notfound404");
     }
   };
