@@ -55,17 +55,28 @@ export const Router: FC = memo(() => {
               <Route exact path="/materials/edit/:id" component={Edit} />
               <Route exact path="/user/:id" component={Account} />
               <Route exact path="/user/edit/:id" component={AccountEdit} />
-              <Route path="* ">
+              {/* 　これがあると①指定されたURL以外にアクセスすると、意図通り404ページが返される②ログイン時、非ログイン時、ともに、“/”(HOMEページ)の下部に404ページが表示される */}
+              {/* <Route>
                 <Page404 />
-              </Route>
+              </Route> */}
+
+              {/* これがあると、以前は意図通りに404ページが表示されたが現在はされなくなった。 */}
+              {/* <Route path="* ">
+                <Page404 />
+              </Route> */}
               <Route exact path="/notfound404">
                 <Page404 />
               </Route>
             </Switch>
           </Private>
-          <Route path="* ">
+          {/*  これがあると全ページに404が出力される */}
+          {/* <Route>
             <Page404 />
-          </Route>
+          </Route> */}
+          {/* これがあると、以前は意図通りに404ページが表示されたが現在はされなくなった。 */}
+          {/* <Route path="* ">
+            <Page404 />
+          </Route> */}
         </CommonLayout>
       </AuthProvider>
     </Switch>
