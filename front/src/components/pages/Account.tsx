@@ -46,7 +46,6 @@ export const Account: FC = memo(() => {
           const res = await getUserId(query.id);
           console.log(res.data);
           setUserProfile(res.data);
-
           setAccountId(res.data.id);
         } else {
           console.log("error");
@@ -63,6 +62,7 @@ export const Account: FC = memo(() => {
   useEffect(() => {
     handleGetUserProfile(query);
   }, [query, handleGetUserProfile]);
+
   return (
     <>
       <form noValidate autoComplete="off">
