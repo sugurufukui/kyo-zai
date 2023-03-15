@@ -21,9 +21,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-// import SearchIcon from "@mui/icons-material/Search";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-// import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -37,29 +35,30 @@ import LogoIcon from "images/top.png";
 import { useSnackbar } from "providers/SnackbarProvider";
 
 export const Header: FC = memo(() => {
-  const [menuOpened, setMenuOpened] = useState(null);
-  const [drawerOpened, setDrawerOpened] = useState(false);
-
-  const { showSnackbar } = useSnackbar();
-
-  const onClickAvatar = (event: React.MouseEvent<HTMLElement>) => {
-    setMenuOpened(event.currentTarget);
+  //アバターメニュー関係
+  const [avatarMenuOpened, setAvatarMenuOpened] = useState(false);
+  const onClickAvatar = (e: React.MouseEvent<HTMLElement>) => {
+    // setAvatarMenuOpened(e.currentTarget);
+    setAvatarMenuOpened(true);
   };
-
   const onCloseAvatarMenu = () => {
-    setMenuOpened(null);
+    setAvatarMenuOpened(false);
   };
+  // アラート
+  const { showSnackbar } = useSnackbar();
+  // ドロワー関係
+  const [drawerOpened, setDrawerOpened] = useState(false);
 
   const { loading, isSignedIn, setIsSignedIn, currentUser } =
     useContext(AuthContext);
 
-  const histroy = useHistory();
+  const history = useHistory();
 
   // if文 三項演算子でかけるか？
   // auth ? authPages : noAuthPages;
   // 共通しているものは一つにまとめるか？
   const authPages = [
-    { children: "HOME", icon: <HomeIcon />, link: "/", color: "primary" },
+    { children: "HOME", icon: <HomeIcon />, link: "/" },
     { children: "教材一覧", icon: <MenuBookIcon />, link: "/materials" },
     // { children: "検索", icon: <SearchIcon />, link: "/" },
     { children: "投稿", icon: <PostAddIcon />, link: "/materials/new" },
@@ -81,7 +80,6 @@ export const Header: FC = memo(() => {
       icon: <FavoriteBorderIcon />,
       link: "/my_like",
     },
-    // {
   ];
 
   // サインアウトボタンをクリックした時
@@ -96,7 +94,7 @@ export const Header: FC = memo(() => {
         Cookies.remove("_uid");
 
         setIsSignedIn(false);
-        histroy.push("/signin");
+        history.push("/signin");
 
         // ログアウトの確認モーダルを表示
         showSnackbar("ログアウトしました", "success");
@@ -154,6 +152,7 @@ export const Header: FC = memo(() => {
         );
       }
     } else {
+      // ローディング終了時
       return <></>;
     }
   };
@@ -165,7 +164,6 @@ export const Header: FC = memo(() => {
           <Container>
             <Toolbar disableGutters>
               <Typography component="div" sx={{ flexGrow: 1 }}>
-                {/* リンクの範囲が広い問題 */}
                 <Link to="/">
                   <img
                     src={`${LogoIcon}`}
@@ -189,17 +187,23 @@ export const Header: FC = memo(() => {
                   >
                     <Avatar />
                   </IconButton>
+                  {/* Warning: Failed prop type: MUI: The `anchorEl` prop provided to the component is invalid.
+The anchor element should be part of the document layout.
+Make sure the element is present in the document or that it's not display none.
+警告 プロップタイプに失敗しました。MUIです。コンポーネントに提供された `anchorEl` プロップは無効です。
+アンカー要素は、ドキュメントレイアウトの一部であるべきです。
+アンカー要素がドキュメントに存在するか、表示なしであることを確認してください。*/}
                   <Menu
                     sx={{ mt: "45px" }}
                     id="menu-appbar"
-                    anchorEl={menuOpened}
+                    // anchorEl={avatarMenuOpened}
                     anchorOrigin={{ vertical: "top", horizontal: "right" }}
                     keepMounted
                     transformOrigin={{
                       vertical: "top",
                       horizontal: "right",
                     }}
-                    open={menuOpened}
+                    open={avatarMenuOpened}
                     onClose={onCloseAvatarMenu}
                   >
                     {avatarMenu.map((userMaterial) => (
@@ -216,9 +220,8 @@ export const Header: FC = memo(() => {
                       </MenuItem>
                     ))}
                     <Divider />
-                    {/* クリックしたときにドロワーの非表示とログアウトを一緒にしようとしたらエラー */}
                     <MenuItem key="ログアウト" onClick={onClickSignOut}>
-                      <LogoutIcon />
+                      <LogoutIcon color="action" />
                       <Typography align="center">ログアウト</Typography>
                     </MenuItem>
                   </Menu>
@@ -228,13 +231,6 @@ export const Header: FC = memo(() => {
               )}
 
               <HamburgerButton onOpen={() => setDrawerOpened(true)} />
-            </Toolbar>
-            {/* ドロワーの実装（コンポーネント化） */}
-            <div>
-              {/* ログイン/日ログインの出し分け */}
-              {authPages.map((authpage) => (
-                <Button key={authpage.children}></Button>
-              ))}
               <SwipeableDrawer
                 anchor={"right"}
                 open={drawerOpened}
@@ -243,18 +239,15 @@ export const Header: FC = memo(() => {
                 PaperProps={{
                   sx: {
                     backgroundColor: "#006666",
-                    // color: "rgba(225,249,27,1)",
-                    // backgroundColor: "transparent",
                     boxShadow: "none",
                     textAlign: "center",
                   },
                 }}
                 sx={{ width: "30%" }}
               >
-                {/* ドロワー内のボタンをクリックして要求された画面が出たらドロワーを閉じる */}
                 <AuthButtons />
               </SwipeableDrawer>
-            </div>
+            </Toolbar>
           </Container>
         </AppBar>
       </Box>

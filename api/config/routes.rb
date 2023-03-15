@@ -17,19 +17,11 @@ Rails.application.routes.draw do
         registrations: 'api/v1/auth/registrations'
       }
 
-      # namespace :auth do
-      #   resources :sessions, only: %i[index]
-      # end
-
       devise_scope :api_v1_user do
+        # ゲストログイン機能
         post 'auth/guest_sign_in', to: 'auth/sessions#guest_sign_in'
         get 'auth/sessions', to: 'auth/sessions#index'
       end
-
-      # # ゲストログイン機能
-      # devise_scope :v1_user do
-      #   post "api/v1/auth/guest_sign_in", to: "api/v1/auth/sessions#guest_sign_in/"
-      # end
     end
   end
 end

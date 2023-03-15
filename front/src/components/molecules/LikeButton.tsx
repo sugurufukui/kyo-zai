@@ -48,7 +48,7 @@ export const LikeButton: FC<Props> = memo((props) => {
     } catch (e) {
       console.log(e);
     }
-  }, [currentUser.id, materialId]);
+  }, [currentUser?.id, materialId]);
 
   //いいね追加時
   const clickToLike = _.debounce(async () => {
