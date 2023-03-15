@@ -4,6 +4,8 @@ import { createMaterial } from "lib/api/material";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "providers/SnackbarProvider";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import { Button } from "@mui/material";
+import ReplyIcon from "@mui/icons-material/Reply";
 
 export const New: FC = memo(() => {
   const history = useHistory();
@@ -95,7 +97,13 @@ export const New: FC = memo(() => {
         preview={preview}
         disabled={!name || !description || !image}
       />
-      <button onClick={() => history.goBack()}>戻る</button>
+      <Button
+        variant="contained"
+        startIcon={<ReplyIcon />}
+        onClick={() => history.goBack()}
+      >
+        戻る
+      </Button>
     </>
   );
 });
