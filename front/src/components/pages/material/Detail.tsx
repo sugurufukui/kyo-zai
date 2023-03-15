@@ -1,6 +1,6 @@
 import { FC, memo, useState, useEffect, useContext, useCallback } from "react";
 
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { MaterialType } from "types/api/materialType";
 import { deleteMaterial, getDetailMaterial } from "lib/api/material";
@@ -9,14 +9,12 @@ import { useSnackbar } from "providers/SnackbarProvider";
 import { AuthContext } from "providers/AuthProvider";
 import { LikeButton } from "components/molecules/LikeButton";
 import ReplyIcon from "@mui/icons-material/Reply";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import { likedCheck } from "lib/api/like";
 import {
   Avatar,
   Button,
   Card,
-  CardActions,
   CardContent,
   CardMedia,
   CircularProgress,
@@ -25,10 +23,7 @@ import {
   DialogContent,
   DialogContentText,
   Grid,
-  Paper,
   Stack,
-  styled,
-  TextField,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -61,7 +56,7 @@ export const Detail: FC<Props> = memo((props) => {
   const { showSnackbar } = useSnackbar();
 
   // 教材詳細API(materials_controllerのshowの中のjsonの内容を引用)
-  const getDetail = async (query: any) => {
+  const getDetail = useCallback(async (query: any) => {
     try {
       const res = await getDetailMaterial(query.id);
       console.log(res.data);
@@ -78,7 +73,7 @@ export const Detail: FC<Props> = memo((props) => {
       showSnackbar("その教材は存在しません", "error");
       history.push("/notfound404");
     }
-  };
+  }, []);
 
   //削除する
   const onClickDelete = useCallback(
