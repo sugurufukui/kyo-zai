@@ -6,13 +6,7 @@ import React, {
   memo,
   useCallback,
 } from "react";
-import {
-  // Redirect,
-  useHistory,
-  // Link,
-  // withRouter,
-  useParams,
-} from "react-router-dom";
+import { Redirect, useHistory, useParams } from "react-router-dom";
 
 // api
 import { getUserId } from "lib/api/user";
@@ -20,52 +14,18 @@ import { getUserId } from "lib/api/user";
 // context
 import { AuthContext } from "providers/AuthProvider";
 
-// import CanNotUserEditToastButton from "../commons/CanNotUserEditToastButton";
-
 import { User } from "types/api/user";
-// style
 
 import {
-  // Avatar,
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
+  Divider,
   TextField,
 } from "@mui/material";
 import { CanNotUserEditToastButton } from "components/molecules/CanNotUserEditToastButton";
-
-// const useStyles = makeStyles((theme) => ({
-//   container: {
-//     marginTop: theme.spacing(6),
-//   },
-//   submitBtn: {
-//     marginTop: theme.spacing(2),
-//     flexGrow: 1,
-//     textTransform: "none",
-//   },
-//   header: {
-//     textAlign: "center",
-//     backgroundColor: "#192e43",
-//     color: "white",
-//   },
-//   card: {
-//     padding: theme.spacing(2),
-//     maxWidth: 400,
-//   },
-//   box: {
-//     marginTop: "2rem",
-//   },
-//   link: {
-//     textDecoration: "none",
-//   },
-
-//   avatarSize: {
-//     width: 64,
-//     height: 64,
-//   },
-// }));
 
 export const Account: FC = memo(() => {
   const { loading, isSignedIn, currentUser } = useContext(AuthContext);
@@ -75,8 +35,6 @@ export const Account: FC = memo(() => {
   const [userProfile, setUserProfile] = useState<User>();
   // userのidを格納
   const [accountId, setAccountId] = useState();
-  // const [imageUrl, setImageUrl] = useState();
-
   const history = useHistory();
   const query: any = useParams();
 
@@ -86,25 +44,17 @@ export const Account: FC = memo(() => {
       if (!loading) {
         if (isSignedIn) {
           const res = await getUserId(query.id);
-          console.log("query", query);
           console.log(res.data);
           setUserProfile(res.data);
-          console.log(userProfile);
           setAccountId(res.data.id);
-          console.log(accountId);
-          console.log(query.id);
-          console.log(currentUser.id);
-
-          // setImageUrl(res.data.image.url);
         } else {
           console.log("error");
-          // <Redirect to="/signin" />;
+          <Redirect to="/signin" />;
         }
       }
     } catch (e) {
       console.log(e);
-
-      // history.push("/notfound404");
+      history.push("/notfound404");
     }
   }, []);
 
@@ -112,82 +62,89 @@ export const Account: FC = memo(() => {
   useEffect(() => {
     handleGetUserProfile(query);
   }, [query, handleGetUserProfile]);
+
   return (
     <>
       <form noValidate autoComplete="off">
-        <Card>
-          <CardHeader title={`${userProfile?.name}`} />
+        <Card sx={{ p: 4, borderRadius: "md" }}>
+          <CardHeader sx={{ textAlign: "center" }} title="アカウント情報" />
+          <Divider sx={{ my: 2 }} />
           <CardContent>
-            <Box textAlign="center">
-              {/* <Avatar src={imageUrl ? imageUrl : ""} alt="" /> */}
+            <TextField
+              variant="outlined"
+              fullWidth
+              color="primary"
+              focused
+              id="name"
+              label="名前"
+              name="name"
+              type="text"
+              margin="dense"
+              value={`${userProfile?.name}`}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            {/* emailはログインユーザーでないと見ることはできない。*/}
+            {currentUser.id == query.id ? (
               <TextField
-                variant="standard"
+                variant="outlined"
                 fullWidth
-                id="name"
-                label="Name"
-                name="name"
-                type="text"
+                color="primary"
+                focused
+                id="email"
+                label="メールアドレス"
+                name="email"
+                type="email"
                 margin="dense"
-                value={`${userProfile?.name}`}
+                value={`${userProfile?.email}`}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
-              {/* emailはログインユーザーでないと見ることはできない。*/}
-              {currentUser.id == query.id ? (
-                <TextField
-                  variant="standard"
-                  fullWidth
-                  id="email"
-                  label="email"
-                  name="email"
-                  type="text"
-                  margin="dense"
-                  value={`${userProfile?.email}`}
-                />
-              ) : (
-                <></>
-              )}
-              {/* <TextField
-                variant="standard"
+            ) : (
+              <></>
+            )}
+            {/* ゲストユーザー以外のログインユーザーに編集可能ボタン出現 */}
+            {currentUser.id == query.id &&
+            currentUser.email != "guest@example.com" ? (
+              <Button
+                variant="outlined"
+                color="primary"
                 fullWidth
-                multiline
-                maxRows={4}
-                id="metadata"
-                label="Info"
-                name="metadata"
-                type="text"
-                margin="dense"
-                value={`${userProfile}`}
-              /> */}
-
-              {currentUser.id == query.id &&
-              currentUser.email != "guest@example.com" ? (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  // startIcon={<EditIcon />}
-                  style={{ marginTop: "1rem" }}
-                  onClick={() => history.push(`/user/edit/${accountId}`)}
-                >
-                  編集
-                </Button>
-              ) : (
-                <></>
-              )}
-              {currentUser.email === "guest@example.com" && (
+                style={{ marginTop: "2rem" }}
+                onClick={() => history.push(`/user/edit/${accountId}`)}
+              >
+                編集
+              </Button>
+            ) : (
+              <></>
+            )}
+            {currentUser.email === "guest@example.com" && (
+              <Box sx={{ flexGrow: 1, mt: 3 }}>
                 <CanNotUserEditToastButton />
-              )}
-            </Box>
+              </Box>
+            )}
           </CardContent>
         </Card>
       </form>
-
+      <Box sx={{ mb: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => history.push("/my_materials")}
+        >
+          ＜＜ あなたが投稿した教材を見る
+        </Button>
+      </Box>
       <Button
         variant="contained"
         color="primary"
-        onClick={() => history.push("/my_materials")}
+        onClick={() => history.push("/my_like")}
       >
-        ＜＜ あなたが投稿した教材を見る
+        ＜＜ あなたがいいね🤍した教材を見る
       </Button>
+      <Box></Box>
     </>
   );
 });

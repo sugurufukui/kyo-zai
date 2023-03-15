@@ -17,9 +17,6 @@ export const HamburgerButton: FC<Props> = memo((props) => {
         aria-haspopup="true"
         onClick={onOpen}
         style={{ color: "white" }}
-        // sx={{
-        //   ":hover": { bgcolor: "primary" },
-        // }}
       >
         <MenuIcon />
       </IconButton>

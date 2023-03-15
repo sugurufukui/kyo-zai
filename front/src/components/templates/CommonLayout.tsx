@@ -19,12 +19,11 @@ export const CommonLayout: FC<Props> = memo((props) => {
       </header>
       <main>
         <Container maxWidth="lg">
-          <Grid sx={{ mt: 4 }} container justifyContent="center">
+          <Grid sx={{ my: 4 }} container justifyContent="center">
             <Grid item>{children}</Grid>
           </Grid>
         </Container>
       </main>
-      {/* footer用意する */}
     </>
   );
 });
