@@ -1,4 +1,4 @@
-import { FC, memo, ReactElement } from "react";
+import { FC, memo, ReactElement, ReactNode } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { CommonLayout } from "components/templates/CommonLayout";
 import { SignUp } from "components/pages/SignUp";
@@ -6,15 +6,15 @@ import { SignIn } from "components/pages/SignIn";
 import { Home } from "components/pages/Home";
 import { AuthProvider } from "providers/AuthProvider";
 import { useAuth } from "hooks/useAuth";
-import { MaterialList } from "components/pages/MaterialList";
+import { List } from "components/pages/material/List";
 import { Detail } from "components/pages/material/Detail";
 import { New } from "components/pages/material/New";
 import { Edit } from "components/pages/material/Edit";
 import { MyMaterial } from "components/pages/material/MyMaterial";
-// import { Page404 } from "../components/pages/Page404";
 import { MyLike } from "components/pages/material/MyLike";
 import { Account } from "components/pages/Account";
 import { AccountEdit } from "components/pages/AccountEdit";
+import { Page404 } from "components/pages/Page404";
 
 export const Router: FC = memo(() => {
   const { loading, isSignedIn } = useAuth();
@@ -43,11 +43,11 @@ export const Router: FC = memo(() => {
       <AuthProvider>
         <CommonLayout>
           <Route exact path="/" component={Home} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/signin" component={SignIn} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/signin" component={SignIn} />
           <Private>
             <Switch>
-              <Route exact path="/materials" component={MaterialList} />
+              <Route exact path="/materials" component={List} />
               <Route exact path="/my_like" component={MyLike} />
               <Route exact path="/materials/new" component={New} />
               <Route exact path="/materials/:id" component={Detail} />
@@ -55,8 +55,28 @@ export const Router: FC = memo(() => {
               <Route exact path="/materials/edit/:id" component={Edit} />
               <Route exact path="/user/:id" component={Account} />
               <Route exact path="/user/edit/:id" component={AccountEdit} />
+              {/* 　これがあると①指定されたURL以外にアクセスすると、意図通り404ページが返される②ログイン時、非ログイン時、ともに、“/”(HOMEページ)の下部に404ページが表示される */}
+              {/* <Route>
+                <Page404 />
+              </Route> */}
+
+              {/* これがあると、以前は意図通りに404ページが表示されたが現在はされなくなった。 */}
+              {/* <Route path="* ">
+                <Page404 />
+              </Route> */}
+              <Route exact path="/notfound404">
+                <Page404 />
+              </Route>
             </Switch>
           </Private>
+          {/*  これがあると全ページに404が出力される */}
+          {/* <Route>
+            <Page404 />
+          </Route> */}
+          {/* これがあると、以前は意図通りに404ページが表示されたが現在はされなくなった。 */}
+          {/* <Route path="* ">
+            <Page404 />
+          </Route> */}
         </CommonLayout>
       </AuthProvider>
     </Switch>

@@ -1,13 +1,13 @@
 import { getDetailMaterial, updateMaterial } from "lib/api/material";
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { MaterialFormBody } from "components/organisms/material/MaterialFormBody";
 import { useHistory, useParams } from "react-router-dom";
 import { useSnackbar } from "providers/SnackbarProvider";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 import ReplyIcon from "@mui/icons-material/Reply";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import { Button } from "@mui/material";
+import { AuthContext } from "providers/AuthProvider";
 
 export const Edit: FC = memo(() => {
   // 一覧からreact-router-domを使ってidを取得
@@ -25,6 +25,8 @@ export const Edit: FC = memo(() => {
   >(undefined);
 
   const history = useHistory();
+  const { currentUser } = useContext(AuthContext);
+
   const { showSnackbar } = useSnackbar();
 
   // 画面が描画されたときとqueryが更新された時にデータを取得する関数を実行
@@ -38,15 +40,22 @@ export const Edit: FC = memo(() => {
       const res = await getDetailMaterial(query.id);
       console.log("res.data", res.data);
       console.log("res.data.image.url", res.data.image.url);
-
-      // 使う値のみstateにセットする
-      setValue({
-        name: res.data.name,
-        description: res.data.description,
-        image: res.data.image.url,
-      });
+      // 他のユーザーの教材編集画面には推移させない
+      if (currentUser.id == res.data.userId) {
+        // 使う値のみstateにセットする
+        setValue({
+          name: res.data.name,
+          description: res.data.description,
+          image: res.data.image.url,
+        });
+      } else {
+        history.push("/");
+        showSnackbar("他のユーザーが作成した教材は編集できません", "error");
+      }
     } catch (e) {
       console.log(e);
+      showSnackbar("その教材は存在しません", "error");
+      history.push("/notfound404");
     }
   };
 
@@ -112,8 +121,8 @@ export const Edit: FC = memo(() => {
       // paramsの値にdata=formDataの値を代入
       const res = await updateMaterial(query.id, data);
       console.log(res);
-      // リクエストが成功したら一覧画面に推移
-      history.push("/materials");
+      // リクエストが成功したら編集した教材の詳細画面に推移
+      history.push(`/materials/${query.id}`);
       showSnackbar("教材を編集しました", "success");
     } catch (e) {
       console.log(e);
@@ -145,7 +154,7 @@ export const Edit: FC = memo(() => {
       />
 
       <Button
-        variant="outlined"
+        variant="contained"
         startIcon={<ReplyIcon />}
         onClick={() => history.goBack()}
       >

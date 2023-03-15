@@ -2,10 +2,7 @@ import { FC, memo } from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { LikeButton } from "components/molecules/LikeButton";
 import { User } from "types/api/user";
 import { Box } from "@mui/system";
@@ -64,11 +61,13 @@ export const MaterialCard: FC<Props> = memo((props) => {
           <CardContent sx={{ p: 1, textAlign: "center" }}>
             <Typography sx={{ variant: "h3" }}>{materialName}</Typography>
           </CardContent>
-          <LikeButton
-            materialId={materialId}
-            currentUser={currentUser}
-            initialLikeCount={initialLikeCount}
-          />
+          <Box sx={{ textAlign: "right" }}>
+            <LikeButton
+              materialId={materialId}
+              currentUser={currentUser}
+              initialLikeCount={initialLikeCount}
+            />
+          </Box>
         </Card>
       </Box>
     </>

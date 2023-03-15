@@ -1,22 +1,22 @@
 import React, { useState, useContext, FC, memo } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import Button from "@mui/material/Button";
 
 import { AuthContext } from "providers/AuthProvider";
 import { signUp } from "lib/api/auth";
 import { SignUpParams } from "types/api/SignUpParams";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { useSnackbar } from "providers/SnackbarProvider";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
 // サインアップ用ページ
+
 export const SignUp: FC = memo(() => {
-  const histroy = useHistory();
+  const history = useHistory();
 
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
 
@@ -26,6 +26,7 @@ export const SignUp: FC = memo(() => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const { showSnackbar } = useSnackbar();
 
+  // 登録ボタン押下時
   const onClickRegister = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -42,7 +43,7 @@ export const SignUp: FC = memo(() => {
 
       if (res.status === 200) {
         // アカウント作成と同時にサインインさせてしまう
-        //メール認証を挟む
+        //メール認証を挟みたい
 
         Cookies.set("_access_token", res.headers["access-token"]);
         Cookies.set("_client", res.headers["client"]);
@@ -51,72 +52,65 @@ export const SignUp: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        histroy.push("/");
+        history.push("/");
 
         showSnackbar("登録しました", "success");
       } else {
         alert("登録できませんでした");
         console.log("登録できませんでした");
-        // setAlertMessageOpen(true);
       }
     } catch (err) {
       console.log(err);
       showSnackbar("登録できませんでした", "error");
-      // setAlertMessageOpen(true);
     }
   };
 
   return (
     <>
       <form noValidate autoComplete="off">
-        <Card sx={{ p: 4, maxWidth: 400 }}>
-          <CardHeader title="ユーザー登録" />
+        <Card sx={{ p: 4, borderRadius: "md" }}>
+          <CardHeader sx={{ textAlign: "center" }} title="ユーザー登録" />
           <Divider sx={{ my: 2 }} />
-
-          {/* Textfieldを共通化してきりわける */}
           <CardContent>
             <TextField
               variant="outlined"
-              // required
               fullWidth
               label="名前"
               value={name}
+              type="text"
               margin="dense"
               onChange={(event) => setName(event.target.value)}
+              autoFocus
             />
             <TextField
               variant="outlined"
-              // required
               fullWidth
               label="メールアドレス"
               value={email}
+              type="email"
               margin="dense"
               onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
               variant="outlined"
-              // required
               fullWidth
               label="パスワード"
-              type="password"
               value={password}
+              type="password"
               margin="dense"
-              autoComplete="current-password"
               onChange={(event) => setPassword(event.target.value)}
             />
             <TextField
               variant="outlined"
-              // required
               fullWidth
               label="パスワード（確認用）"
-              type="password"
               value={passwordConfirmation}
+              type="password"
               margin="dense"
-              autoComplete="current-password"
               onChange={(event) => setPasswordConfirmation(event.target.value)}
             />
 
-            {/* <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, mt: 3 }}>
               <PrimaryButton
                 onClick={onClickRegister}
                 disabled={
@@ -128,33 +122,18 @@ export const SignUp: FC = memo(() => {
               >
                 ユーザー登録する
               </PrimaryButton>
-            </Box> */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              color="primary"
-              disabled={
-                !name || !email || !password || !passwordConfirmation
-                  ? true
-                  : false
-              }
-              onClick={onClickRegister}
-            >
-              ユーザー登録する
-            </Button>
+            </Box>
+            <Divider sx={{ my: 3 }} />
+            <Box sx={{ flexGrow: 1 }}>
+              <Box textAlign="center" sx={{ pb: 1 }}>
+                <Typography variant="body2">
+                  アカウントをお持ちの方は <Link to="/signin">こちら</Link>。
+                </Typography>
+              </Box>
+            </Box>
           </CardContent>
         </Card>
       </form>
-
-      {/* アカウントをお持ちの方はこちら （サインインのリンク）*/}
-
-      {/* <AlertMessage // エラーが発生した場合はアラートを表示
-        open={alertMessageOpen}
-        setOpen={setAlertMessageOpen}
-        severity="error"
-        message="メールアドレスかパスワードが間違っています"
-      /> */}
     </>
   );
 });

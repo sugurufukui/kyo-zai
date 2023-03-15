@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 // Likeする
 export const createLike = (id, params) => {
   return client.post(`/materials/${id}/likes`, params, {
-    // getじゃなくてpostにするべきか？
     headers: {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
