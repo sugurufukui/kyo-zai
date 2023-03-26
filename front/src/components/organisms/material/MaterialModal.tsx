@@ -77,6 +77,7 @@ export const MaterialModal: FC<Props> = memo((props) => {
               InputProps={{
                 readOnly: true,
               }}
+              multiline
             />
             <TextField
               variant="outlined"

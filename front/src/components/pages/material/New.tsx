@@ -78,15 +78,33 @@ export const New: FC = memo(() => {
     <>
       <MaterialFormBody
         title="教材新規作成"
-        onClickSubmit={handleCreatePost}
+        onClickSubmit={(e) => {
+          e.preventDefault(); // フォームの送信をブロック
+          if (name.length <= 30 && description && image) {
+            handleCreatePost(e);
+          } else {
+            showSnackbar("名前は30文字以内で作成してください", "error");
+          }
+        }}
         value={value}
         children="教材を登録する"
         startIcon={<PostAddIcon />}
         onChangeName={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setName(e.target.value);
+          const name = e.target.value;
+          if (name.length <= 30) {
+            setName(name);
+            setValue((prev) => ({ ...prev, name }));
+          } else {
+            // 入力した内容を保存して31文字以上は入力できないようにする
+            const prevName = name.slice(0, 30); // 入力文字列の先頭から30文字を抜き出す
+            setName(prevName);
+            setValue((prev) => ({ ...prev, name: prevName }));
+          }
         }}
         onChangeDescription={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setDescription(e.target.value);
+          const description = e.target.value;
+          setDescription(description);
+          setValue((prev) => ({ ...prev, description }));
         }}
         onChangeImage={(e: React.ChangeEvent<HTMLInputElement>) => {
           uploadImage(e);
