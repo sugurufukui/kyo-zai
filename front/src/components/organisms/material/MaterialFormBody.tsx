@@ -141,9 +141,11 @@ export const MaterialFormBody: FC<Props> = (props) => {
             fullWidth
             id="name"
             label="教材の名前"
+            placeholder="30文字以内で登録してください"
             value={value.name}
             type="text"
             name="name"
+            multiline
             margin="dense"
             onChange={onChangeName}
             autoFocus

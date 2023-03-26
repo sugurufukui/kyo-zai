@@ -58,7 +58,7 @@ export const MaterialCard: FC<Props> = memo((props) => {
             // カードをクリック時にどのカードをクリックしたのかをidで判別
             onClick={() => onClick(id)}
           />
-          <CardContent sx={{ p: 1, textAlign: "center" }}>
+          <CardContent sx={{ p: 1, height: 50 }}>
             <Typography sx={{ variant: "h3" }}>{materialName}</Typography>
           </CardContent>
           <Box sx={{ textAlign: "right" }}>

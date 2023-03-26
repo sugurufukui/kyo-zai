@@ -179,7 +179,7 @@ export const Detail: FC<Props> = memo((props) => {
           <Grid container spacing={4}>
             <Grid item xs={12} md={8}>
               <Card>
-                <CardContent sx={{ textAlign: "center" }}>
+                <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {value?.name}
                   </Typography>
