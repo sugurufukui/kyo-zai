@@ -110,4 +110,14 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  # CORSの設定を追加する
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins 'https://web.tokushi-kyouzai.com'
+      resource '*',
+      headers: :any,
+      methods: %i[get post put patch delete options head]
+    end
+  end
 end
