@@ -34,7 +34,7 @@ export const LikeButton: FC<Props> = memo((props) => {
   // いいね情報を確認
   const handleGetLike = useCallback(async () => {
     setLikeData({
-      userId: currentUser.id,
+      userId: currentUser?.id,
       materialId: materialId,
     });
     try {

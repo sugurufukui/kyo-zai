@@ -122,7 +122,7 @@ export const MaterialModal: FC<Props> = memo((props) => {
             </Button>
 
             {/* ログインユーザーと作成者が同じ場合に「編集ボタン」を表示 */}
-            {currentUser.id === material?.userId ? (
+            {currentUser?.id === material?.userId ? (
               <Box sx={{ mt: 1 }}>
                 <Button
                   variant="outlined"

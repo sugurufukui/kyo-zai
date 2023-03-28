@@ -144,7 +144,7 @@ export const MyLike: FC<Props> = memo((props) => {
 
   return (
     <>
-      <h1>{currentUser.name}さんがいいねした教材一覧</h1>
+      <h1>{currentUser?.name}さんがいいねした教材一覧</h1>
       <Button variant="contained" onClick={() => history.goBack()}>
         戻る
       </Button>
