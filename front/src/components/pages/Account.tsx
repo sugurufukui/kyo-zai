@@ -86,7 +86,7 @@ export const Account: FC = memo(() => {
               }}
             />
             {/* emailはログインユーザーでないと見ることはできない。*/}
-            {currentUser.id == query.id ? (
+            {currentUser?.id == query?.id ? (
               <TextField
                 variant="outlined"
                 fullWidth
@@ -106,8 +106,8 @@ export const Account: FC = memo(() => {
               <></>
             )}
             {/* ゲストユーザー以外のログインユーザーに編集可能ボタン出現 */}
-            {currentUser.id == query.id &&
-            currentUser.email != "guest@example.com" ? (
+            {currentUser?.id == query?.id &&
+            currentUser?.email != "guest@example.com" ? (
               <Button
                 variant="outlined"
                 color="primary"
@@ -120,7 +120,7 @@ export const Account: FC = memo(() => {
             ) : (
               <></>
             )}
-            {currentUser.email === "guest@example.com" && (
+            {currentUser?.email === "guest@example.com" && (
               <Box sx={{ flexGrow: 1, mt: 3 }}>
                 <CanNotUserEditToastButton />
               </Box>
