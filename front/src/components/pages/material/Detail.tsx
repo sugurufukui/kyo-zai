@@ -48,6 +48,7 @@ export const Detail: FC<Props> = memo((props) => {
     name: "",
     description: "",
     userId: 0,
+    userName: "",
     image: undefined,
     createdAt: "",
   });
@@ -65,6 +66,7 @@ export const Detail: FC<Props> = memo((props) => {
         name: res.data.name,
         description: res.data.description,
         userId: res.data.userId,
+        userName: res.data.userName, //これで作成者の名前を取ってこられるか？
         image: res.data.image.url,
         createdAt: res.data.createdAt,
       });
@@ -238,12 +240,12 @@ export const Detail: FC<Props> = memo((props) => {
                     color="text.secondary"
                     sx={{ mb: 1 }}
                   >
-                    {currentUser.name}
+                    {value?.userName}
                   </Typography>
                 </CardContent>
                 <CardContent sx={{ textAlign: "center" }}>
                   <Stack spacing={2}>
-                    {currentUser.id === value?.userId ? (
+                    {currentUser?.id === value?.userId ? (
                       <>
                         <Button
                           variant="outlined"

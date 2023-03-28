@@ -159,7 +159,7 @@ export const MyMaterial: FC<Props> = memo((props) => {
 
   return (
     <>
-      <h1>{currentUser.name}さんの投稿一覧</h1>
+      <h1>{currentUser?.name}さんの投稿一覧</h1>
       <Button variant="outlined" onClick={() => history.goBack()}>
         戻る
       </Button>{" "}
