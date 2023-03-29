@@ -7,8 +7,9 @@ services:
 
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: kyo-zai_development #database.ymlのdevelopmentと同じ名前にする必要があります。
-      MYSQL_USER: root #mysqlにログインするユーザー。database.ymlのusernameと同じにする必要がある。
+      MYSQL_DATABASE: kyouzai_development #database.ymlのdevelopmentと同じ名前にする必要があります。
+      # MYSQL_USER: root #mysqlにログインするユーザー。database.ymlのusernameと同じにする必要がある。
+      # Remove MYSQL_USER="root" and use one of the following to control the root user password::のためコメントアウト
       MYSQL_PASSWORD: password #mysqlにログインするパスワードです。自身で設定する必要があり、database.ymlのpasswordと同じにする必要がある。
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
@@ -18,6 +19,7 @@ services:
     # [ERROR] [MY-012585] [InnoDB] Linux Native AIO interface is not supported on this platform. Please check your OS documentation and install appropriate binary of InnoDB.のため追加
     volumes:
       - mysql-data:/var/lib/mysql
+
   api:
     build: ./api
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -30,6 +32,7 @@ services:
       - db
     stdin_open: true
     tty: true
+
   front:
     build: ./front
     command: yarn start
