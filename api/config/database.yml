@@ -9,15 +9,15 @@ default: &default
 
 development:
   <<: *default
-  database: kyo-zai_development
+  database: kyouzai_development
 
 test:
   <<: *default
-  database: kyo-zai_test
+  database: kyouzai_test
 
 production:
   <<: *default
-  database: <%= ENV['DB_NAME'] %>
+  database: kyouzai_production
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['DB_HOST'] %>
