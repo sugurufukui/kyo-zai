@@ -1,3 +1,5 @@
+import { User } from "./user"; // 追加
+
 export type MaterialType = {
   id: number;
   name: string;
@@ -5,9 +7,6 @@ export type MaterialType = {
   image: {
     url: string;
   };
-  user: {
-    id: number;
-    name: string;
-  };
+  user: User;
   userId: number;
 };
