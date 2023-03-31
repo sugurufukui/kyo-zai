@@ -66,7 +66,7 @@ export const Detail: FC<Props> = memo((props) => {
         name: res.data.name,
         description: res.data.description,
         userId: res.data.userId,
-        userName: res.data.userName, //これで作成者の名前を取ってこられるか？
+        userName: res.data.user.name,
         image: res.data.image.url,
         createdAt: res.data.createdAt,
       });
@@ -236,7 +236,7 @@ export const Detail: FC<Props> = memo((props) => {
                 <CardContent>
                   <Avatar />
                   <Typography
-                    variant="h6"
+                    variant="h5"
                     color="text.secondary"
                     sx={{ mb: 1 }}
                   >
