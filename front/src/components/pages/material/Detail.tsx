@@ -44,7 +44,7 @@ export const Detail: FC<Props> = memo((props) => {
   const query: any = useParams();
 
   const [value, setValue] = useState({
-    id: 0,
+    id: null,
     name: "",
     description: "",
     userId: 0,
@@ -212,11 +212,13 @@ export const Detail: FC<Props> = memo((props) => {
                   >
                     いいねの数
                   </Typography>
-                  <LikeButton
-                    materialId={value?.id}
-                    currentUser={currentUser}
-                    initialLikeCount={initialLikeCount}
-                  />
+                  {value?.id !== null && (
+                    <LikeButton
+                      materialId={value?.id}
+                      currentUser={currentUser}
+                      initialLikeCount={initialLikeCount}
+                    />
+                  )}
                 </CardContent>
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">
