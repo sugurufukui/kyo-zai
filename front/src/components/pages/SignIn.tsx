@@ -47,8 +47,8 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
+        history.replace("/materials");
         showSnackbar("ログインしました", "success");
-        history.push("/materials");
       } else {
       }
     } catch (err) {
@@ -78,7 +78,7 @@ export const SignIn: FC = memo(() => {
         setCurrentUser(res.data.data);
 
         showSnackbar("ゲストユーザーとしてログインしました", "success");
-        history.push("/materials");
+        history.replace("/materials");
       }
     } catch (e) {
       console.log(e);
