@@ -51,3 +51,4 @@ end
     image: File.open("./db/fixtures/image0.jpg"),
     user: user5
   )
+end
