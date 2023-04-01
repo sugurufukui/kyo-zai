@@ -16,9 +16,11 @@ test:
   database: kyouzai_test
 
 production:
-  <<: *default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV['DB_HOST'] %>
+  socket: /var/lib/mysql/mysql.sock
   database: kyouzai_production
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
-  host: <%= ENV['DB_HOST'] %>
-  # socket: /var/lib/mysql/mysql.sock
