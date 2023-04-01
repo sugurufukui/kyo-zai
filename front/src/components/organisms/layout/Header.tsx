@@ -1,4 +1,4 @@
-import React, { FC, memo, useContext, useState } from "react";
+import React, { FC, memo, useContext, useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
@@ -36,13 +36,12 @@ import { useSnackbar } from "providers/SnackbarProvider";
 
 export const Header: FC = memo(() => {
   //アバターメニュー関係
-  const [avatarMenuOpened, setAvatarMenuOpened] = useState(false);
+  const [avatarMenuOpened, setAvatarMenuOpened] = useState(undefined);
   const onClickAvatar = (e: React.MouseEvent<HTMLElement>) => {
-    // setAvatarMenuOpened(e.currentTarget);
-    setAvatarMenuOpened(true);
+    setAvatarMenuOpened(e.currentTarget);
   };
   const onCloseAvatarMenu = () => {
-    setAvatarMenuOpened(false);
+    setAvatarMenuOpened(undefined);
   };
   // アラート
   const { showSnackbar } = useSnackbar();
@@ -157,6 +156,10 @@ export const Header: FC = memo(() => {
     }
   };
 
+  useEffect(() => {
+    onCloseAvatarMenu();
+  }, [currentUser]);
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -181,29 +184,24 @@ export const Header: FC = memo(() => {
               {isSignedIn ? (
                 <Box sx={{ flexGrow: 0 }}>
                   <IconButton
+                    key={currentUser?.id}
                     size="large"
                     onClick={onClickAvatar}
                     sx={{ p: 1.5 }}
                   >
                     <Avatar />
                   </IconButton>
-                  {/* Warning: Failed prop type: MUI: The `anchorEl` prop provided to the component is invalid.
-The anchor element should be part of the document layout.
-Make sure the element is present in the document or that it's not display none.
-警告 プロップタイプに失敗しました。MUIです。コンポーネントに提供された `anchorEl` プロップは無効です。
-アンカー要素は、ドキュメントレイアウトの一部であるべきです。
-アンカー要素がドキュメントに存在するか、表示なしであることを確認してください。*/}
                   <Menu
                     sx={{ mt: "45px" }}
                     id="menu-appbar"
-                    // anchorEl={avatarMenuOpened}
+                    anchorEl={avatarMenuOpened}
                     anchorOrigin={{ vertical: "top", horizontal: "right" }}
                     keepMounted
                     transformOrigin={{
                       vertical: "top",
                       horizontal: "right",
                     }}
-                    open={avatarMenuOpened}
+                    open={Boolean(avatarMenuOpened)}
                     onClose={onCloseAvatarMenu}
                   >
                     {avatarMenu.map((userMaterial) => (
