@@ -3,64 +3,76 @@ version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15
   aws-ecs: circleci/aws-ecs@2.0.0
+
+executors:
+  default-executor:
+    docker:
+      - image: circleci/python:3.7
+
 workflows:
   # Nginxのデプロイ
   nginx-deploy:
     jobs:
+      - build_and_push_image_nginx
+      - deploy_service_update_nginx:
+          requires:
+            - build_and_push_image_nginx
+
+  # Railsのデプロイ
+  rails-deploy:
+    jobs:
+      - build_and_push_image_rails
+      - deploy_service_update_rails:
+          requires:
+            - build_and_push_image_rails
+
+jobs:
+  build_and_push_image_nginx:
+    executor: default-executor
+    steps:
       - aws-ecr/build-and-push-image:
-          #AWS_ECR_ACCOUNT_URL => ${アカウントID}.dkr.ecr.${リージョン}.amazonaws.com
           account-url: AWS_ECR_ACCOUNT_URL
-          # リージョン
           region: AWS_REGION
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          # ECRにリポジトリがなかったら創るか？
           create-repo: true
-          # Dockerfleのパス(デフォルトはカレントディレクトリのパス)
           dockerfile: ./prd/nginx/Dockerfile
-          # ECRのリポジトリ
           repo: tokushi-kyouzai-nginx
           tag: "${CIRCLE_SHA1}"
           filters:
             branches:
               only: feature/AWS
+
+  deploy_service_update_nginx:
+    executor: default-executor
+    steps:
       - aws-ecs/deploy-service-update:
-          requires:
-            - aws-ecr/build-and-push-image
-          # ECSのタスク定義名
           family: 'tokushi-kyouzai-task'
-          # ECSのクラスター名かARNのフルパス
           cluster-name: 'tokushi-kyouzai-rails'
-          # サービス名
           service-name: 'tokushi-kyouzai'
-          # containerはタスク定義で設定したコンテナ名にする
           container-image-name-updates: "container=tokushi-kyouzai_nginx,tag=${CIRCLE_SHA1}"
 
-  # Railsのデプロイ
-  rails-deploy:
-    jobs:
+  build_and_push_image_rails:
+    executor: default-executor
+    steps:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          # ECRにリポジトリがなかったら創るか？
           create-repo: true
           dockerfile: ./api/Dockerfile
-          # ECRのリポジトリ
           repo: tokushi-kyouzai-rails
           tag: "${CIRCLE_SHA1}"
           filters:
             branches:
               only: feature/AWS
+
+  deploy_service_update_rails:
+    executor: default-executor
+    steps:
       - aws-ecs/deploy-service-update:
-          requires:
-            - aws-ecr/build-and-push-image
-          # ECSのタスク定義名
           family: 'tokushi-kyouzai-task'
-          # ECSのクラスター名かARNのフルパス
           cluster-name: 'tokushi-kyouzai-rails'
-          # サービス名
           service-name: 'tokushi-kyouzai'
-          # containerはタスク定義で設定したコンテナ名にする
           container-image-name-updates: "container=tokushi-kyouzai_rails,tag=${CIRCLE_SHA1}"
