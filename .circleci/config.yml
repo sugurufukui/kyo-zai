@@ -6,7 +6,8 @@ orbs:
 
 executors:
   default-executor:
-    machine: true
+    docker:
+      - image: circleci/python:3.7-node-browsers
 
 jobs:
   build_and_push_image_nginx:
@@ -31,9 +32,8 @@ jobs:
           # Dockerfleのパス(デフォルトはカレントディレクトリのパス)
           dockerfile: ./prd/nginx/Dockerfile
           # ECRのリポジトリ
-          repo: tokushi-kyouzai-nginx
+          repo: tokushi-kyouzai_nginx
           tag: "${CIRCLE_SHA1}"
-
 workflows:
   # Nginxのデプロイ
   nginx-deploy:
@@ -53,7 +53,6 @@ workflows:
           service-name: 'tokushi-kyouzai'
           # containerはタスク定義で設定したコンテナ名にする
           container-image-name-updates: "container=tokushi-kyouzai_nginx,tag=${CIRCLE_SHA1}"
-
   # Railsのデプロイ
   rails-deploy:
     jobs:
@@ -68,7 +67,7 @@ workflows:
           create-repo: true
           dockerfile: kyo-zai/api/Dockerfile
           # ECRのリポジトリ
-          repo: tokushi-kyouzai-rails
+          repo: tokushi-kyouzai_rails
           tag: "${CIRCLE_SHA1}"
           filters:
             branches:
