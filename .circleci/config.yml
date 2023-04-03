@@ -19,22 +19,22 @@ workflows:
           # Dockerfleのパス(デフォルトはカレントディレクトリのパス)
           dockerfile: ./prd/nginx/Dockerfile
           # ECRのリポジトリ
-          repo: nginx-sample      #変更必須
+          repo: tokushi-kyouzai-nginx
           tag: "${CIRCLE_SHA1}"
           filters:
             branches:
-              only: master
+              only: feature/AWS
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image
           # ECSのタスク定義名
-          family: 'sample'         #変更必須
+          family: 'tokushi-kyouzai-task'
           # ECSのクラスター名かARNのフルパス
-          cluster-name: 'sample-cluster'       #変更必須
+          cluster-name: 'tokushi-kyouzai-rails'
           # サービス名
-          service-name: 'sample-alb-service'     #変更必須
+          service-name: 'tokushi-kyouzai'
           # containerはタスク定義で設定したコンテナ名にする
-          container-image-name-updates: "container=nginx,tag=${CIRCLE_SHA1}"
+          container-image-name-updates: "container=tokushi-kyouzai_nginx,tag=${CIRCLE_SHA1}"
 
   # Railsのデプロイ
   rails-deploy:
@@ -46,21 +46,21 @@ workflows:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           # ECRにリポジトリがなかったら創るか？
           create-repo: true
-          dockerfile: ./Dockerfile.prod
+          dockerfile: ./api/Dockerfile
           # ECRのリポジトリ
-          repo: rails-sample     #変更必須
+          repo: tokushi-kyouzai-rails
           tag: "${CIRCLE_SHA1}"
           filters:
             branches:
-              only: master
+              only: feature/AWS
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image
           # ECSのタスク定義名
-          family: 'sample'    #変更必須
+          family: 'tokushi-kyouzai-task'
           # ECSのクラスター名かARNのフルパス
-          cluster-name: 'sample-cluster'    #変更必須
+          cluster-name: 'tokushi-kyouzai-rails'
           # サービス名
-          service-name: 'sample-alb-service'     #変更必須
+          service-name: 'tokushi-kyouzai'
           # containerはタスク定義で設定したコンテナ名にする
-          container-image-name-updates: "container=rails,tag=${CIRCLE_SHA1}"
+          container-image-name-updates: "container=tokushi-kyouzai_rails,tag=${CIRCLE_SHA1}"
