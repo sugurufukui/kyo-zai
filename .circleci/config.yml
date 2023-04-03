@@ -69,7 +69,7 @@ workflows:
               only: feature/AWS
       - aws-ecs/deploy-service-update:
           requires:
-            - aws-ecr/build-and-push-image
+            - build_and_push_image_rails
           # ECSのタスク定義名
           family: 'tokushi-kyouzai-task'
           # ECSのクラスター名かARNのフルパス
