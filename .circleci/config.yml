@@ -7,7 +7,7 @@ orbs:
 executors:
   default-executor:
     docker:
-      - image: circleci/python:3.7
+      - image: circleci/python:3.7-node-browsers
 
 jobs:
   build_and_push_image_nginx:
@@ -52,13 +52,15 @@ workflows:
   rails-deploy:
     jobs:
       - aws-ecr/build-and-push-image:
+          name: build_and_push_image_rails
+          context: aws
           account-url: AWS_ECR_ACCOUNT_URL
           region: AWS_REGION
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           # ECRにリポジトリがなかったら創るか？
           create-repo: true
-          dockerfile: ./api/Dockerfile
+          dockerfile: kyo-zai/api/Dockerfile
           # ECRのリポジトリ
           repo: tokushi-kyouzai-rails
           tag: "${CIRCLE_SHA1}"
