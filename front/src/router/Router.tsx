@@ -19,9 +19,7 @@ import { Page404 } from "components/pages/Page404";
 export const Router: FC = memo(() => {
   const { loading, isSignedIn } = useAuth();
 
-  // ユーザーが認証済みかどうかでルーティングを決定
-  // 未認証だった場合は「/signin」ページに促す
-
+  // 未認証の場合「/signin」ページへ
   type Props = {
     children: ReactElement;
   };

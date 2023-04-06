@@ -12,14 +12,9 @@ import { useHistory, useParams } from "react-router-dom";
 import { useSnackbar } from "providers/SnackbarProvider";
 
 type Props = {
-  // open: boolean;
   onClose: () => void;
   onClickDelete: () => void;
   onClick: () => void;
-  // open: any;
-  // onClose: any;
-  // onClickDelete: any;
-  // onClick: any;
 };
 
 export const DeleteDialog: FC<Props> = memo((props) => {

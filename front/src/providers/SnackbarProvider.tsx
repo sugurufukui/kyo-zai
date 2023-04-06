@@ -33,7 +33,6 @@ export const SnackbarProvider: FC<Props> = memo((props) => {
   const [message, setMessage] = useState(context.message);
   const [severity, setSeverity] = useState(context.severity);
 
-  // コンテクストオブジェクトに自分自身の値を変更する関数をセット
   const newContext: SnackbarContextType = useMemo(
     () => ({
       message,

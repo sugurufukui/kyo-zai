@@ -33,7 +33,6 @@ export const AuthProvider = memo((props: Props) => {
 
   return (
     <AuthContext.Provider
-      // value以下がproviderで囲われた配下のコンポーネントでグローバルに参照できる
       value={{
         loading,
         setLoading,
