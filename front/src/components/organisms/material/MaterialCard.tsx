@@ -8,14 +8,12 @@ import { User } from "types/api/user";
 import { Box } from "@mui/system";
 
 type Props = {
-  //教材のidの受け渡しができるように定義しておく
   id: number;
   imageUrl: string;
   materialName: string;
   materialId: number | null;
   currentUser: User;
   initialLikeCount: number;
-  //クリック時に教材のデータ（id）を取得
   onClick: (id: number) => void;
 };
 
@@ -36,7 +34,6 @@ export const MaterialCard: FC<Props> = memo((props) => {
         <Card
           sx={{
             width: "260px",
-            // height: "260px*1.5",
             bgcolor: "white",
             boxShadow: "md",
             p: "4",
@@ -55,7 +52,6 @@ export const MaterialCard: FC<Props> = memo((props) => {
             width="(260 * 4) / 3"
             height="260"
             alt={materialName}
-            // カードをクリック時にどのカードをクリックしたのかをidで判別
             onClick={() => onClick(id)}
           />
           <CardContent sx={{ p: 1, height: 50 }}>

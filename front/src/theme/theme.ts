@@ -18,13 +18,8 @@ const theme = createTheme({
       primary: "#1A202C",
     },
     background: {
-      // paper: "#fff",
       default: "#EDF2F7",
     },
-    // action: {
-    //   hover: "#00695f",
-    //   disabledBackground: "#CE3256",
-    // },
   },
   typography: {
     button: {
@@ -60,21 +55,16 @@ const theme = createTheme({
           // タイポグラフィを指定
           fontWeight: "bold",
           fontSize: "0.75rem",
-          // テーマの Composition を使えば以下のようにも書ける
-          // base.typography.subtitle2
         },
       },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          // デフォルトだと、
-          // ラベルをはみ出させるための小さなmarginがある
+          // デフォルトの小さなmargin削除
           marginTop: 0,
         },
         input: {
-          // paddingTop: "10px",
-          // paddingBottom: "8px",
           height: "auto",
         },
         notchedOutline: {
@@ -84,7 +74,6 @@ const theme = createTheme({
           legend: {
             // 内包された legend 要素によって、四角の左側の切り欠きが実現されているので、
             // 表示されないように。
-            // (SCSS と同様にネスト記述が可能)
             display: "none",
           },
         },
