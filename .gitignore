@@ -26,6 +26,7 @@
 # Ignore master key for decrypting credentials and more.
 /api/config/master.key
 
+/api/config/credentials.yml.enc
 
 #frontend
 
