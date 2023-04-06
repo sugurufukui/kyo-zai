@@ -3,20 +3,12 @@ services:
   db:
     image: mysql:8.0
     platform: linux/amd64
-    # db The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requestedを解消するために追加
-
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: kyouzai_development #database.ymlのdevelopmentと同じ名前にする必要があります。
-      # MYSQL_USER: root #mysqlにログインするユーザー。database.ymlのusernameと同じにする必要がある。
-      # Remove MYSQL_USER="root" and use one of the following to control the root user password::のためコメントアウト
-      MYSQL_PASSWORD: password #mysqlにログインするパスワードです。自身で設定する必要があり、database.ymlのpasswordと同じにする必要がある。
+      MYSQL_DATABASE: kyouzai_development
+      MYSQL_PASSWORD: password
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-
     command: --default-authentication-plugin=mysql_native_password --innodb_use_native_aio=0
-
-    # [Warning] [MY-010918] [Server] 'default_authentication_plugin' is deprecated and will be removed in a future release. Please use authentication_policy instead.のため変更
-    # [ERROR] [MY-012585] [InnoDB] Linux Native AIO interface is not supported on this platform. Please check your OS documentation and install appropriate binary of InnoDB.のため追加
     volumes:
       - mysql-data:/var/lib/mysql
 
