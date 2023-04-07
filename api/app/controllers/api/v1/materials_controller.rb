@@ -20,7 +20,7 @@ class Api::V1::MaterialsController < ApplicationController
 
   def show
     @material = Material.find(params[:id])
-    render json: @material.as_json(include: { user: { only: [:id, :name] } })
+    render json: @material.as_json(include: { user: { only: %i[id name] } })
   end
 
   def create
