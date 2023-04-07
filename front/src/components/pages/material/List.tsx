@@ -1,10 +1,12 @@
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
 import { MaterialCard } from "components/organisms/material/MaterialCard";
-import { Box, CircularProgress, Grid, Pagination } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Pagination } from "@mui/material";
 import { useAllMaterials } from "hooks/useAllMaterials";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
 import { useSelectMaterial } from "hooks/useSelectMaterial";
 import { AuthContext } from "providers/AuthProvider";
+import { useHistory } from "react-router-dom";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 
 export const paginator = (items, current_page, per_page_items) => {
   let page = current_page || 1, // page = 現在のページまたは1ページ目
@@ -39,6 +41,8 @@ export const List: FC<Props> = memo((props) => {
   const { currentUser } = useContext(AuthContext);
   const { onSelectMaterial, selectedMaterial } = useSelectMaterial();
   console.log("選択した教材", selectedMaterial);
+
+  const history = useHistory();
 
   //ページネーション関係
   const count = Math.ceil(materials.length / 8);
@@ -82,10 +86,8 @@ export const List: FC<Props> = memo((props) => {
             container
             display="flex"
             alignItems="center"
-            spacing={6}
             sx={{
               flexWrap: "wrap",
-              p: { xs: 3, md: 6 },
             }}
           >
             {paginator(materials, page, 8).data.map((material) => (
@@ -111,13 +113,33 @@ export const List: FC<Props> = memo((props) => {
             imageUrl={selectedMaterial?.image.url}
             initialLikeCount={likeCount}
           />
-          <Box style={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            style={{ display: "flex", justifyContent: "center" }}
+            sx={{ mt: 3 }}
+          >
             <Pagination
               count={count}
               page={page}
               onChange={handleChange}
               color="primary"
             />
+          </Box>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <h2>投稿されている教材はありません</h2>
+          <h2>ぜひ投稿してみましょう！！</h2>
+          <Box sx={{ mt: 5 }}>
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={() => history.push("/materials/new")}
+            >
+              <PostAddIcon /> 教材を投稿してみる
+            </Button>
           </Box>
         </>
       );
@@ -133,6 +155,7 @@ export const List: FC<Props> = memo((props) => {
     open,
     page,
     selectedMaterial,
+    history,
   ]);
 
   return (
