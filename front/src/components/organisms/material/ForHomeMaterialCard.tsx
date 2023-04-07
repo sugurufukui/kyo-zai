@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { LikeButton } from "components/molecules/LikeButton";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { User } from "types/api/user";
 import { Box } from "@mui/system";
 
@@ -13,20 +13,12 @@ type Props = {
   materialName: string;
   materialId: number | null;
   currentUser: User;
-  initialLikeCount: number;
+  initialLikeCount?: number;
   onClick?: (id: number) => void;
 };
 
-export const MaterialCard: FC<Props> = memo((props) => {
-  const {
-    id,
-    imageUrl,
-    materialName,
-    onClick,
-    materialId,
-    currentUser,
-    initialLikeCount,
-  } = props;
+export const ForHomeMaterialCard: FC<Props> = memo((props) => {
+  const { id, imageUrl, materialName, onClick } = props;
 
   return (
     <>
@@ -45,7 +37,6 @@ export const MaterialCard: FC<Props> = memo((props) => {
             sx={{
               p: 1,
               borderRadius: "30px",
-              ":hover": { cursor: "pointer", opacity: "0.8" },
             }}
             component="img"
             src={imageUrl}
@@ -58,11 +49,9 @@ export const MaterialCard: FC<Props> = memo((props) => {
             <Typography sx={{ variant: "h3" }}>{materialName}</Typography>
           </CardContent>
           <Box sx={{ textAlign: "right" }}>
-            <LikeButton
-              materialId={materialId}
-              currentUser={currentUser}
-              initialLikeCount={initialLikeCount}
-            />
+            <Typography sx={{ variant: "h3" }}>
+              <FavoriteBorderIcon />
+            </Typography>
           </Box>
         </Card>
       </Box>
