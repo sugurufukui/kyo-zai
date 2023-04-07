@@ -6,6 +6,7 @@ import { useSnackbar } from "providers/SnackbarProvider";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import { Button } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";
+import { resizeImage } from "lib/imageResizeUtil";
 
 export const New: FC = memo(() => {
   const history = useHistory();
@@ -21,25 +22,21 @@ export const New: FC = memo(() => {
   const { showSnackbar } = useSnackbar();
 
   // 画像選択機能
-  const uploadImage = useCallback((e) => {
+  const uploadImage = useCallback(async (e) => {
     const file = e.target.files[0];
-    // image以外のファイルはnullにしてプレビューさせずにアラート表示;
-    if (file.type.includes("image/")) {
-      setImage(file);
-      console.log(file);
-    } else {
+    if (!file.type.includes("image/")) {
       setImage(null);
       showSnackbar("そのファイルは登録できません", "error");
       return;
     }
-  }, []);
 
-  // プレビュー機能
-  const previewImage = useCallback((e) => {
-    const file = e.target.files[0];
-    setPreview(window.URL.createObjectURL(file));
-    console.log(file);
-    console.log(preview);
+    try {
+      const resizedImage = await resizeImage(file, 1024, 1024);
+      setImage(resizedImage);
+      setPreview(window.URL.createObjectURL(resizedImage));
+    } catch (error) {
+      showSnackbar("画像のリサイズに失敗しました。", "error");
+    }
   }, []);
 
   // 画像選択取り消し
@@ -74,6 +71,7 @@ export const New: FC = memo(() => {
       console.log(e);
     }
   };
+
   return (
     <>
       <MaterialFormBody
@@ -83,15 +81,22 @@ export const New: FC = memo(() => {
         children="教材を登録する"
         startIcon={<PostAddIcon />}
         onChangeName={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setName(e.target.value);
+          const name = e.target.value;
+          if (name.length <= 30) {
+            setName(name);
+            setValue((prev) => ({ ...prev, name }));
+          } else {
+            const prevName = name.slice(0, 30);
+            setName(prevName);
+            setValue((prev) => ({ ...prev, name: prevName }));
+          }
         }}
         onChangeDescription={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setDescription(e.target.value);
+          const description = e.target.value;
+          setDescription(description);
+          setValue((prev) => ({ ...prev, description }));
         }}
-        onChangeImage={(e: React.ChangeEvent<HTMLInputElement>) => {
-          uploadImage(e);
-          previewImage(e);
-        }}
+        onChangeImage={uploadImage}
         onClickResetFile={resetFile}
         image={image}
         preview={preview}

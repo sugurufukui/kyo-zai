@@ -2,7 +2,7 @@ import React, { FC, memo, useContext, useEffect, useState } from "react";
 
 import { AuthContext } from "providers/AuthProvider";
 import { useAllMaterials } from "hooks/useAllMaterials";
-import { MaterialCard } from "components/organisms/material/MaterialCard";
+
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { Box } from "@mui/system";
@@ -11,14 +11,10 @@ import Cookies from "js-cookie";
 import { getGuestUserSignIn } from "lib/api/auth";
 import { useSnackbar } from "providers/SnackbarProvider";
 import HomeImage from "images/HOME.jpg";
+import { ForHomeMaterialCard } from "components/organisms/material/ForHomeMaterialCard";
 
-type Props = {
-  initialLikeCount?: number;
-};
 // とりあえず認証済みユーザーの名前やメールアドレスを表示
-export const Home: FC<Props> = memo((props) => {
-  const { initialLikeCount } = props;
-
+export const Home: FC = memo(() => {
   const history = useHistory();
 
   const { isSignedIn, setIsSignedIn, currentUser, setCurrentUser } =
@@ -26,14 +22,18 @@ export const Home: FC<Props> = memo((props) => {
   const { getMaterials, materials } = useAllMaterials();
   const { showSnackbar } = useSnackbar();
 
-  // いいね関係
-  const [likeCount, setLikeCount] = useState(initialLikeCount);
+  const [recentMaterials, setRecentMaterials] = useState([]);
 
-  // // 教材データの取得
-  // useEffect(() => {
-  //   getMaterials();
+  // 教材データの取得
+  useEffect(() => {
+    getMaterials();
+  }, [getMaterials]);
 
-  //   console.log(materials.slice(0, 4));
+  useEffect(() => {
+    setRecentMaterials(materials.slice(0, 4));
+  }, [materials]);
+
+  console.log(materials.slice(0, 4));
 
   // ゲストログインボタン押下時
   const onClickGuestSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -82,7 +82,7 @@ export const Home: FC<Props> = memo((props) => {
           こどもたちのためにがんばっているあなたへ
         </Typography>
         <Typography variant="h6" sx={{ m: 2 }}>
-          ほかの先生たちが使っている教材を集めました
+          ほかの先生たちが使っている教材を見ることができます
         </Typography>
       </Box>
 
@@ -119,18 +119,34 @@ export const Home: FC<Props> = memo((props) => {
           <Typography variant="h5">作ってみたいものに いいね♡しよう</Typography>
         </Box>
       )}
-      {/*
-      <p>HOMEページです</p>
-      <p>ログインしていたらこの下に名前が出る</p>
-      {isSignedIn && currentUser ? (
-        <>
-          <h2>ID: {currentUser?.id}</h2>
-          <h2>メールアドレス: {currentUser?.email}</h2>
-          <h2>名前: {currentUser?.name}</h2>
-        </>
-      ) : (
-        <></>
-      )} */}
+
+      <Box sx={{ display: "flex", alignItems: "center", my: 4, pl: 3 }}>
+        <MenuBookTwoToneIcon color="action" sx={{ fontSize: 30 }} />
+        <Typography variant="h5" sx={{ ml: 2 }}>
+          最新の教材
+        </Typography>
+      </Box>
+
+      <Grid
+        container
+        display="flex"
+        alignItems="center"
+        sx={{
+          flexWrap: "wrap",
+        }}
+      >
+        {recentMaterials.map((material) => (
+          <Grid key={material.id} sx={{ m: "auto", p: "4" }}>
+            <ForHomeMaterialCard
+              id={material.id}
+              imageUrl={material.image.url}
+              materialName={material.name}
+              materialId={material.id}
+              currentUser={currentUser}
+            />
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 });

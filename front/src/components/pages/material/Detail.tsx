@@ -44,10 +44,11 @@ export const Detail: FC<Props> = memo((props) => {
   const query: any = useParams();
 
   const [value, setValue] = useState({
-    id: 0,
+    id: null,
     name: "",
     description: "",
     userId: 0,
+    userName: "",
     image: undefined,
     createdAt: "",
   });
@@ -65,6 +66,7 @@ export const Detail: FC<Props> = memo((props) => {
         name: res.data.name,
         description: res.data.description,
         userId: res.data.userId,
+        userName: res.data.user.name,
         image: res.data.image.url,
         createdAt: res.data.createdAt,
       });
@@ -179,7 +181,7 @@ export const Detail: FC<Props> = memo((props) => {
           <Grid container spacing={4}>
             <Grid item xs={12} md={8}>
               <Card>
-                <CardContent sx={{ textAlign: "center" }}>
+                <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {value?.name}
                   </Typography>
@@ -210,11 +212,13 @@ export const Detail: FC<Props> = memo((props) => {
                   >
                     いいねの数
                   </Typography>
-                  <LikeButton
-                    materialId={value?.id}
-                    currentUser={currentUser}
-                    initialLikeCount={initialLikeCount}
-                  />
+                  {value?.id !== null && (
+                    <LikeButton
+                      materialId={value?.id}
+                      currentUser={currentUser}
+                      initialLikeCount={initialLikeCount}
+                    />
+                  )}
                 </CardContent>
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">
@@ -234,16 +238,16 @@ export const Detail: FC<Props> = memo((props) => {
                 <CardContent>
                   <Avatar />
                   <Typography
-                    variant="h6"
+                    variant="h5"
                     color="text.secondary"
                     sx={{ mb: 1 }}
                   >
-                    {currentUser.name}
+                    {value?.userName}
                   </Typography>
                 </CardContent>
                 <CardContent sx={{ textAlign: "center" }}>
                   <Stack spacing={2}>
-                    {currentUser.id === value?.userId ? (
+                    {currentUser?.id === value?.userId ? (
                       <>
                         <Button
                           variant="outlined"

@@ -2,13 +2,16 @@ version: '3'
 services:
   db:
     image: mysql:8.0
+    platform: linux/amd64
     environment:
       MYSQL_ROOT_PASSWORD: password
-    ports:
-      - '3306:3306'
-    command: --default-authentication-plugin=mysql_native_password
+      MYSQL_DATABASE: kyouzai_development
+      MYSQL_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command: --default-authentication-plugin=mysql_native_password --innodb_use_native_aio=0
     volumes:
       - mysql-data:/var/lib/mysql
+
   api:
     build: ./api
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
@@ -21,6 +24,7 @@ services:
       - db
     stdin_open: true
     tty: true
+
   front:
     build: ./front
     command: yarn start

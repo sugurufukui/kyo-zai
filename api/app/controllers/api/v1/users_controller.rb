@@ -1,4 +1,6 @@
 class Api::V1::UsersController < ApplicationController
+  GUEST_EMAIL = "guest@example.com"
+
   def index
     @users = User.all
     render json: @users
@@ -11,9 +13,8 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    # @user = User.find_by(id: params[:id])
 
-    if current_api_v1_user.id == @user.id && @user.email != "guest@example.com"
+    if current_api_v1_user.id == @user.id && @user.email != GUEST_EMAIL
       if @user.update(user_params)
         render json: @user
       else

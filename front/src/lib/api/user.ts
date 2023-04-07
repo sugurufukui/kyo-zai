@@ -6,11 +6,6 @@ export const getUserId = (id) => {
   return client.get(`/users/${id}`);
 };
 
-// // 全てのuserデータを取得 アカウントリストページ
-// export const getList = () => {
-//   return client.get("/users");
-// };
-
 // 更新
 export const updateUser = (id, params) => {
   return client.patch(`/users/${id}`, params, {
@@ -21,15 +16,3 @@ export const updateUser = (id, params) => {
     },
   });
 };
-
-// // アイコン画像の更新
-// export const updateUserImage = (id, params) => {
-//   return client.patch(`/users/${id}`, params, {
-//     headers: {
-//       "content-type": "multipart/form-data",
-//       "access-token": Cookies.get("_access_token"),
-//       client: Cookies.get("_client"),
-//       uid: Cookies.get("_uid"),
-//     },
-//   });
-// };

@@ -4,10 +4,6 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-#backend
-/.env
-api/public/uploads
-
 # Ignore bundler config.
 /api/.bundle
 
@@ -30,6 +26,7 @@ api/public/uploads
 # Ignore master key for decrypting credentials and more.
 /api/config/master.key
 
+/api/config/credentials.yml.enc
 
 #frontend
 
@@ -54,3 +51,13 @@ api/public/uploads
 /front/npm-debug.log*
 /front/yarn-debug.log*
 /front/yarn-error.log*
+
+#環境変数管理の為に追加したファイル
+api/.env
+front/.env.development
+front/.env.production
+.env
+front/.env
+
+# uploaderのローカル保存先を追加
+api/public/uploads

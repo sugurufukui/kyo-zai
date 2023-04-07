@@ -86,10 +86,8 @@ export const MyMaterial: FC<Props> = memo((props) => {
             container
             display="flex"
             alignItems="center"
-            spacing={6}
             sx={{
               flexWrap: "wrap",
-              p: { xs: 3, md: 6 },
             }}
           >
             {paginator(myMaterials, page, 8).data.map((myMaterial) => (
@@ -115,7 +113,10 @@ export const MyMaterial: FC<Props> = memo((props) => {
             imageUrl={selectedMyMaterial?.image.url}
             initialLikeCount={likeCount}
           />
-          <Box style={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            style={{ display: "flex", justifyContent: "center" }}
+            sx={{ mt: 3 }}
+          >
             <Pagination
               count={count}
               page={page}
@@ -159,7 +160,7 @@ export const MyMaterial: FC<Props> = memo((props) => {
 
   return (
     <>
-      <h1>{currentUser.name}さんの投稿一覧</h1>
+      <h1>{currentUser?.name}さんの投稿一覧</h1>
       <Button variant="outlined" onClick={() => history.goBack()}>
         戻る
       </Button>{" "}
