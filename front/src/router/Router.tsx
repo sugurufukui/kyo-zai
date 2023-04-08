@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { CommonLayout } from "components/templates/CommonLayout";
 import { SignUp } from "components/pages/SignUp";
 import { SignIn } from "components/pages/SignIn";
+import { CheckYourEmail } from "components/pages/CheckYourEmail";
 import { Home } from "components/pages/Home";
 import { AuthProvider } from "providers/AuthProvider";
 import { useAuth } from "hooks/useAuth";
@@ -44,6 +45,7 @@ export const Router: FC = memo(() => {
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/signin" component={SignIn} />
+            <Route exact path="/check-your-email" component={CheckYourEmail} />;
             <Private>
               <Switch>
                 <Route exact path="/materials" component={List} />
