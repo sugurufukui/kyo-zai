@@ -3,7 +3,8 @@
     name: "name_#{n + 1}",
     email: "test_#{n + 1}@example.com",
     password: "password",
-    password_confirmation: "password"
+    password_confirmation: "password",
+    confirmed_at: Time.now
   )
 end
 
