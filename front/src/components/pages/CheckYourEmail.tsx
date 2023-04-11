@@ -1,11 +1,11 @@
 import React, { FC, memo } from "react";
-import { Link } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
+import welcomeImage from "images/welcome.png";
 
 export const CheckYourEmail: FC = memo(() => {
   return (
     <>
-      <Box sx={{ p: 4, borderRadius: "md" }}>
+      <Grid sx={{ p: 4, borderRadius: "md" }}>
         <Typography variant="h5" gutterBottom>
           メールを確認してください
         </Typography>
@@ -18,11 +18,23 @@ export const CheckYourEmail: FC = memo(() => {
         <Typography variant="body1">
           メールに記載されたリンクをクリックして、アカウントの認証を完了してください。
         </Typography>
-        <Box sx={{ mt: 3 }}>
-          <Typography variant="body2">
-            アカウントをお持ちの方は <Link to="/signin">こちら</Link>。
-          </Typography>
-        </Box>
+      </Grid>
+      <Box sx={{ width: "100%", m: "2 auto" }}>
+        <Grid wrap="wrap" container display="flex">
+          <Grid item xs={12}>
+            <Paper
+              component="img"
+              src={`${welcomeImage}`}
+              sx={{
+                width: { xs: "60%", md: "60%" },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+              }}
+            />
+          </Grid>
+        </Grid>
       </Box>
     </>
   );

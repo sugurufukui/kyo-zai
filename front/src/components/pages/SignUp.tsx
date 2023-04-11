@@ -1,20 +1,18 @@
-import React, { useState, useContext, FC, memo } from "react";
+import React, { useState, FC, memo } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Cookies from "js-cookie";
 
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import { Box, Divider, Typography } from "@mui/material";
 
-import { AuthContext } from "providers/AuthProvider";
 import { signUp } from "lib/api/auth";
 import { SignUpParams } from "types/api/SignUpParams";
-import { Box, Divider, Typography } from "@mui/material";
 import { useSnackbar } from "providers/SnackbarProvider";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
-// サインアップ用ページ
 
+// サインアップ用ページ
 export const SignUp: FC = memo(() => {
   const history = useHistory();
 
@@ -29,10 +27,12 @@ export const SignUp: FC = memo(() => {
     e.preventDefault();
 
     const params: SignUpParams = {
-      name: name,
-      email: email,
-      password: password,
-      passwordConfirmation: passwordConfirmation,
+      registration: {
+        name: name,
+        email: email,
+        password: password,
+        passwordConfirmation: passwordConfirmation,
+      },
     };
 
     try {
