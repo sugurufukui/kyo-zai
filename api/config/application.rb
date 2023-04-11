@@ -37,5 +37,11 @@ module KyoZai
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    config.i18n.default_locale = :ja
+
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::ActiveRecordStore, key: '_interslice_session'
+    config.middleware.use ActionDispatch::Flash
   end
 end
