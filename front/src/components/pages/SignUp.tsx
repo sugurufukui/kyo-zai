@@ -1,24 +1,20 @@
-import React, { useState, useContext, FC, memo } from "react";
+import React, { useState, FC, memo } from "react";
 import { Link, useHistory } from "react-router-dom";
-import Cookies from "js-cookie";
 
 import TextField from "@mui/material/TextField";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import { Box, Divider, Typography } from "@mui/material";
 
-import { AuthContext } from "providers/AuthProvider";
 import { signUp } from "lib/api/auth";
 import { SignUpParams } from "types/api/SignUpParams";
-import { Box, Divider, Typography } from "@mui/material";
 import { useSnackbar } from "providers/SnackbarProvider";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
-// サインアップ用ページ
 
+// サインアップ用ページ
 export const SignUp: FC = memo(() => {
   const history = useHistory();
-
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -31,10 +27,12 @@ export const SignUp: FC = memo(() => {
     e.preventDefault();
 
     const params: SignUpParams = {
-      name: name,
-      email: email,
-      password: password,
-      passwordConfirmation: passwordConfirmation,
+      registration: {
+        name: name,
+        email: email,
+        password: password,
+        passwordConfirmation: passwordConfirmation,
+      },
     };
 
     try {
@@ -42,21 +40,13 @@ export const SignUp: FC = memo(() => {
       console.log(res);
 
       if (res.status === 200) {
-        // アカウント作成と同時にサインインさせてしまう
-        //メール認証を挟みたい
+        // アカウント作成と同時にサインインさせない
+        // メール認証が完了するまで待機
+        history.push("/check-your-email");
 
-        Cookies.set("_access_token", res.headers["access-token"]);
-        Cookies.set("_client", res.headers["client"]);
-        Cookies.set("_uid", res.headers["uid"]);
-
-        setIsSignedIn(true);
-        setCurrentUser(res.data.data);
-
-        history.push("/");
-
-        showSnackbar("登録しました", "success");
+        showSnackbar("登録しました。メールを確認してください。", "success");
       } else {
-        alert("登録できませんでした");
+        showSnackbar("登録できませんでした", "error");
         console.log("登録できませんでした");
       }
     } catch (err) {

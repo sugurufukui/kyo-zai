@@ -73,7 +73,7 @@ export const Home: FC = memo(() => {
                 justifyContent: "center",
                 alignItems: "center",
               }}
-            ></Paper>
+            />
           </Grid>
         </Grid>
       </Box>

@@ -47,6 +47,12 @@ GEM
     activerecord (6.1.7)
       activemodel (= 6.1.7)
       activesupport (= 6.1.7)
+    activerecord-session_store (2.0.0)
+      actionpack (>= 5.2.4.1)
+      activerecord (>= 5.2.4.1)
+      multi_json (~> 1.11, >= 1.11.2)
+      rack (>= 2.0.8, < 3)
+      railties (>= 5.2.4.1)
     activestorage (6.1.7)
       actionpack (= 6.1.7)
       activejob (= 6.1.7)
@@ -84,6 +90,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-i18n (1.10.3)
+      devise (>= 4.8.0)
+    devise-i18n-views (0.3.7)
     devise_token_auth (1.2.1)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
@@ -249,10 +258,13 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  activerecord-session_store
   bootsnap (>= 1.4.4)
   byebug
   carrierwave
   devise
+  devise-i18n
+  devise-i18n-views
   devise_token_auth
   dotenv-rails
   fog-aws
