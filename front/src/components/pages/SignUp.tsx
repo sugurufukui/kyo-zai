@@ -42,7 +42,7 @@ export const SignUp: FC = memo(() => {
       if (res.status === 200) {
         // アカウント作成と同時にサインインさせない
         // メール認証が完了するまで待機
-        history.push("/check-your-email");
+        history.replace("/welcome");
 
         showSnackbar("登録しました。メールを確認してください。", "success");
       } else {
@@ -88,6 +88,7 @@ export const SignUp: FC = memo(() => {
               value={password}
               type="password"
               margin="dense"
+              placeholder="8文字以上"
               onChange={(event) => setPassword(event.target.value)}
             />
             <TextField
@@ -97,6 +98,7 @@ export const SignUp: FC = memo(() => {
               value={passwordConfirmation}
               type="password"
               margin="dense"
+              placeholder="8文字以上"
               onChange={(event) => setPasswordConfirmation(event.target.value)}
             />
 
