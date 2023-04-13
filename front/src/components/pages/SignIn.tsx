@@ -111,10 +111,15 @@ export const SignIn: FC = memo(() => {
               type="password"
               autoComplete="current-password"
               margin="dense"
-              placeholder="6文字以上"
+              placeholder="8文字以上"
               onChange={(event) => setPassword(event.target.value)}
             />
-            <Box sx={{ flexGrow: 1, mt: 3 }}>
+            <Box textAlign="right" sx={{ pt: 1 }}>
+              <Typography variant="body2">
+                <Link to="/forgot_password">パスワードをお忘れですか？</Link>
+              </Typography>
+            </Box>
+            <Box sx={{ flexGrow: 1, mt: 2 }}>
               <PrimaryButton
                 onClick={onClickSignIn}
                 disabled={!email || !password ? true : false}

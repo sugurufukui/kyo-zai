@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 import { SignUpParams } from "types/api/SignUpParams";
 import { SignInParams } from "types/api/SignInParams";
+import { ResetPasswordParams } from "types/api/ResetPasswordParams";
 
 // サインアップ（新規アカウント作成）
 export const signUp = (params: SignUpParams) => {
@@ -50,6 +51,26 @@ export const getGuestUserSignIn = () => {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
       uid: Cookies.get("_uid"),
+    },
+  });
+};
+
+// パスワード再設定用のメールを送信
+export const sendResetPasswordInstructions = (params: { email: string }) => {
+  return client.post("/auth/password", params, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+// パスワードリセット
+export const resetPassword = (params: ResetPasswordParams) => {
+  return client.put("/auth/password", params, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
   });
 };
