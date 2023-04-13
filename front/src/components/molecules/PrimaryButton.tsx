@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 
 type Props = {
   children: ReactNode;
-  onClick: (event: React.MouseEvent<HTMLInputElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLInputElement>) => void;
   disabled?: boolean;
   loading?: boolean;
   fullWidth?: boolean;
