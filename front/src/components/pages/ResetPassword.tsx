@@ -33,13 +33,13 @@ export const ResetPassword: FC = memo(() => {
       });
       history.replace("/signin");
       showSnackbar(
-        "パスワードが正常にリセットされました。新しいパスワードでサインインしてください。",
+        "変更されました。新しいパスワードでサインインしてください。",
         "success"
       );
     } catch (err) {
       console.log(e);
       showSnackbar(
-        "パスワードのリセットに失敗しました。もう一度お試しください。",
+        "新しいパスワードの登録に失敗しました。もう一度お試しください。",
         "error"
       );
     }
@@ -50,7 +50,7 @@ export const ResetPassword: FC = memo(() => {
       <Card sx={{ p: 4, borderRadius: "md" }}>
         <CardHeader
           sx={{ textAlign: "center" }}
-          title="パスワードをリセットする"
+          title="新しいパスワードを登録する"
         />
         <CardContent>
           <TextField
@@ -79,7 +79,7 @@ export const ResetPassword: FC = memo(() => {
               fullWidth
               disabled={!password || !passwordConfirmation}
             >
-              パスワードをリセットする
+              新しいパスワードを登録する
             </PrimaryButton>
           </Box>
 
