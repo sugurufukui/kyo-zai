@@ -142,6 +142,7 @@ export const SignIn: FC = memo(() => {
                   sx={{
                     color: "inherit",
                     "&:visited": { color: "inherit" },
+                    ":hover": { color: "primary.main" },
                   }}
                 >
                   パスワードをお忘れの方はこちら
@@ -166,6 +167,7 @@ export const SignIn: FC = memo(() => {
                   sx={{
                     color: "inherit",
                     "&:visited": { color: "inherit" },
+                    ":hover": { color: "primary.main" },
                   }}
                 >
                   こちら

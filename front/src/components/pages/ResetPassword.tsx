@@ -112,6 +112,7 @@ export const ResetPassword: FC = memo(() => {
                 sx={{
                   color: "inherit",
                   "&:visited": { color: "inherit" },
+                  ":hover": { color: "primary.main" },
                 }}
               >
                 ログインページに戻る

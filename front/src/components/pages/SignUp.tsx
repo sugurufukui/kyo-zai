@@ -156,6 +156,7 @@ export const SignUp: FC = memo(() => {
                     sx={{
                       color: "inherit",
                       "&:visited": { color: "inherit" },
+                      ":hover": { color: "primary.main" },
                     }}
                   >
                     こちら
