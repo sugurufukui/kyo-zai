@@ -36,15 +36,15 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   # メール認証設定
-  config.action_mailer.default_options = { from: ENV['EMAIL_ADDRESS'] }
+  config.action_mailer.default_options = { from: "きょーざい（特別支援教育教材アプリ） <#{ENV.fetch('EMAIL_ADDRESS', nil)}>" }
   config.action_mailer.default_url_options = { host: 'localhost', port: 3001 }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 587,
     domain: 'gmail.com',
-    user_name: ENV['EMAIL_ADDRESS'],
-    password: ENV['EMAIL_PASSWORD'],
+    user_name: ENV.fetch('EMAIL_ADDRESS', nil),
+    password: ENV.fetch('EMAIL_PASSWORD', nil),
     authentication: 'plain',
     enable_starttls_auto: true
   }

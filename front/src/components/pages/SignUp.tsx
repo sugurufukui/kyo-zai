@@ -6,6 +6,9 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import { Box, Divider, Typography } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import { signUp } from "lib/api/auth";
 import { SignUpParams } from "types/api/SignUpParams";
@@ -20,6 +23,8 @@ export const SignUp: FC = memo(() => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const { showSnackbar } = useSnackbar();
 
   // 登録ボタン押下時
@@ -42,7 +47,7 @@ export const SignUp: FC = memo(() => {
       if (res.status === 200) {
         // アカウント作成と同時にサインインさせない
         // メール認証が完了するまで待機
-        history.push("/check-your-email");
+        history.replace("/welcome");
 
         showSnackbar("登録しました。メールを確認してください。", "success");
       } else {
@@ -53,6 +58,11 @@ export const SignUp: FC = memo(() => {
       console.log(err);
       showSnackbar("登録できませんでした", "error");
     }
+  };
+
+  // パスワード表示のON/OFF
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -86,18 +96,40 @@ export const SignUp: FC = memo(() => {
               fullWidth
               label="パスワード"
               value={password}
-              type="password"
+              type={showPassword ? "text" : "password"}
               margin="dense"
+              placeholder="8文字以上"
               onChange={(event) => setPassword(event.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    edge="end"
+                    onClick={handleTogglePasswordVisibility}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                ),
+              }}
             />
             <TextField
               variant="outlined"
               fullWidth
               label="パスワード（確認用）"
               value={passwordConfirmation}
-              type="password"
+              type={showPassword ? "text" : "password"}
               margin="dense"
+              placeholder="8文字以上"
               onChange={(event) => setPasswordConfirmation(event.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    edge="end"
+                    onClick={handleTogglePasswordVisibility}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                ),
+              }}
             />
 
             <Box sx={{ flexGrow: 1, mt: 3 }}>
@@ -117,7 +149,18 @@ export const SignUp: FC = memo(() => {
             <Box sx={{ flexGrow: 1 }}>
               <Box textAlign="center" sx={{ pb: 1 }}>
                 <Typography variant="body2">
-                  アカウントをお持ちの方は <Link to="/signin">こちら</Link>。
+                  アカウントをお持ちの方は
+                  <Box
+                    component={Link}
+                    to="/signin"
+                    sx={{
+                      color: "inherit",
+                      "&:visited": { color: "inherit" },
+                      ":hover": { color: "primary.main" },
+                    }}
+                  >
+                    こちら
+                  </Box>
                 </Typography>
               </Box>
             </Box>

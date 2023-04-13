@@ -64,7 +64,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # メール認証設定
-  config.action_mailer.default_options = { from: ENV['EMAIL_ADDRESS'] }
+  config.action_mailer.default_options = { from: "きょーざい（特別支援教育教材アプリ） <#{ENV.fetch('EMAIL_ADDRESS', nil)}>" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',

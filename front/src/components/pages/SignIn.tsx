@@ -8,6 +8,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 import { SignInParams } from "types/api/SignInParams";
 import { getGuestUserSignIn, signIn } from "lib/api/auth";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
@@ -20,10 +24,11 @@ export const SignIn: FC = memo(() => {
   const history = useHistory();
 
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbar();
-
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const { showSnackbar } = useSnackbar();
 
   // 通常ログインボタン押下時
   const onClickSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -85,6 +90,11 @@ export const SignIn: FC = memo(() => {
     }
   };
 
+  // パスワード表示のON/OFF
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
       <form noValidate>
@@ -108,13 +118,38 @@ export const SignIn: FC = memo(() => {
               fullWidth
               label="パスワード"
               value={password}
-              type="password"
+              type={showPassword ? "text" : "password"}
               autoComplete="current-password"
               margin="dense"
-              placeholder="6文字以上"
+              placeholder="8文字以上"
               onChange={(event) => setPassword(event.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    edge="end"
+                    onClick={handleTogglePasswordVisibility}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                ),
+              }}
             />
-            <Box sx={{ flexGrow: 1, mt: 3 }}>
+            <Box textAlign="right" sx={{ pt: 1 }}>
+              <Typography variant="body2">
+                <Box
+                  component={Link}
+                  to="/forgot_password"
+                  sx={{
+                    color: "inherit",
+                    "&:visited": { color: "inherit" },
+                    ":hover": { color: "primary.main" },
+                  }}
+                >
+                  パスワードをお忘れの方はこちら
+                </Box>
+              </Typography>
+            </Box>
+            <Box sx={{ flexGrow: 1, mt: 2 }}>
               <PrimaryButton
                 onClick={onClickSignIn}
                 disabled={!email || !password ? true : false}
@@ -126,7 +161,17 @@ export const SignIn: FC = memo(() => {
             <Box textAlign="center" sx={{ pt: 2 }}>
               <Typography variant="body2">
                 アカウントをお持ちでない方は
-                <Link to="/signup">こちら</Link>
+                <Box
+                  component={Link}
+                  to="/signup"
+                  sx={{
+                    color: "inherit",
+                    "&:visited": { color: "inherit" },
+                    ":hover": { color: "primary.main" },
+                  }}
+                >
+                  こちら
+                </Box>
                 から作成してください。
               </Typography>
             </Box>
