@@ -3,6 +3,9 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { CardHeader, Typography } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -10,15 +13,14 @@ import { PrimaryButton } from "components/molecules/PrimaryButton";
 import { resetPassword } from "lib/api/auth";
 import { useSnackbar } from "providers/SnackbarProvider";
 
-interface ResetPasswordParams {
-  token: string;
-}
+import { ResetPasswordParams } from "types/api/ResetPasswordParams";
 
 export const ResetPassword: FC = memo(() => {
   const { token } = useParams<ResetPasswordParams>();
   const history = useHistory();
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const { showSnackbar } = useSnackbar();
 
@@ -45,6 +47,11 @@ export const ResetPassword: FC = memo(() => {
     }
   };
 
+  // パスワード表示のON/OFF
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <form onSubmit={onSubmit} noValidate>
       <Card sx={{ p: 4, borderRadius: "md" }}>
@@ -58,21 +65,35 @@ export const ResetPassword: FC = memo(() => {
             fullWidth
             label="新しいパスワード"
             value={password}
-            type="password"
+            type={showPassword ? "text" : "password"}
             margin="dense"
             placeholder="8文字以上"
             onChange={(event) => setPassword(event.target.value)}
             autoFocus
+            InputProps={{
+              endAdornment: (
+                <IconButton edge="end" onClick={handleTogglePasswordVisibility}>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              ),
+            }}
           />
           <TextField
             variant="outlined"
             fullWidth
             label="新しいパスワード（確認）"
             value={passwordConfirmation}
-            type="password"
+            type={showPassword ? "text" : "password"}
             margin="dense"
             placeholder="8文字以上"
             onChange={(event) => setPasswordConfirmation(event.target.value)}
+            InputProps={{
+              endAdornment: (
+                <IconButton edge="end" onClick={handleTogglePasswordVisibility}>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              ),
+            }}
           />
           <Box sx={{ flexGrow: 1, mt: 3 }}>
             <PrimaryButton

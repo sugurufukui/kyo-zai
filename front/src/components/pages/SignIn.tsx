@@ -8,6 +8,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 import { SignInParams } from "types/api/SignInParams";
 import { getGuestUserSignIn, signIn } from "lib/api/auth";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
@@ -20,10 +24,11 @@ export const SignIn: FC = memo(() => {
   const history = useHistory();
 
   const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbar();
-
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const { showSnackbar } = useSnackbar();
 
   // 通常ログインボタン押下時
   const onClickSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -85,6 +90,11 @@ export const SignIn: FC = memo(() => {
     }
   };
 
+  // パスワード表示のON/OFF
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
       <form noValidate>
@@ -108,11 +118,21 @@ export const SignIn: FC = memo(() => {
               fullWidth
               label="パスワード"
               value={password}
-              type="password"
+              type={showPassword ? "text" : "password"}
               autoComplete="current-password"
               margin="dense"
               placeholder="8文字以上"
               onChange={(event) => setPassword(event.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <IconButton
+                    edge="end"
+                    onClick={handleTogglePasswordVisibility}
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                ),
+              }}
             />
             <Box textAlign="right" sx={{ pt: 1 }}>
               <Typography variant="body2">
