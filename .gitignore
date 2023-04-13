@@ -28,6 +28,7 @@
 
 /api/config/credentials.yml.enc
 
+/api/config/credentials/
 #frontend
 
 # dependencies
