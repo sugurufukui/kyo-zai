@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
 import { sendResetPasswordInstructions } from "lib/api/auth";
 import { useSnackbar } from "providers/SnackbarProvider";
+import { Typography } from "@mui/material";
 
 export const ForgotPassword: FC = memo(() => {
   const history = useHistory();
@@ -53,8 +54,20 @@ export const ForgotPassword: FC = memo(() => {
               パスワード再設定用のメールを送信する
             </PrimaryButton>
           </Box>
+
           <Box textAlign="center" sx={{ pt: 2 }}>
-            <Link to="/signin">サインインページに戻る</Link>
+            <Typography variant="body2">
+              <Box
+                component={Link}
+                to="/signin"
+                sx={{
+                  color: "inherit",
+                  "&:visited": { color: "inherit" },
+                }}
+              >
+                ログインページに戻る
+              </Box>
+            </Typography>
           </Box>
         </CardContent>
       </Card>

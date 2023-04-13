@@ -119,7 +119,17 @@ export const SignUp: FC = memo(() => {
             <Box sx={{ flexGrow: 1 }}>
               <Box textAlign="center" sx={{ pb: 1 }}>
                 <Typography variant="body2">
-                  アカウントをお持ちの方は <Link to="/signin">こちら</Link>。
+                  アカウントをお持ちの方は
+                  <Box
+                    component={Link}
+                    to="/signin"
+                    sx={{
+                      color: "inherit",
+                      "&:visited": { color: "inherit" },
+                    }}
+                  >
+                    こちら
+                  </Box>
                 </Typography>
               </Box>
             </Box>

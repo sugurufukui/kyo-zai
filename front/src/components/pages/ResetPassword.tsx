@@ -2,7 +2,7 @@ import React, { useState, FC, memo } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { CardHeader } from "@mui/material";
+import { CardHeader, Typography } from "@mui/material";
 
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -82,8 +82,20 @@ export const ResetPassword: FC = memo(() => {
               パスワードをリセットする
             </PrimaryButton>
           </Box>
+
           <Box textAlign="center" sx={{ pt: 2 }}>
-            <Link to="/signin">サインインページに戻る</Link>
+            <Typography variant="body2">
+              <Box
+                component={Link}
+                to="/signin"
+                sx={{
+                  color: "inherit",
+                  "&:visited": { color: "inherit" },
+                }}
+              >
+                ログインページに戻る
+              </Box>
+            </Typography>
           </Box>
         </CardContent>
       </Card>

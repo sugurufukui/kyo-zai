@@ -116,7 +116,16 @@ export const SignIn: FC = memo(() => {
             />
             <Box textAlign="right" sx={{ pt: 1 }}>
               <Typography variant="body2">
-                <Link to="/forgot_password">パスワードをお忘れですか？</Link>
+                <Box
+                  component={Link}
+                  to="/forgot_password"
+                  sx={{
+                    color: "inherit",
+                    "&:visited": { color: "inherit" },
+                  }}
+                >
+                  パスワードをお忘れの方はこちら
+                </Box>
               </Typography>
             </Box>
             <Box sx={{ flexGrow: 1, mt: 2 }}>
@@ -131,7 +140,16 @@ export const SignIn: FC = memo(() => {
             <Box textAlign="center" sx={{ pt: 2 }}>
               <Typography variant="body2">
                 アカウントをお持ちでない方は
-                <Link to="/signup">こちら</Link>
+                <Box
+                  component={Link}
+                  to="/signup"
+                  sx={{
+                    color: "inherit",
+                    "&:visited": { color: "inherit" },
+                  }}
+                >
+                  こちら
+                </Box>
                 から作成してください。
               </Typography>
             </Box>
