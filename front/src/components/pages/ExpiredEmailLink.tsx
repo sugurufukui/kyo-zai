@@ -12,7 +12,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Box } from "@mui/system";
 import { AuthContext } from "providers/AuthProvider";
 
-export const Page404: FC = memo(() => {
+export const ExpiredEmailLink: FC = memo(() => {
   const { isSignedIn, currentUser } = useContext(AuthContext);
 
   const authPages = [
@@ -94,12 +94,12 @@ export const Page404: FC = memo(() => {
     <>
       <Box textAlign={"center"} sx={{ m: 4 }}>
         <Typography variant="h4" sx={{ textDecoration: "underline lightgray" }}>
-          お探しのページが見つかりませんでした
+          このメールリンクは有効期限切れです。
         </Typography>
       </Box>
       <Box textAlign={"center"} sx={{ m: 2 }}>
         <Typography variant="body1">
-          申し訳ありません。お探しのページが見つかりませんでした。
+          申し訳ありません。このメールリンクは有効期限切れです。
         </Typography>
         <Typography variant="body1">
           お手数ですが、以下のリンクからお求めのページをお探しください。

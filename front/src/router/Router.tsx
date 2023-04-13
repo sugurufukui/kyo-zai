@@ -1,9 +1,15 @@
 import { FC, memo, ReactElement } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { CommonLayout } from "components/templates/CommonLayout";
+
 import { SignUp } from "components/pages/SignUp";
+import { WelcomeEmail } from "components/pages/WelcomeEmail";
 import { SignIn } from "components/pages/SignIn";
-import { CheckYourEmail } from "components/pages/CheckYourEmail";
+import { ForgotPassword } from "components/pages/ForgotPassword";
+import { ResetPasswordEmail } from "components/pages/ResetPasswordEmail";
+import { ResetPassword } from "components/pages/ResetPassword";
+import { ExpiredEmailLink } from "components/pages/ExpiredEmailLink";
+
 import { Home } from "components/pages/Home";
 import { AuthProvider } from "providers/AuthProvider";
 import { useAuth } from "hooks/useAuth";
@@ -44,8 +50,24 @@ export const Router: FC = memo(() => {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/welcome" component={WelcomeEmail} />
             <Route exact path="/signin" component={SignIn} />
-            <Route exact path="/check-your-email" component={CheckYourEmail} />;
+            <Route exact path="/forgot_password" component={ForgotPassword} />
+            <Route
+              exact
+              path="/send_password_email"
+              component={ResetPasswordEmail}
+            />
+            <Route
+              exact
+              path="/reset_password/:token"
+              component={ResetPassword}
+            />
+            <Route
+              exact
+              path="/expired_email_link"
+              component={ExpiredEmailLink}
+            />
             <Private>
               <Switch>
                 <Route exact path="/materials" component={List} />

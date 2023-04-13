@@ -1,5 +1,6 @@
 # ログイン状態確認用コントローラー
 class Api::V1::Auth::SessionsController < DeviseTokenAuth::SessionsController
+  #ユーザーがサインインしてるか確認
   def index
     if current_api_v1_user
       render json: { is_login: true, data: current_api_v1_user }
@@ -14,11 +15,5 @@ class Api::V1::Auth::SessionsController < DeviseTokenAuth::SessionsController
     @token = @resource.create_token
     @resource.save!
     render_create_success
-  end
-
-  private
-
-  def login_params
-    params.permit(:session)
   end
 end

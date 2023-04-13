@@ -15,8 +15,6 @@ class User < ActiveRecord::Base
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
-  # 数値が[0] 未満にならないようにするvalidationを用意
-  validates :likes, length: { minimum: 0 }
 
   # ゲストログイン
   def self.guest
