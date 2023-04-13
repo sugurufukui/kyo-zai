@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 DeviseTokenAuth.setup do |config|
-  config.parent_controller = "Api::V1::Auth::ApplicationController"
+  # config.parent_controller = "ApplicationController"
 
   # By default the authorization headers will change after each request. The
   # client is responsible for keeping track of the changing tokens. Change
@@ -37,7 +37,7 @@ DeviseTokenAuth.setup do |config|
   # Uncomment to enforce current_password param to be checked before all
   # attribute updates. Set it to :password if you want it to be checked only if
   # password is updated.
-  # config.check_current_password_before_update = :attributes
+
 
   # By default we will use callbacks for single omniauth.
   # It depends on fields like email, provider and uid.
