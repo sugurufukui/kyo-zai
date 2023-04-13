@@ -1,5 +1,3 @@
-Readme 
-
 # きょーざい - 教材シェアアプリ
 
 特別支援学校や特別支援学級に通う児童生徒の特性に沿った教材を共有するプラットフォームです。
@@ -208,4 +206,3 @@ docker-compose up
 - Twitter: [@urugusss](https://twitter.com/urugusss)
 
 最後まで読んでいただきありがとうございました。
-
