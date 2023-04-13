@@ -2,7 +2,7 @@ import React, { FC, memo } from "react";
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import welcomeImage from "images/welcome.png";
 
-export const CheckYourEmail: FC = memo(() => {
+export const WelcomeEmail: FC = memo(() => {
   return (
     <>
       <Grid sx={{ p: 4, borderRadius: "md" }}>
