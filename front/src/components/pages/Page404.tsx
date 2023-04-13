@@ -1,12 +1,6 @@
 import { FC, memo, useContext } from "react";
-import { useHistory, Link } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardHeader,
-  Typography,
-} from "@mui/material";
+import { Link } from "react-router-dom";
+import { Button, Card, CardHeader, Typography } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -19,13 +13,11 @@ import { Box } from "@mui/system";
 import { AuthContext } from "providers/AuthProvider";
 
 export const Page404: FC = memo(() => {
-  const history = useHistory();
   const { isSignedIn, currentUser } = useContext(AuthContext);
 
   const authPages = [
     { children: "HOME", icon: <HomeIcon />, link: "/" },
     { children: "教材一覧", icon: <MenuBookIcon />, link: "/materials" },
-    // { children: "検索", icon: <SearchIcon />, link: "/" },
     { children: "投稿", icon: <PostAddIcon />, link: "/materials/new" },
     {
       children: "マイページ",
