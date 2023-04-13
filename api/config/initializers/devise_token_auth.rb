@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 DeviseTokenAuth.setup do |config|
+  config.parent_controller = "Api::V1::Auth::ApplicationController"
+
   # By default the authorization headers will change after each request. The
   # client is responsible for keeping track of the changing tokens. Change
   # this to false to prevent the Authorization header from changing after
@@ -64,5 +66,5 @@ DeviseTokenAuth.setup do |config|
   # アカウント確認メールを送信
   config.send_confirmation_email = true
   # 成功時のリダイレクト先を "/signin" に設定
-  config.default_confirm_success_url = ENV['CONFIRM_SUCCESS_URL']
+  config.default_confirm_success_url = ENV.fetch('CONFIRM_SUCCESS_URL', nil)
 end
