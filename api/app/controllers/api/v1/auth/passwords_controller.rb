@@ -26,17 +26,17 @@ class Api::V1::Auth::PasswordsController < DeviseTokenAuth::PasswordsController
                       "https://tokushi-kyouzai.com/reset_password"
                     end
 
-    # 開発用と本番用で、期限切れトークンのカスタムURLを使用：404ページを表示
+    # 開発用と本番用で、期限切れトークンのカスタムURLを使用："/expired_email_link"　を表示
     expired_token_url = if Rails.env.development?
-      "http://localhost:3000/page404"
+      "http://localhost:3000/expired_email_link"
     else
-      "https://tokushi-kyouzai.com/page404"
+      "https://tokushi-kyouzai.com/expired_email_link"
     end
 
     # reset_password_token でユーザが見つかることを確認
     @resource = resource_class.with_reset_password_token(resource_params[:reset_password_token])
 
-    # 期限切れの場合は404page表示
+    # 期限切れの場合は　"/expired_email_link"　を表示
     if @resource && @resource.reset_password_period_valid?
       url = "#{redirect_url}/#{resource_params[:reset_password_token]}"
       redirect_to url

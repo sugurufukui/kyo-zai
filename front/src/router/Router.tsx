@@ -8,6 +8,7 @@ import { SignIn } from "components/pages/SignIn";
 import { ForgotPassword } from "components/pages/ForgotPassword";
 import { ResetPasswordEmail } from "components/pages/ResetPasswordEmail";
 import { ResetPassword } from "components/pages/ResetPassword";
+import { ExpiredEmailLink } from "components/pages/ExpiredEmailLink";
 
 import { Home } from "components/pages/Home";
 import { AuthProvider } from "providers/AuthProvider";
@@ -61,6 +62,11 @@ export const Router: FC = memo(() => {
               exact
               path="/reset_password/:token"
               component={ResetPassword}
+            />
+            <Route
+              exact
+              path="/expired_email_link"
+              component={ExpiredEmailLink}
             />
             <Private>
               <Switch>
