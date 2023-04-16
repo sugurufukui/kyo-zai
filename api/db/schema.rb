@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_11_092853) do
+ActiveRecord::Schema.define(version: 2023_04_16_014856) do
 
   create_table "likes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2023_04_11_092853) do
     t.string "nickname"
     t.string "image"
     t.string "email"
+    t.string "introduction", default: "よろしくお願いします"
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
