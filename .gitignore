@@ -25,10 +25,6 @@
 
 # Ignore master key for decrypting credentials and more.
 /api/config/master.key
-
-/api/config/credentials.yml.enc
-
-/api/config/credentials/
 #frontend
 
 # dependencies
@@ -54,11 +50,11 @@
 /front/yarn-error.log*
 
 #環境変数管理の為に追加したファイル
-api/.env
-front/.env.development
-front/.env.production
 .env
-front/.env
+/api/.env
+/front/.env
+/front/.env.development
+/front/.env.production
 
 # uploaderのローカル保存先を追加
-api/public/uploads
+/api/public/uploads

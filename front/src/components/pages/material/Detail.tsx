@@ -30,6 +30,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import { Box } from "@mui/system";
 import moment from "moment";
+import { DeleteMaterialModal } from "components/molecules/DeleteMaterialModal";
 
 type Props = {
   initialLikeCount: number;
@@ -77,67 +78,14 @@ export const Detail: FC<Props> = memo((props) => {
     }
   }, []);
 
-  //削除する
-  const onClickDelete = useCallback(
-    async (item: MaterialType) => {
-      // ローディングスタート
-      console.log("click", item.id);
-      try {
-        const res = await deleteMaterial(item.id);
-        // 削除後に一覧ページに遷移する
-        history.push("/materials");
-        showSnackbar("削除しました", "success");
-      } catch (e) {
-        console.log(e);
-        showSnackbar("削除に失敗しました。", "error");
-      } finally {
-        // ローディング停止
-      }
-    },
-    [history, showSnackbar]
-  );
-
   //削除確認用ダイアログ用
   const [open, setOpen] = useState(false);
-  const handleClose = () => {
+  const deleteDialogClose = () => {
     setOpen(false);
   };
   const deleteDialogOpen = () => {
     setOpen(true);
   };
-  const DeleteDialog = useCallback(() => {
-    return (
-      <div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              削除すると2度と復元することができません。
-            </DialogContentText>
-            <DialogContentText id="alert-dialog-description">
-              本当に削除してもよろしいですか？
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button variant="outlined" onClick={handleClose} autoFocus>
-              やめる
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              startIcon={<DeleteIcon />}
-              onClick={() => onClickDelete(query)}
-            >
-              削除する
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }, [onClickDelete, open, query]);
 
   //いいねの数を管理
   const [likeCount, setLikeCount] = useState(initialLikeCount);
@@ -162,8 +110,7 @@ export const Detail: FC<Props> = memo((props) => {
   useEffect(() => {
     getDetail(query);
     handleGetLike();
-    DeleteDialog();
-  }, [query, DeleteDialog, handleGetLike]);
+  }, [getDetail, query, handleGetLike]);
 
   return (
     <>
@@ -267,13 +214,17 @@ export const Detail: FC<Props> = memo((props) => {
                         >
                           教材を削除する
                         </Button>
+                        <DeleteMaterialModal
+                          open={open}
+                          handleClose={deleteDialogClose}
+                          item={query}
+                        />
                       </>
                     ) : (
                       <></>
                     )}
                   </Stack>
                 </CardContent>
-                <DeleteDialog />
               </Card>
               <Button
                 variant="contained"
