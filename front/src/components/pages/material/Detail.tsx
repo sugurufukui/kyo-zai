@@ -2,8 +2,7 @@ import { FC, memo, useState, useEffect, useContext, useCallback } from "react";
 
 import { useHistory, useParams } from "react-router-dom";
 
-import { MaterialType } from "types/api/materialType";
-import { deleteMaterial, getDetailMaterial } from "lib/api/material";
+import { getDetailMaterial } from "lib/api/material";
 import { useSnackbar } from "providers/SnackbarProvider";
 
 import { AuthContext } from "providers/AuthProvider";
@@ -18,10 +17,6 @@ import {
   CardContent,
   CardMedia,
   CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
   Grid,
   Stack,
   Typography,
