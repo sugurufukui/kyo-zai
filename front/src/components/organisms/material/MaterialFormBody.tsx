@@ -1,14 +1,10 @@
-import React, { FC, ReactNode, useCallback, useEffect, useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 
 import {
   Button,
   Card,
   CardHeader,
   CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
   Divider,
   IconButton,
   Paper,
@@ -20,12 +16,10 @@ import { Box } from "@mui/system";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { deleteMaterial } from "lib/api/material";
-import { useHistory, useParams } from "react-router-dom";
-import { MaterialType } from "types/api/materialType";
+import { useParams } from "react-router-dom";
 
-import { useSnackbar } from "providers/SnackbarProvider";
 import { grey } from "@mui/material/colors";
+import { DeleteMaterialModal } from "components/molecules/DeleteMaterialModal";
 
 type Props = {
   title: string;
@@ -59,76 +53,18 @@ export const MaterialFormBody: FC<Props> = (props) => {
     onClickResetFile,
   } = props;
 
-  const history = useHistory();
-  const { showSnackbar } = useSnackbar();
-
   const isLoading = !image && !preview;
 
-  //削除する
-  const onClickDelete = useCallback(
-    async (item: MaterialType) => {
-      // ローディングスタート
-      console.log("click", item.id);
-      try {
-        const res = await deleteMaterial(item.id);
-        // 削除後に一覧ページに遷移する
-        history.push("/materials");
-        showSnackbar("削除しました", "success");
-      } catch (e) {
-        console.log(e);
-        showSnackbar("削除に失敗しました。", "error");
-      } finally {
-        // ローディング停止
-      }
-    },
-    [history, showSnackbar]
-  );
+  const query: any = useParams();
+
   //削除確認用ダイアログ用
   const [open, setOpen] = useState(false);
-  const query: any = useParams();
-  const handleClose = () => {
+  const deleteDialogClose = () => {
     setOpen(false);
   };
   const deleteDialogOpen = () => {
     setOpen(true);
   };
-  const DeleteDialog = useCallback(() => {
-    return (
-      <div>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              削除すると2度と復元することができません。
-            </DialogContentText>
-            <DialogContentText id="alert-dialog-description">
-              本当に削除してもよろしいですか？
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button variant="outlined" onClick={handleClose} autoFocus>
-              やめる
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              startIcon={<DeleteIcon />}
-              onClick={() => onClickDelete(query)}
-            >
-              削除する
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }, [onClickDelete, open, query]);
-
-  useEffect(() => {
-    DeleteDialog();
-  }, [DeleteDialog]);
 
   return (
     <>
@@ -287,8 +223,11 @@ export const MaterialFormBody: FC<Props> = (props) => {
                   削除する
                 </Button>
               </Box>
-              {/* /* 削除確認用ダイアログ  */}
-              <DeleteDialog />
+              <DeleteMaterialModal
+                open={open}
+                handleClose={deleteDialogClose}
+                item={query}
+              />
             </>
           ) : (
             <></>
