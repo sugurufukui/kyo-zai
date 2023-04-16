@@ -15,13 +15,14 @@ class User < ActiveRecord::Base
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
+  validates :introduction, length: { maximum: 200 }
 
   # ゲストログイン
   def self.guest
     find_or_create_by!(email: "guest@example.com") do |user|
       user.password = SecureRandom.urlsafe_base64(10)
       user.name = "ゲストユーザー"
-      # user.comment = "ゲストユーザーとしてログイン中"
+      user.introduction = "ゲストユーザーとしてログイン中"
       user.confirmed_at = Time.now
     end
   end

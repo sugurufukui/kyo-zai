@@ -105,6 +105,20 @@ export const AccountEdit: FC = memo(() => {
               value={userProfile?.email || ""}
               onChange={(e) => handleChange(e)}
             />
+            <TextField
+              variant="outlined"
+              fullWidth
+              id="introduction"
+              label="自己紹介"
+              name="introduction"
+              type="text"
+              multiline
+              minRows={4}
+              margin="dense"
+              placeholder="200文字以内"
+              value={userProfile?.introduction || ""}
+              onChange={(e) => handleChange(e)}
+            />
             <Button
               variant="outlined"
               color="primary"
