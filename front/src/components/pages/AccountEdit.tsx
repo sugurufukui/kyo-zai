@@ -11,19 +11,28 @@ import {
   CardContent,
 } from "@mui/material";
 import { Card } from "@mui/material";
+import { DeleteUserModal } from "components/molecules/DeleteUserModal";
+import { User } from "types/api/user";
 
 export const AccountEdit: FC = memo(() => {
-  // 一覧からreact-router-domを使ってidを取得
-  const query: any = useParams();
-  const [value, setValue] = useState({
-    name: "",
-    email: "",
-  });
-
   const { currentUser } = useContext(AuthContext);
 
   const history = useHistory();
   const { showSnackbar } = useSnackbar();
+
+  const query: any = useParams();
+  const [userProfile, setUserProfile] = useState<User>();
+
+  //退会
+  const [open, setOpen] = useState(false);
+
+  const deleteDialogOpen = () => {
+    setOpen(true);
+  };
+
+  const deleteDialogClose = () => {
+    setOpen(false);
+  };
 
   // 画面が描画されたときとqueryが更新された時にデータを取得する関数を実行
   useEffect(() => {
@@ -34,12 +43,8 @@ export const AccountEdit: FC = memo(() => {
     try {
       const res = await getUserId(query.id);
       // 他のユーザーのユーザー編集画面には推移させない
-
-      if (query.id == currentUser.id) {
-        setValue({
-          name: res.data.name,
-          email: res.data.email,
-        });
+      if (query?.id == currentUser?.id) {
+        setUserProfile(res.data);
       } else {
         history.push("/");
         showSnackbar("他のユーザーの情報を編集することはできません", "error");
@@ -50,34 +55,27 @@ export const AccountEdit: FC = memo(() => {
   };
 
   // テキストフィールドの変更を検知し値を書き換えstateで管理
-
   const handleChange = (e) => {
-    setValue({
-      ...value,
+    setUserProfile({
+      ...userProfile,
       [e.target.name]: e.target.value,
     });
-    console.log("value", value);
-    console.log("e.target.name", e.target.name);
   };
 
-  // 更新ボタン押下後、idとparameterをapiクライアントに渡し、リクエストを投げる
+  // 編集
   const handleUpdateAccount = async (e) => {
     e.preventDefault();
     try {
-      // 上で定義して3つの情報が入った入ったformDataをdataに代入
-      // const data = updateFormData();
-      // paramsの値にdata=formDataの値を代入
-      const res = await updateUser(query.id, value);
+      const res = await updateUser(query.id, userProfile);
       console.log(res);
-      // リクエストが成功したら一覧画面に推移
       history.push(`/user/${currentUser.id}`);
       showSnackbar("ユーザー情報を編集しました", "success");
     } catch (e) {
       console.log(e);
-      history.push("/");
-      showSnackbar("他のユーザーの情報を編集することはできません", "error");
+      showSnackbar("ユーザー情報を編集できませんでした", "error");
     }
   };
+
   return (
     <>
       <form>
@@ -93,7 +91,7 @@ export const AccountEdit: FC = memo(() => {
               name="name"
               type="text"
               margin="dense"
-              value={value.name}
+              value={userProfile?.name || ""}
               onChange={(e) => handleChange(e)}
             />
             <TextField
@@ -104,7 +102,7 @@ export const AccountEdit: FC = memo(() => {
               name="email"
               type="email"
               margin="dense"
-              value={value.email}
+              value={userProfile?.email || ""}
               onChange={(e) => handleChange(e)}
             />
             <Button
@@ -116,8 +114,22 @@ export const AccountEdit: FC = memo(() => {
                 handleUpdateAccount(e);
               }}
             >
-              更新
+              編集を完了する
             </Button>
+            <Divider sx={{ my: 6 }} />
+            <Button
+              variant="outlined"
+              color="error"
+              fullWidth
+              onClick={deleteDialogOpen}
+            >
+              退会する
+            </Button>
+            <DeleteUserModal
+              open={open}
+              handleClose={deleteDialogClose}
+              user={userProfile}
+            />
           </CardContent>
         </Card>
       </form>

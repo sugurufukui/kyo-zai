@@ -20,6 +20,9 @@ Rails.application.routes.draw do
         post 'auth/passwords', to: 'auth/passwords#create'
         put 'auth/passwords', to: 'auth/passwords#update'
       end
+
+      # アカウント削除確認メール送信
+      post '/users/:user_id/send_deletion_confirmation_email', to: 'users#send_deletion_confirmation_email'
     end
   end
 

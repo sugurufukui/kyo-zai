@@ -34,7 +34,7 @@ export const Account: FC = memo(() => {
   // userのプロフィール情報を格納
   const [userProfile, setUserProfile] = useState<User>();
   // userのidを格納
-  const [accountId, setAccountId] = useState();
+  const [userId, setUserId] = useState();
   const history = useHistory();
   const query: any = useParams();
 
@@ -46,7 +46,7 @@ export const Account: FC = memo(() => {
           const res = await getUserId(query.id);
           console.log(res.data);
           setUserProfile(res.data);
-          setAccountId(res.data.id);
+          setUserId(res.data.id);
         } else {
           console.log("error");
           <Redirect to="/signin" />;
@@ -113,7 +113,7 @@ export const Account: FC = memo(() => {
                 color="primary"
                 fullWidth
                 style={{ marginTop: "2rem" }}
-                onClick={() => history.push(`/user/edit/${accountId}`)}
+                onClick={() => history.push(`/user/edit/${userId}`)}
               >
                 編集
               </Button>
