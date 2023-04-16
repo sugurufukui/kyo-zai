@@ -77,7 +77,6 @@ export const MaterialFormBody: FC<Props> = (props) => {
             fullWidth
             id="name"
             label="教材の名前"
-            placeholder="30文字以内で登録してください"
             value={value.name}
             type="text"
             name="name"
@@ -111,8 +110,11 @@ export const MaterialFormBody: FC<Props> = (props) => {
                     <img
                       src={value.image}
                       alt="変更前の写真"
-                      width={(260 * 4) / 3}
-                      height={260}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: 260,
+                        objectFit: "contain",
+                      }}
                     />
                   </Box>
                 </div>
@@ -185,8 +187,11 @@ export const MaterialFormBody: FC<Props> = (props) => {
                         <img
                           src={preview}
                           alt="preview img"
-                          width={(260 * 4) / 3}
-                          height={260}
+                          style={{
+                            maxWidth: "100%",
+                            maxHeight: 260,
+                            objectFit: "contain",
+                          }}
                         />
                       </Box>
                     </Box>

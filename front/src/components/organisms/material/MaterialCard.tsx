@@ -55,7 +55,17 @@ export const MaterialCard: FC<Props> = memo((props) => {
             onClick={() => onClick(id)}
           />
           <CardContent sx={{ p: 1, height: 50 }}>
-            <Typography sx={{ variant: "h3" }}>{materialName}</Typography>
+            <Typography
+              sx={{
+                variant: "h3",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                maxWidth: "100%",
+              }}
+            >
+              {materialName}
+            </Typography>
           </CardContent>
           <Box sx={{ textAlign: "right" }}>
             <LikeButton

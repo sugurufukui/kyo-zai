@@ -82,14 +82,8 @@ export const New: FC = memo(() => {
         startIcon={<PostAddIcon />}
         onChangeName={(e: React.ChangeEvent<HTMLInputElement>) => {
           const name = e.target.value;
-          if (name.length <= 30) {
-            setName(name);
-            setValue((prev) => ({ ...prev, name }));
-          } else {
-            const prevName = name.slice(0, 30);
-            setName(prevName);
-            setValue((prev) => ({ ...prev, name: prevName }));
-          }
+          setName(name);
+          setValue((prev) => ({ ...prev, name }));
         }}
         onChangeDescription={(e: React.ChangeEvent<HTMLInputElement>) => {
           const description = e.target.value;
