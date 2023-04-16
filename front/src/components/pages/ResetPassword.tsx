@@ -66,6 +66,7 @@ export const ResetPassword: FC = memo(() => {
             label="新しいパスワード"
             value={password}
             type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
             margin="dense"
             placeholder="8文字以上"
             onChange={(event) => setPassword(event.target.value)}

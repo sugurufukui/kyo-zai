@@ -88,6 +88,7 @@ export const SignUp: FC = memo(() => {
               label="メールアドレス"
               value={email}
               type="email"
+              autoComplete="email"
               margin="dense"
               onChange={(event) => setEmail(event.target.value)}
             />
@@ -97,6 +98,7 @@ export const SignUp: FC = memo(() => {
               label="パスワード"
               value={password}
               type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
               margin="dense"
               placeholder="8文字以上"
               onChange={(event) => setPassword(event.target.value)}
