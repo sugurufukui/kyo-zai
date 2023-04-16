@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2023_04_16_014856) do
     t.string "nickname"
     t.string "image"
     t.string "email"
-    t.string "introduction", default: "よろしくお願いします"
+    t.string "introduction", default: "よろしくお願いします！"
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
