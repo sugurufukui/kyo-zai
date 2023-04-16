@@ -74,7 +74,6 @@ export const Account: FC = memo(() => {
               variant="outlined"
               fullWidth
               color="primary"
-              focused
               id="name"
               label="名前"
               name="name"
@@ -91,7 +90,6 @@ export const Account: FC = memo(() => {
                 variant="outlined"
                 fullWidth
                 color="primary"
-                focused
                 id="email"
                 label="メールアドレス"
                 name="email"
@@ -105,6 +103,23 @@ export const Account: FC = memo(() => {
             ) : (
               <></>
             )}
+            <TextField
+              variant="outlined"
+              fullWidth
+              color="primary"
+              id="introduction"
+              label="自己紹介"
+              name="introduction"
+              type="text"
+              multiline
+              minRows={4}
+              margin="dense"
+              placeholder="200文字以内"
+              value={`${userProfile?.introduction}`}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
             {/* ゲストユーザー以外のログインユーザーに編集可能ボタン出現 */}
             {currentUser?.id == query?.id &&
             currentUser?.email != "guest@example.com" ? (
