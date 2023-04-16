@@ -95,6 +95,7 @@ export const MaterialFormBody: FC<Props> = (props) => {
             type="description"
             name="description"
             multiline
+            minRows={4}
             margin="dense"
             onChange={onChangeDescription}
           />
