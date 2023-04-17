@@ -65,5 +65,5 @@ DeviseTokenAuth.setup do |config|
   # アカウント確認メールを送信
   config.send_confirmation_email = true
   # 成功時のリダイレクト先を "/signin" に設定
-  config.default_confirm_success_url = ENV.fetch('CONFIRM_SUCCESS_URL', nil)
+  config.default_confirm_success_url = Rails.application.config.confirm_success_url
 end
