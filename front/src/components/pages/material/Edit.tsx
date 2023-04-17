@@ -134,12 +134,7 @@ export const Edit: FC = memo(() => {
       <MaterialFormBody
         title="教材編集"
         onClickSubmit={(e) => {
-          e.preventDefault(); // フォームの送信をブロック
-          if (value.name.length <= 30 && value.description && image) {
-            handleUpdatePost(e);
-          } else {
-            showSnackbar("名前は30文字以内で作成してください", "error");
-          }
+          handleUpdatePost(e);
         }}
         value={value}
         children="教材の編集を完了する"

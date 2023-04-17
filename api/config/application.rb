@@ -39,12 +39,17 @@ module KyoZai
 
     config.autoload_paths += ["#{config.root}/app/mailers"]
 
+    config.confirm_success_url = if Rails.env.production?
+                                   "https://tokushi-kyouzai.com/signin"
+                                 else
+                                   "http://localhost:3000/signin"
+                                 end
+
     config.api_only = true
 
     config.i18n.default_locale = :ja
 
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::ActiveRecordStore, key: '_interslice_session'
-    config.middleware.use ActionDispatch::Flash
   end
 end
