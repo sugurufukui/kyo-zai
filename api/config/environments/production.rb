@@ -65,6 +65,7 @@ Rails.application.configure do
 
   # メール認証設定
   config.action_mailer.default_options = { from: "きょーざい（特別支援教育教材アプリ） <#{ENV.fetch('EMAIL_ADDRESS', nil)}>" }
+  config.action_mailer.default_url_options = { host: 'tokushi-kyouzai.com', protocol: 'https' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
