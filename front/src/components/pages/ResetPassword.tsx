@@ -35,7 +35,7 @@ export const ResetPassword: FC = memo(() => {
       });
       history.replace("/signin");
       showSnackbar(
-        "変更されました。新しいパスワードでサインインしてください。",
+        "変更されました。新しいパスワードでログインしてください。",
         "success"
       );
     } catch (err) {
