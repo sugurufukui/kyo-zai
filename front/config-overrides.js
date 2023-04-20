@@ -11,8 +11,8 @@ module.exports = function override(config, env) {
     config.optimization.minimizer[terserPluginIndex] = new TerserPlugin({
       terserOptions: {
         compress: {
-          // drop_console: env === "production",
-          drop_console: false,
+          drop_console: env === "production",
+          // drop_console: false,
         },
       },
     });
