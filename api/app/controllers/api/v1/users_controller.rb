@@ -2,7 +2,7 @@ class Api::V1::UsersController < ApplicationController
   GUEST_EMAIL = "guest@example.com"
   ADMIN_EMAIL = ENV.fetch('ADMIN_EMAIL', nil)
 
-  # before_action :authenticate_api_v1_user!, only: [:index]
+  before_action :authenticate_api_v1_user!, only: [:index]
 
   def index
     @users = User.all
