@@ -13,4 +13,8 @@ RUN bundle install --without test development
 ADD . /kyo-zai
 EXPOSE 3000
 
-CMD ["/bin/sh", "-c", "bundle exec rails db:migrate && bundle exec unicorn -p 3000 -c /kyo-zai/config/unicorn.rb -E production"]
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+
+CMD ["/bin/sh", "-c", "bundle exec unicorn -p 3000 -c /kyo-zai/config/unicorn.rb -E production"]
