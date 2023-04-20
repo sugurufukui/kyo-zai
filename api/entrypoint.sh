@@ -7,9 +7,9 @@ rm -f /kyo-zai/tmp/pids/server.pid
 if [ "${RAILS_ENV}" = "production" ]
 then
   # デプロイ初回のみ実行
-  bundle exec rails db:create
+  # bundle exec rails db:create
   bundle exec rails db:migrate
-  bundle exec rails db:seed RAILS_ENV=production
+  # bundle exec rails db:seed RAILS_ENV=production
 else
   # 開発環境では、データベースのリセットも実行する
   bundle exec rails db:create
