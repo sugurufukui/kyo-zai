@@ -12,6 +12,7 @@ module.exports = function override(config, env) {
       terserOptions: {
         compress: {
           drop_console: env === "production",
+          // drop_console: false,
         },
       },
     });

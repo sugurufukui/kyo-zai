@@ -94,7 +94,7 @@ export const AccountEdit: FC = memo(() => {
               value={userProfile?.name || ""}
               onChange={(e) => handleChange(e)}
             />
-            <TextField
+            {/* <TextField
               variant="outlined"
               fullWidth
               id="email"
@@ -104,7 +104,7 @@ export const AccountEdit: FC = memo(() => {
               margin="dense"
               value={userProfile?.email || ""}
               onChange={(e) => handleChange(e)}
-            />
+            /> */}
             <TextField
               variant="outlined"
               fullWidth
