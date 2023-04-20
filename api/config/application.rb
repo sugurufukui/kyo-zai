@@ -39,11 +39,27 @@ module KyoZai
 
     config.autoload_paths += ["#{config.root}/app/mailers"]
 
+    # メールリンク押下後に遷移するURL
+    # 新規登録後の認証メールURL
     config.confirm_success_url = if Rails.env.production?
                                    "https://tokushi-kyouzai.com/signin"
                                  else
                                    "http://localhost:3000/signin"
                                  end
+
+    # パスワードリセットページのURL
+    config.reset_password_url = if Rails.env.production?
+                                  "https://tokushi-kyouzai.com/reset_password"
+                                else
+                                  "http://localhost:3000/reset_password"
+                                end
+
+    # トークンの有効期限切れURL
+    config.expired_email_link_url = if Rails.env.production?
+                                      "https://tokushi-kyouzai.com/expired_email_link"
+                                    else
+                                      "http://localhost:3000/expired_email_link"
+                                    end
 
     config.api_only = true
 
