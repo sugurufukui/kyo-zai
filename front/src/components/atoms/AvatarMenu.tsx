@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import {
   Avatar,
   IconButton,
@@ -9,24 +11,30 @@ import {
   Divider,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Link } from "react-router-dom";
+import { User } from "types/api/user";
 
-export const AvatarMenu = ({
-  avatarMenuOpened,
-  onClickAvatar,
-  onCloseAvatarMenu,
-  avatarMenu,
-  currentUser,
-  onClickSignOut,
-}) => {
+type Props = {
+  avatarMenuOpened: Element | ((element: Element) => Element);
+  onClickAvatar: () => void;
+  onCloseAvatarMenu: () => void;
+  avatarMenu: any[];
+  currentUser: User;
+  onClickSignOut: () => void;
+};
+
+export const AvatarMenu: React.FC<Props> = (props) => {
+  const {
+    avatarMenuOpened,
+    onClickAvatar,
+    onCloseAvatarMenu,
+    avatarMenu,
+    currentUser,
+    onClickSignOut,
+  } = props;
+
   return (
     <>
-      <IconButton
-        key={currentUser?.id}
-        size="large"
-        onClick={onClickAvatar}
-        sx={{ p: 1.5 }}
-      >
+      <IconButton key={currentUser?.id} size="large" onClick={onClickAvatar} sx={{ p: 1.5 }}>
         <Avatar />
       </IconButton>
       <Menu
