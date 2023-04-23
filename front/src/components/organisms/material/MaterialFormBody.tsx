@@ -1,39 +1,27 @@
 import React, { FC, ReactNode, useState } from "react";
-
-import {
-  Button,
-  Card,
-  CardHeader,
-  CircularProgress,
-  Divider,
-  IconButton,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import { Box } from "@mui/system";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import KeyboardDoubleArrowDownRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowDownRounded";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams } from "react-router-dom";
 
-import { grey } from "@mui/material/colors";
+import { Button, Card, CardHeader, Divider, TextField } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Box } from "@mui/system";
+
 import { DeleteMaterialModal } from "components/molecules/DeleteMaterialModal";
+import { ExistingImage } from "components/molecules/ExistingImage";
+import { UploadImageButton } from "components/molecules/UploadImageButton";
 
 type Props = {
   title: string;
   value: any;
-  onClickSubmit: any;
+  onClickSubmit: (e) => void;
   children: ReactNode;
-  onChangeName: any;
-  onChangeDescription: any;
+  onChangeName: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeDescription: (event: React.ChangeEvent<HTMLInputElement>) => void;
   image?: File;
   preview: any;
   disabled: boolean;
-  onChangeImage: any;
-  startIcon: any;
-  onClickResetFile: any;
+  onChangeImage: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  startIcon: React.ReactNode;
+  onClickResetFile: () => void;
 };
 
 // 新規登録と編集のフォームと、画像プレビューを表示するコンポーネント
@@ -98,110 +86,17 @@ export const MaterialFormBody: FC<Props> = (props) => {
             margin="dense"
             onChange={onChangeDescription}
           />
-          <div>
+          <Box>
             {/* 編集時に変更前の写真を表示 */}
-            {value.image ? (
-              <Box sx={{ mt: 1 }}>
-                <Typography fontWeight="bold" color="gray" variant="subtitle2">
-                  現在使用している写真
-                </Typography>
-                <div>
-                  <Box textAlign="center" sx={{ pt: 2 }}>
-                    <img
-                      src={value.image}
-                      alt="変更前の写真"
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: 260,
-                        objectFit: "contain",
-                      }}
-                    />
-                  </Box>
-                </div>
-                <Box sx={{ m: 4, height: 0, textAlign: "center" }}>
-                  <KeyboardDoubleArrowDownRoundedIcon fontSize="large" />
-                </Box>
-              </Box>
-            ) : (
-              <></>
-            )}
-          </div>
-          {/* 新規投稿時、編集時共に新しい画像を未選択時には選択ボタン表示。選択後は非表示*/}
-          <div>
-            {!preview ? (
-              <Box sx={{ mt: 1 }}>
-                <label htmlFor="icon-button-file">
-                  <input
-                    accept="image/*"
-                    id="icon-button-file"
-                    type="file"
-                    hidden
-                    onChange={onChangeImage}
-                  />
+            {value.image ? <ExistingImage image={value.image} /> : null}
+          </Box>
+          <UploadImageButton
+            preview={preview}
+            isLoading={isLoading}
+            onChangeImage={onChangeImage}
+            onClickResetFile={onClickResetFile}
+          />
 
-                  <IconButton color="inherit" component="span">
-                    <PhotoCameraIcon />
-                    <Typography
-                      fontWeight="bold"
-                      color="gray"
-                      variant="subtitle2"
-                    >
-                      教材の写真を選択
-                    </Typography>
-                  </IconButton>
-
-                  <Box
-                    textAlign="center"
-                    sx={{
-                      pt: 2,
-                      height: 260,
-                      backgroundColor: "#EDF2F7",
-                      ":hover": { cursor: "pointer" },
-                    }}
-                  >
-                    <Paper elevation={3} />
-                  </Box>
-                </label>
-              </Box>
-            ) : (
-              <Box sx={{ mt: 1 }}>
-                <Typography fontWeight="bold" color="gray" variant="subtitle2">
-                  新しい写真
-                </Typography>
-                {isLoading ? (
-                  <Box sx={{ display: "flex", justifyContent: "center" }}>
-                    <CircularProgress />
-                  </Box>
-                ) : (
-                  <div>
-                    <Box>
-                      <Box sx={{ height: 0, textAlign: "right" }}>
-                        <IconButton onClick={onClickResetFile}>
-                          <HighlightOffIcon
-                            fontSize="large"
-                            sx={{ color: grey[800] }}
-                          />
-                        </IconButton>
-                      </Box>
-                      <Box textAlign="center">
-                        <img
-                          src={preview}
-                          alt="preview img"
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: 260,
-                            objectFit: "contain",
-                          }}
-                        />
-                      </Box>
-                    </Box>
-                  </div>
-                )}
-              </Box>
-            )}
-          </div>
-
-          {/* 一度押したら画面遷移するまで押せない仕様に */}
           <Box sx={{ flexGrow: 1, mt: 3 }}>
             <Button
               type="submit"
@@ -229,15 +124,9 @@ export const MaterialFormBody: FC<Props> = (props) => {
                   削除する
                 </Button>
               </Box>
-              <DeleteMaterialModal
-                open={open}
-                handleClose={deleteDialogClose}
-                item={query}
-              />
+              <DeleteMaterialModal open={open} handleClose={deleteDialogClose} item={query} />
             </>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </Card>
       </form>
     </>
