@@ -11,6 +11,7 @@ import {
   Divider,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
+
 import { User } from "types/api/user";
 
 type Props = {
@@ -22,6 +23,7 @@ type Props = {
   onClickSignOut: () => void;
 };
 
+// アバターのメニューに関するコンポーネント
 export const AvatarMenu: React.FC<Props> = (props) => {
   const {
     avatarMenuOpened,
