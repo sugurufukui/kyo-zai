@@ -1,31 +1,34 @@
 import React, { useState, FC, memo } from "react";
 import { useParams, useHistory, Link } from "react-router-dom";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { CardHeader, Typography } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
+
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
-import TextField from "@mui/material/TextField";
+import { CardHeader, Divider, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+
 import { PrimaryButton } from "components/molecules/PrimaryButton";
 import { resetPassword } from "lib/api/auth";
 import { useSnackbar } from "providers/SnackbarProvider";
-
 import { ResetPasswordParams } from "types/api/ResetPasswordParams";
 
+// パスワード再発行ページ
 export const ResetPassword: FC = memo(() => {
   const { token } = useParams<ResetPasswordParams>();
   const history = useHistory();
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const { showSnackbar } = useSnackbar();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       await resetPassword({
@@ -33,17 +36,13 @@ export const ResetPassword: FC = memo(() => {
         password,
         password_confirmation: passwordConfirmation,
       });
-      history.replace("/signin");
-      showSnackbar(
-        "変更されました。新しいパスワードでログインしてください。",
-        "success"
-      );
+      history.push("/signin");
+      showSnackbar("変更されました。新しいパスワードでログインしてください。", "success");
     } catch (err) {
       console.log(e);
-      showSnackbar(
-        "新しいパスワードの登録に失敗しました。もう一度お試しください。",
-        "error"
-      );
+      showSnackbar("新しいパスワードの登録に失敗しました。もう一度お試しください。", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,10 +54,9 @@ export const ResetPassword: FC = memo(() => {
   return (
     <form onSubmit={onSubmit} noValidate>
       <Card sx={{ p: 4, borderRadius: "md" }}>
-        <CardHeader
-          sx={{ textAlign: "center" }}
-          title="新しいパスワードを登録する"
-        />
+        <CardHeader sx={{ textAlign: "center" }} title="新しいパスワードを登録する" />
+        <Divider sx={{ my: 2 }} />
+
         <CardContent>
           <TextField
             variant="outlined"
@@ -98,13 +96,14 @@ export const ResetPassword: FC = memo(() => {
           />
           <Box sx={{ flexGrow: 1, mt: 3 }}>
             <PrimaryButton
-              fullWidth
               disabled={!password || !passwordConfirmation}
+              loading={loading}
+              fullWidth
             >
               新しいパスワードを登録する
             </PrimaryButton>
           </Box>
-
+          <Divider sx={{ my: 4 }} />
           <Box textAlign="center" sx={{ pt: 2 }}>
             <Typography variant="body2">
               <Box

@@ -27,6 +27,7 @@ export const SignIn: FC = memo(() => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const { showSnackbar } = useSnackbar();
 
@@ -45,6 +46,7 @@ export const SignIn: FC = memo(() => {
       email: email,
       password: password,
     };
+    setLoading(true);
 
     try {
       const res = await signIn(params);
@@ -64,14 +66,16 @@ export const SignIn: FC = memo(() => {
       }
     } catch (err) {
       showSnackbar("メールアドレス または パスワード に誤りがあります", "error");
-
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   // ゲストログインボタン押下時
   const onClickGuestSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await getGuestUserSignIn();
@@ -89,6 +93,8 @@ export const SignIn: FC = memo(() => {
       }
     } catch (e) {
       console.log(e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -152,6 +158,7 @@ export const SignIn: FC = memo(() => {
               <PrimaryButton
                 onClick={onClickSignIn}
                 disabled={!email || !password ? true : false}
+                loading={loading}
                 fullWidth
               >
                 ログイン
@@ -181,7 +188,7 @@ export const SignIn: FC = memo(() => {
                   お試しで使ってみたい方はゲストとしてログインしてください。
                 </Typography>
               </Box>
-              <PrimaryButton onClick={onClickGuestSignIn} fullWidth>
+              <PrimaryButton onClick={onClickGuestSignIn} loading={loading} fullWidth>
                 ゲストログインはこちら
               </PrimaryButton>
             </Box>

@@ -1,19 +1,19 @@
 import React, { useState, FC, memo } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Box, Divider, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import { Box, Divider, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import TextField from "@mui/material/TextField";
 
-import { signUp } from "lib/api/auth";
-import { SignUpParams } from "types/api/SignUpParams";
-import { useSnackbar } from "providers/SnackbarProvider";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
+import { signUp } from "lib/api/auth";
+import { useSnackbar } from "providers/SnackbarProvider";
+import { SignUpParams } from "types/api/SignUpParams";
 
 // サインアップ用ページ
 export const SignUp: FC = memo(() => {
@@ -24,6 +24,7 @@ export const SignUp: FC = memo(() => {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const { showSnackbar } = useSnackbar();
 
@@ -39,6 +40,7 @@ export const SignUp: FC = memo(() => {
         passwordConfirmation: passwordConfirmation,
       },
     };
+    setLoading(true);
 
     try {
       const res = await signUp(params);
@@ -47,7 +49,7 @@ export const SignUp: FC = memo(() => {
       if (res.status === 200) {
         // アカウント作成と同時にサインインさせない
         // メール認証が完了するまで待機
-        history.replace("/welcome");
+        history.push("/welcome");
 
         showSnackbar("登録しました。メールを確認してください。", "success");
       } else {
@@ -57,6 +59,8 @@ export const SignUp: FC = memo(() => {
     } catch (err) {
       console.log(err);
       showSnackbar("登録できませんでした", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,10 +108,7 @@ export const SignUp: FC = memo(() => {
               onChange={(event) => setPassword(event.target.value)}
               InputProps={{
                 endAdornment: (
-                  <IconButton
-                    edge="end"
-                    onClick={handleTogglePasswordVisibility}
-                  >
+                  <IconButton edge="end" onClick={handleTogglePasswordVisibility}>
                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 ),
@@ -124,10 +125,7 @@ export const SignUp: FC = memo(() => {
               onChange={(event) => setPasswordConfirmation(event.target.value)}
               InputProps={{
                 endAdornment: (
-                  <IconButton
-                    edge="end"
-                    onClick={handleTogglePasswordVisibility}
-                  >
+                  <IconButton edge="end" onClick={handleTogglePasswordVisibility}>
                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 ),
@@ -137,11 +135,8 @@ export const SignUp: FC = memo(() => {
             <Box sx={{ flexGrow: 1, mt: 3 }}>
               <PrimaryButton
                 onClick={onClickRegister}
-                disabled={
-                  !name || !email || !password || !passwordConfirmation
-                    ? true
-                    : false
-                }
+                disabled={!name || !email || !password || !passwordConfirmation ? true : false}
+                loading={loading}
                 fullWidth
               >
                 ユーザー登録する
