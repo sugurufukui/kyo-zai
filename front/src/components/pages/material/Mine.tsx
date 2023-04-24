@@ -6,8 +6,8 @@ import { Box, Button, CircularProgress, Grid, Pagination } from "@mui/material";
 
 import { MaterialCard } from "components/organisms/material/MaterialCard";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
-import { useAllMaterials } from "hooks/useAllMaterials";
-import { useSelectMineMaterial } from "hooks/useSelectMineMaterial";
+import { useAllMaterials } from "hooks/material/useAllMaterials";
+import { useSelectMineMaterial } from "hooks/material/useSelectMineMaterial";
 import { AuthContext } from "providers/AuthProvider";
 
 // ページネーション設定
@@ -75,7 +75,7 @@ export const Mine: FC<Props> = memo((props) => {
   }, [getMineMaterials]);
 
   // 投稿した教材があれば表示して、なければないことを表示する
-  const MaterialData = useCallback(() => {
+  const MaterialData = memo(() => {
     if (mineMaterials.length >= 1) {
       return (
         <>
@@ -133,19 +133,7 @@ export const Mine: FC<Props> = memo((props) => {
         </>
       );
     }
-  }, [
-    count,
-    currentUser,
-    handleChange,
-    handleClose,
-    history,
-    likeCount,
-    mineMaterials,
-    onClickMaterial,
-    open,
-    page,
-    selectedMineMaterial,
-  ]);
+  });
 
   return (
     <>
