@@ -1,4 +1,3 @@
-// front/src/components/organisms/layout/Header.tsx
 import React, { FC, memo, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -15,6 +14,7 @@ import { useAvatarMenu } from "hooks/common/useAvatarMenu";
 import { AuthContext } from "providers/AuthProvider";
 import LogoIcon from "images/top.png";
 
+// ヘッダー
 export const Header: FC = memo(() => {
   // アバターボタンメニューの処理
   const { avatarMenuOpened, onClickAvatar, onCloseAvatarMenu, onClickSignOut } = useAvatarMenu();
@@ -23,7 +23,7 @@ export const Header: FC = memo(() => {
   // アバターボタンのメニュー
   const avatarMenuItems = avatarMenus(currentUser);
 
-  // ドロワー開閉
+  // ハンバーガーメニューのドロワー開閉
   const [drawerOpened, setDrawerOpened] = useState(false);
 
   return (
