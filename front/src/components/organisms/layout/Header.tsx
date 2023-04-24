@@ -8,10 +8,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import { HamburgerButton } from "components/atoms/button/HamburgerButton";
-import { authPages, avatarMenu, noAuthPages } from "components/atoms/AuthMenuData";
+import { authPages, avatarMenus, noAuthPages } from "components/atoms/AuthMenuData";
 import { AuthButtons } from "components/molecules/AuthButtons";
 import { AvatarMenu } from "components/molecules/AvatarMenu";
-import { useAvatarMenu } from "hooks/useAvatarMenu";
+import { useAvatarMenu } from "hooks/common/useAvatarMenu";
 import { AuthContext } from "providers/AuthProvider";
 import LogoIcon from "images/top.png";
 
@@ -21,7 +21,7 @@ export const Header: FC = memo(() => {
   const { isSignedIn, currentUser } = useContext(AuthContext);
 
   // アバターボタンのメニュー
-  const avatarMenuItems = avatarMenu(currentUser);
+  const avatarMenuItems = avatarMenus(currentUser);
 
   // ドロワー開閉
   const [drawerOpened, setDrawerOpened] = useState(false);

@@ -1,44 +1,19 @@
 import { FC, memo, useContext } from "react";
 import { Link } from "react-router-dom";
-import { Button, Card, CardHeader, Typography } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import LoginIcon from "@mui/icons-material/Login";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import PostAddIcon from "@mui/icons-material/PostAdd";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
+import { Button, Card, CardHeader, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+
+import { authPages, avatarMenus, noAuthPages } from "components/atoms/AuthMenuData";
 import { AuthContext } from "providers/AuthProvider";
 
 export const Page404: FC = memo(() => {
   const { isSignedIn, currentUser } = useContext(AuthContext);
 
-  const authPages = [
-    { children: "HOME", icon: <HomeIcon />, link: "/" },
-    { children: "教材一覧", icon: <MenuBookIcon />, link: "/materials" },
-    { children: "投稿", icon: <PostAddIcon />, link: "/materials/new" },
-    {
-      children: "マイページ",
-      icon: <AccountCircleIcon />,
-      link: `/user/${currentUser?.id}`,
-    },
-    { children: "投稿した教材", icon: <MenuBookIcon />, link: "/my_materials" },
-    {
-      children: "いいねした教材",
-      icon: <FavoriteBorderIcon />,
-      link: "/my_like",
-    },
-  ];
-  const noAuthPages = [
-    { children: "HOME", icon: <HomeIcon />, link: "/" },
-    { children: "新規登録", icon: <PersonAddIcon />, link: "/signup" },
-    { children: "ログイン", icon: <LoginIcon />, link: "/signin" },
-  ];
-
+  // ログイン/非ログインで表示リンクを変更
   const AuthButtons = () => {
     if (isSignedIn) {
+      // ログイン時
       return (
         <>
           {authPages.map((authPage) => (
@@ -59,6 +34,26 @@ export const Page404: FC = memo(() => {
               size="large"
             >
               {authPage.children}
+            </Button>
+          ))}
+          {avatarMenus(currentUser).map((avatarMenu) => (
+            <Button
+              variant="text"
+              key={avatarMenu.children}
+              startIcon={avatarMenu.icon}
+              component={Link}
+              to={avatarMenu.link}
+              sx={{
+                my: 2,
+                mx: 1,
+                display: "flex",
+                color: "white",
+                backgroundColor: "#319795",
+                ":hover": { boxShadow: 0, bgcolor: "primary.dark" },
+              }}
+              size="large"
+            >
+              {avatarMenu.children}
             </Button>
           ))}
         </>
@@ -89,7 +84,6 @@ export const Page404: FC = memo(() => {
       );
     }
   };
-
   return (
     <>
       <Box textAlign={"center"} sx={{ m: 4 }}>

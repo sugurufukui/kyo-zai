@@ -24,7 +24,7 @@ export const noAuthPages = [
 ];
 
 // ログイン時に表示するアバタメニュー
-export const avatarMenu = (currentUser) => [
+export const avatarMenus = (currentUser) => [
   {
     children: "マイページ",
     icon: <AccountCircleIcon />,
