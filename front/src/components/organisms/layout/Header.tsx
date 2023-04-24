@@ -9,8 +9,8 @@ import Typography from "@mui/material/Typography";
 
 import { HamburgerButton } from "components/atoms/button/HamburgerButton";
 import { authPages, avatarMenus, noAuthPages } from "components/atoms/AuthMenuData";
-import { AuthButtons } from "components/molecules/AuthButtons";
-import { AvatarMenu } from "components/molecules/AvatarMenu";
+import { AuthButtons } from "components/molecules/common/AuthButtons";
+import { AvatarMenu } from "components/molecules/common/AvatarMenu";
 import { useAvatarMenu } from "hooks/common/useAvatarMenu";
 import { AuthContext } from "providers/AuthProvider";
 import LogoIcon from "images/top.png";

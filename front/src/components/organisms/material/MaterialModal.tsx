@@ -8,7 +8,7 @@ import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import ImageSearchTwoToneIcon from "@mui/icons-material/ImageSearchTwoTone";
 
-import { LikeButton } from "components/molecules/LikeButton";
+import { LikeButton } from "components/molecules/material/LikeButton";
 import { MaterialType } from "types/api/materialType";
 import { User } from "types/api/user";
 

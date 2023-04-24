@@ -1,7 +1,7 @@
 import React, { useState, FC, memo } from "react";
 import { useHistory, Link } from "react-router-dom";
 
-import { PrimaryButton } from "components/molecules/PrimaryButton";
+import { PrimaryButton } from "components/molecules/common/PrimaryButton";
 import { sendResetPasswordInstructions } from "lib/api/auth";
 import { useSnackbar } from "providers/SnackbarProvider";
 

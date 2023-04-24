@@ -21,7 +21,7 @@ export const AppSnackbar: FC<Props> = (props) => {
     <Snackbar
       open={open}
       onClose={onClose}
-      autoHideDuration={6000}
+      autoHideDuration={3500}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert severity={severity}>{message}</Alert>

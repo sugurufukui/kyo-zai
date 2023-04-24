@@ -10,7 +10,7 @@ import CardContent from "@mui/material/CardContent";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 
-import { PrimaryButton } from "components/molecules/PrimaryButton";
+import { PrimaryButton } from "components/molecules/common/PrimaryButton";
 import { resetPassword } from "lib/api/auth";
 import { useSnackbar } from "providers/SnackbarProvider";
 import { ResetPasswordParams } from "types/api/ResetPasswordParams";

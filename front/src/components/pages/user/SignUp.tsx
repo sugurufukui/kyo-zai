@@ -10,7 +10,7 @@ import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 
-import { PrimaryButton } from "components/molecules/PrimaryButton";
+import { PrimaryButton } from "components/molecules/common/PrimaryButton";
 import { signUp } from "lib/api/auth";
 import { useSnackbar } from "providers/SnackbarProvider";
 import { SignUpParams } from "types/api/SignUpParams";

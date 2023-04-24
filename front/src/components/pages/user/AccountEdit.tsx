@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { Button, CardHeader, TextField, Divider, CardContent, Card } from "@mui/material";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 
-import { DeleteUserModal } from "components/molecules/DeleteUserModal";
+import { DeleteUserModal } from "components/molecules/user/DeleteUserModal";
 import { getUserId, updateUser } from "lib/api/user";
 import { AuthContext } from "providers/AuthProvider";
 import { useSnackbar } from "providers/SnackbarProvider";

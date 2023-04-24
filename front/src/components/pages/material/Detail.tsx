@@ -17,8 +17,8 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 
-import { DeleteMaterialModal } from "components/molecules/DeleteMaterialModal";
-import { LikeButton } from "components/molecules/LikeButton";
+import { DeleteMaterialModal } from "components/molecules/material/DeleteMaterialModal";
+import { LikeButton } from "components/molecules/material/LikeButton";
 import { likedCheck } from "lib/api/like";
 import { getDetailMaterial } from "lib/api/material";
 import { AuthContext } from "providers/AuthProvider";

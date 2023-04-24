@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-import { LikeButton } from "components/molecules/LikeButton";
+import { LikeButton } from "components/molecules/material/LikeButton";
 import { User } from "types/api/user";
 
 type Props = {

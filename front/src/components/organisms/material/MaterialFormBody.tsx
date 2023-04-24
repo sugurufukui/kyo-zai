@@ -5,9 +5,9 @@ import { Button, Card, CardHeader, Divider, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/system";
 
-import { DeleteMaterialModal } from "components/molecules/DeleteMaterialModal";
-import { ExistingImage } from "components/molecules/ExistingImage";
-import { UploadImageButton } from "components/molecules/UploadImageButton";
+import { DeleteMaterialModal } from "components/molecules/material/DeleteMaterialModal";
+import { ExistingImage } from "components/molecules/material/ExistingImage";
+import { UploadImageButton } from "components/molecules/material/UploadImageButton";
 
 type Props = {
   title: string;

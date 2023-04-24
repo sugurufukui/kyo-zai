@@ -4,7 +4,7 @@ import { Redirect, useHistory, useParams } from "react-router-dom";
 import { Box, Button, Card, CardContent, CardHeader, Divider, TextField } from "@mui/material";
 import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 
-import { CanNotUserEditToastButton } from "components/molecules/CanNotUserEditToastButton";
+import { CanNotUserEditToastButton } from "components/molecules/material/CanNotUserEditToastButton";
 import { getUserId } from "lib/api/user";
 import { AuthContext } from "providers/AuthProvider";
 import { User } from "types/api/user";
