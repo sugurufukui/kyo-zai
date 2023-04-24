@@ -7,6 +7,7 @@ import { Box } from "@mui/system";
 import { authPages, avatarMenus, noAuthPages } from "components/atoms/AuthMenuData";
 import { AuthContext } from "providers/AuthProvider";
 
+// 404ページ
 export const Page404: FC = memo(() => {
   const { isSignedIn, currentUser } = useContext(AuthContext);
 
