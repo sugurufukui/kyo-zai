@@ -1,24 +1,23 @@
 import React, { FC, memo, useContext, useEffect, useState } from "react";
-
-import { AuthContext } from "providers/AuthProvider";
-import { useAllMaterials } from "hooks/useAllMaterials";
-
-import { Button, Grid, Paper, Typography } from "@mui/material";
 import { useHistory } from "react-router-dom";
-import { Box } from "@mui/system";
+
 import MenuBookTwoToneIcon from "@mui/icons-material/MenuBookTwoTone";
+import { Button, Grid, Paper, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+
+import { ForHomeMaterialCard } from "components/organisms/material/ForHomeMaterialCard";
+import { useAllMaterials } from "hooks/useAllMaterials";
+import HomeImage from "images/HOME.jpg";
 import Cookies from "js-cookie";
 import { getGuestUserSignIn } from "lib/api/auth";
+import { AuthContext } from "providers/AuthProvider";
 import { useSnackbar } from "providers/SnackbarProvider";
-import HomeImage from "images/HOME.jpg";
-import { ForHomeMaterialCard } from "components/organisms/material/ForHomeMaterialCard";
 
-// とりあえず認証済みユーザーの名前やメールアドレスを表示
+// HOMEページ
 export const Home: FC = memo(() => {
   const history = useHistory();
 
-  const { isSignedIn, setIsSignedIn, currentUser, setCurrentUser } =
-    useContext(AuthContext);
+  const { isSignedIn, setIsSignedIn, currentUser, setCurrentUser } = useContext(AuthContext);
   const { getMaterials, materials } = useAllMaterials();
   const { showSnackbar } = useSnackbar();
 
@@ -34,6 +33,13 @@ export const Home: FC = memo(() => {
   }, [materials]);
 
   console.log(materials.slice(0, 4));
+
+  // isSignedIn の変更に応じて遷移する
+  useEffect(() => {
+    if (isSignedIn) {
+      history.push("/materials");
+    }
+  }, [isSignedIn, history]);
 
   // ゲストログインボタン押下時
   const onClickGuestSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,7 +58,6 @@ export const Home: FC = memo(() => {
         setCurrentUser(res.data.data);
 
         showSnackbar("ゲストユーザーとしてログインしました", "success");
-        history.push("/materials");
       }
     } catch (e) {
       console.log(e);
@@ -78,46 +83,36 @@ export const Home: FC = memo(() => {
         </Grid>
       </Box>
       <Box sx={{ textAlign: "center", justifyContent: "center", my: 5 }}>
-        <Typography variant="h4">
-          こどもたちのためにがんばっているあなたへ
-        </Typography>
+        <Typography variant="h4">こどもたちのためにがんばっているあなたへ</Typography>
         <Typography variant="h6" sx={{ m: 2 }}>
           ほかの先生たちが使っている教材を見ることができます
         </Typography>
       </Box>
 
-      {!isSignedIn && (
-        <Box sx={{ textAlign: "center", justifyContent: "center" }}>
-          <Button
-            color="primary"
-            variant="contained"
-            size="large"
-            onClick={onClickGuestSignIn}
-          >
-            ゲストログイン
-          </Button>
-        </Box>
-      )}
-      {!isSignedIn && (
-        <Box sx={{ textAlign: "center", justifyContent: "center", my: 3 }}>
-          <Typography variant="h5">みんなの教材を見てみる</Typography>
-        </Box>
-      )}
-
-      {isSignedIn && (
-        <Box sx={{ textAlign: "center", justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            onClick={() => history.push("/materials")}
-          >
-            みんなの教材を見てみる
-          </Button>
-        </Box>
-      )}
-      {isSignedIn && (
-        <Box sx={{ textAlign: "center", justifyContent: "center", my: 3 }}>
-          <Typography variant="h5">作ってみたいものに いいね♡しよう</Typography>
-        </Box>
+      {!isSignedIn ? (
+        // 非ログイン時に表示
+        <>
+          <Box sx={{ textAlign: "center", justifyContent: "center" }}>
+            <Button color="primary" variant="contained" size="large" onClick={onClickGuestSignIn}>
+              ゲストログイン
+            </Button>
+          </Box>
+          <Box sx={{ textAlign: "center", justifyContent: "center", my: 3 }}>
+            <Typography variant="h5">みんなの教材を見てみる</Typography>
+          </Box>
+        </>
+      ) : (
+        // ログイン時に表示
+        <>
+          <Box sx={{ textAlign: "center", justifyContent: "center" }}>
+            <Button variant="contained" onClick={() => history.push("/materials")}>
+              みんなの教材を見てみる
+            </Button>
+          </Box>
+          <Box sx={{ textAlign: "center", justifyContent: "center", my: 3 }}>
+            <Typography variant="h5">作ってみたいものに いいね♡しよう</Typography>
+          </Box>
+        </>
       )}
 
       <Box sx={{ display: "flex", alignItems: "center", my: 4, pl: 3 }}>

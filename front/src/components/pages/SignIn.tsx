@@ -1,34 +1,41 @@
-import React, { useState, useContext, FC, memo } from "react";
+import React, { useState, useContext, FC, memo, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import Cookies from "js-cookie";
 
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { Divider } from "@mui/material";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
-import { SignInParams } from "types/api/SignInParams";
-import { getGuestUserSignIn, signIn } from "lib/api/auth";
 import { PrimaryButton } from "components/molecules/PrimaryButton";
-import { Divider } from "@mui/material";
+import Cookies from "js-cookie";
+import { getGuestUserSignIn, signIn } from "lib/api/auth";
 import { AuthContext } from "providers/AuthProvider";
 import { useSnackbar } from "providers/SnackbarProvider";
+import { SignInParams } from "types/api/SignInParams";
 
 // サインイン用ページ
 export const SignIn: FC = memo(() => {
   const history = useHistory();
 
-  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const { isSignedIn, setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const { showSnackbar } = useSnackbar();
+
+  // isSignedIn の変更に応じて遷移する
+  useEffect(() => {
+    if (isSignedIn) {
+      history.push("/materials");
+    }
+  }, [isSignedIn, history]);
 
   // 通常ログインボタン押下時
   const onClickSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,15 +59,11 @@ export const SignIn: FC = memo(() => {
         setIsSignedIn(true);
         setCurrentUser(res.data.data);
 
-        history.replace("/materials");
         showSnackbar("ログインしました", "success");
       } else {
       }
     } catch (err) {
-      showSnackbar(
-        "メールアドレス または パスワード に誤りがあります",
-        "error"
-      );
+      showSnackbar("メールアドレス または パスワード に誤りがあります", "error");
 
       console.log(err);
     }
@@ -83,7 +86,6 @@ export const SignIn: FC = memo(() => {
         setCurrentUser(res.data.data);
 
         showSnackbar("ゲストユーザーとしてログインしました", "success");
-        history.replace("/materials");
       }
     } catch (e) {
       console.log(e);
@@ -125,10 +127,7 @@ export const SignIn: FC = memo(() => {
               onChange={(event) => setPassword(event.target.value)}
               InputProps={{
                 endAdornment: (
-                  <IconButton
-                    edge="end"
-                    onClick={handleTogglePasswordVisibility}
-                  >
+                  <IconButton edge="end" onClick={handleTogglePasswordVisibility}>
                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 ),
