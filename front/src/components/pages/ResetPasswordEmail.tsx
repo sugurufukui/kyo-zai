@@ -1,7 +1,10 @@
 import React, { FC, memo } from "react";
+
 import { Box, Grid, Paper, Typography } from "@mui/material";
+
 import EmailDeliveryImage from "images/mail_delivery.png";
 
+// パスワードメール確認促進ページ
 export const ResetPasswordEmail: FC = memo(() => {
   return (
     <>

@@ -1,7 +1,10 @@
 import React, { FC, memo } from "react";
-import { Box, Grid, Paper, Typography } from "@mui/material";
+
 import welcomeImage from "images/welcome.png";
 
+import { Box, Grid, Paper, Typography } from "@mui/material";
+
+// 新規登録後のメール確認促進ページ
 export const WelcomeEmail: FC = memo(() => {
   return (
     <>

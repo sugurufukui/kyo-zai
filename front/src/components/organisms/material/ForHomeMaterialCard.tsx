@@ -1,11 +1,13 @@
 import { FC, memo } from "react";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { User } from "types/api/user";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
+
+import { User } from "types/api/user";
 
 type Props = {
   id: number;
@@ -17,6 +19,7 @@ type Props = {
   onClick?: (id: number) => void;
 };
 
+// HOME画面最下部で表示する教材（いいね、モーダル非対応）
 export const ForHomeMaterialCard: FC<Props> = memo((props) => {
   const { id, imageUrl, materialName, onClick } = props;
 

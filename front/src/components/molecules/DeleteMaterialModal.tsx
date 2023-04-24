@@ -1,16 +1,12 @@
 import { FC, memo, useCallback } from "react";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-} from "@mui/material";
-import { MaterialType } from "types/api/materialType";
-import { deleteMaterial } from "lib/api/material";
 import { useHistory } from "react-router-dom";
-import { useSnackbar } from "providers/SnackbarProvider";
+
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+import { deleteMaterial } from "lib/api/material";
+import { useSnackbar } from "providers/SnackbarProvider";
+import { MaterialType } from "types/api/materialType";
 
 type Props = {
   open: boolean;
@@ -37,11 +33,7 @@ export const DeleteMaterialModal: FC<Props> = memo((props) => {
   }, [history, showSnackbar, item]);
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-describedby="alert-dialog-description"
-    >
+    <Dialog open={open} onClose={handleClose} aria-describedby="alert-dialog-description">
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           削除すると2度と復元することができません。
@@ -54,12 +46,7 @@ export const DeleteMaterialModal: FC<Props> = memo((props) => {
         <Button variant="outlined" onClick={handleClose} autoFocus>
           やめる
         </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          startIcon={<DeleteIcon />}
-          onClick={onClickDelete}
-        >
+        <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={onClickDelete}>
           削除する
         </Button>
       </DialogActions>

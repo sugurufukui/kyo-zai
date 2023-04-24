@@ -1,11 +1,13 @@
 import { FC, memo } from "react";
+
+import { Box } from "@mui/system";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+
 import { LikeButton } from "components/molecules/LikeButton";
 import { User } from "types/api/user";
-import { Box } from "@mui/system";
 
 type Props = {
   id: number;
@@ -17,16 +19,9 @@ type Props = {
   onClick?: (id: number) => void;
 };
 
+// 一覧画面で表示する教材のカードコンポーネント
 export const MaterialCard: FC<Props> = memo((props) => {
-  const {
-    id,
-    imageUrl,
-    materialName,
-    onClick,
-    materialId,
-    currentUser,
-    initialLikeCount,
-  } = props;
+  const { id, imageUrl, materialName, onClick, materialId, currentUser, initialLikeCount } = props;
 
   return (
     <>

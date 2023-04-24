@@ -1,5 +1,5 @@
-import { client } from "lib/api/client";
 import Cookies from "js-cookie";
+import { client } from "lib/api/client";
 
 // 指定したIDデータを取得 アカウント詳細ページ
 export const getUserId = (id) => {
@@ -30,15 +30,11 @@ export const deleteUser = (id) => {
 
 // アカウント削除確認メール送信
 export const sendDeletionConfirmationEmail = async (userId: number) => {
-  return client.post(
-    `/users/${userId}/send_deletion_confirmation_email`,
-    null,
-    {
-      headers: {
-        "access-token": Cookies.get("_access_token"),
-        client: Cookies.get("_client"),
-        uid: Cookies.get("_uid"),
-      },
-    }
-  );
+  return client.post(`/users/${userId}/send_deletion_confirmation_email`, null, {
+    headers: {
+      "access-token": Cookies.get("_access_token"),
+      client: Cookies.get("_client"),
+      uid: Cookies.get("_uid"),
+    },
+  });
 };

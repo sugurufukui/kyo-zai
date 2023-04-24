@@ -1,5 +1,3 @@
-import { AlertColor } from "@mui/material";
-import { AppSnackbar } from "components/molecules/AppSnackbar";
 import {
   createContext,
   FC,
@@ -10,6 +8,10 @@ import {
   useMemo,
   useState,
 } from "react";
+
+import { AlertColor } from "@mui/material";
+
+import { AppSnackbar } from "components/molecules/AppSnackbar";
 
 type SnackbarContextType = {
   message: string;

@@ -1,15 +1,16 @@
 import { FC, memo } from "react";
 import { useHistory } from "react-router-dom";
-import Typography from "@mui/material/Typography";
-import { Box, Button, IconButton, Modal, TextField } from "@mui/material";
 
-import { MaterialType } from "types/api/materialType";
-import { LikeButton } from "components/molecules/LikeButton";
-import { User } from "types/api/user";
-import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
-import ImageSearchTwoToneIcon from "@mui/icons-material/ImageSearchTwoTone";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { Box, Button, IconButton, Modal, TextField } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { grey } from "@mui/material/colors";
+import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import ImageSearchTwoToneIcon from "@mui/icons-material/ImageSearchTwoTone";
+
+import { LikeButton } from "components/molecules/LikeButton";
+import { MaterialType } from "types/api/materialType";
+import { User } from "types/api/user";
 
 type Props = {
   material: MaterialType | null;
@@ -23,15 +24,7 @@ type Props = {
 
 // 一覧の中のいずれかをクリックすると表示されるモーダル画面
 export const MaterialModal: FC<Props> = memo((props) => {
-  const {
-    material,
-    open,
-    onClose,
-    materialId,
-    currentUser,
-    initialLikeCount,
-    imageUrl,
-  } = props;
+  const { material, open, onClose, materialId, currentUser, initialLikeCount, imageUrl } = props;
 
   const history = useHistory();
 
@@ -48,7 +41,6 @@ export const MaterialModal: FC<Props> = memo((props) => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             bgcolor: "background.paper",
-            // border: "2px solid #000",
             borderRadius: 4,
             p: 2,
             my: 3,
@@ -60,12 +52,7 @@ export const MaterialModal: FC<Props> = memo((props) => {
             </IconButton>
           </Box>
           <Box alignItems="center" textAlign="center" sx={{ pt: 2 }}>
-            <img
-              src={imageUrl}
-              alt={material?.name}
-              width={(260 * 4) / 3}
-              // height={260}
-            />
+            <img src={imageUrl} alt={material?.name} width={(260 * 4) / 4} />
           </Box>
           <Box p={1}>
             <TextField
@@ -94,12 +81,7 @@ export const MaterialModal: FC<Props> = memo((props) => {
             />
           </Box>
           <Box sx={{ pl: 1 }}>
-            <Typography
-              fontWeight="bold"
-              color="gray"
-              fontSize="0.75rem"
-              sx={{ mb: 1 }}
-            >
+            <Typography fontWeight="bold" color="gray" fontSize="0.75rem" sx={{ mb: 1 }}>
               いいねの数
             </Typography>
             <LikeButton
@@ -127,9 +109,7 @@ export const MaterialModal: FC<Props> = memo((props) => {
                 <Button
                   variant="outlined"
                   size="large"
-                  onClick={() =>
-                    history.push(`/materials/edit/${material?.id}`)
-                  }
+                  onClick={() => history.push(`/materials/edit/${material?.id}`)}
                   startIcon={<BuildRoundedIcon />}
                 >
                   　編集する　

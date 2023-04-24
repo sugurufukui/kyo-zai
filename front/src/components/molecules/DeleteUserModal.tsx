@@ -1,16 +1,12 @@
 import { FC, memo, useCallback } from "react";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-} from "@mui/material";
-import { User } from "types/api/user";
-import { deleteUser, sendDeletionConfirmationEmail } from "lib/api/user";
 import { useHistory } from "react-router-dom";
-import { useSnackbar } from "providers/SnackbarProvider";
+
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+
+import { deleteUser, sendDeletionConfirmationEmail } from "lib/api/user";
+import { useSnackbar } from "providers/SnackbarProvider";
+import { User } from "types/api/user";
 
 type Props = {
   open: boolean;
@@ -37,11 +33,7 @@ export const DeleteUserModal: FC<Props> = memo((props) => {
   }, [history, showSnackbar, user]);
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-describedby="alert-dialog-description"
-    >
+    <Dialog open={open} onClose={handleClose} aria-describedby="alert-dialog-description">
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           退会するとこれまでのデータを復元することができません。
@@ -54,12 +46,7 @@ export const DeleteUserModal: FC<Props> = memo((props) => {
         <Button variant="outlined" onClick={handleClose} autoFocus>
           やめる
         </Button>
-        <Button
-          variant="outlined"
-          color="error"
-          startIcon={<DeleteIcon />}
-          onClick={onClickDelete}
-        >
+        <Button variant="outlined" color="error" startIcon={<DeleteIcon />} onClick={onClickDelete}>
           退会する
         </Button>
       </DialogActions>
