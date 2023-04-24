@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 import { signOut } from "lib/api/auth";
@@ -10,7 +10,7 @@ export const useAvatarMenu = () => {
   const [avatarMenuOpened, setAvatarMenuOpened] = useState(undefined);
   const { showSnackbar } = useSnackbar();
 
-  const { setIsSignedIn } = useContext(AuthContext);
+  const { setIsSignedIn, currentUser } = useContext(AuthContext);
   const history = useHistory();
 
   const onClickAvatar = () => {
@@ -41,6 +41,10 @@ export const useAvatarMenu = () => {
       showSnackbar("ログアウトできませんでした", "error");
     }
   };
+
+  useEffect(() => {
+    onCloseAvatarMenu();
+  }, [currentUser]);
 
   return {
     avatarMenuOpened,
