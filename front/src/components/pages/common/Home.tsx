@@ -6,7 +6,7 @@ import { Button, Grid, Paper, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
 import { ForHomeMaterialCard } from "components/organisms/material/ForHomeMaterialCard";
-import { useAllMaterials } from "hooks/useAllMaterials";
+import { useAllMaterials } from "hooks/material/useAllMaterials";
 import HomeImage from "images/HOME.jpg";
 import Cookies from "js-cookie";
 import { getGuestUserSignIn } from "lib/api/auth";

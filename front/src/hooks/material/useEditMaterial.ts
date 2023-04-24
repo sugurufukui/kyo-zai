@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 import { getDetailMaterial, updateMaterial } from "lib/api/material";
-import { useImageUpload } from "hooks/useImageUpload";
+import { useImageUpload } from "hooks/material/useImageUpload";
 import { AuthContext } from "providers/AuthProvider";
 import { useSnackbar } from "providers/SnackbarProvider";
 // 教材の編集における状態管理や処理をまとめたカスタムフック

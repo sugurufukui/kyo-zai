@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { createMaterial } from "lib/api/material";
-import { useImageUpload } from "hooks/useImageUpload";
+import { useImageUpload } from "hooks/material/useImageUpload";
 import { useSnackbar } from "providers/SnackbarProvider";
 
 // 教材新規投稿における状態管理や処理をまとめたカスタムフック

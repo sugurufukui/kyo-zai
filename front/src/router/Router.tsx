@@ -1,25 +1,25 @@
 import { FC, memo, ReactElement } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import { Account } from "components/pages/Account";
-import { AccountEdit } from "components/pages/AccountEdit";
-import { ExpiredEmailLink } from "components/pages/ExpiredEmailLink";
-import { ForgotPassword } from "components/pages/ForgotPassword";
-import { Home } from "components/pages/Home";
+import { Account } from "components/pages/user/Account";
+import { AccountEdit } from "components/pages/user/AccountEdit";
+import { ExpiredEmailLink } from "components/pages/common/ExpiredEmailLink";
+import { ForgotPassword } from "components/pages/user/ForgotPassword";
+import { Home } from "components/pages/common/Home";
 import { Detail } from "components/pages/material/Detail";
 import { Edit } from "components/pages/material/Edit";
 import { List } from "components/pages/material/List";
 import { Liked } from "components/pages/material/Liked";
 import { Mine } from "components/pages/material/Mine";
 import { New } from "components/pages/material/New";
-import { Page404 } from "components/pages/Page404";
-import { ResetPassword } from "components/pages/ResetPassword";
-import { ResetPasswordEmail } from "components/pages/ResetPasswordEmail";
-import { SignIn } from "components/pages/SignIn";
-import { SignUp } from "components/pages/SignUp";
-import { WelcomeEmail } from "components/pages/WelcomeEmail";
+import { Page404 } from "components/pages/common/Page404";
+import { ResetPassword } from "components/pages/user/ResetPassword";
+import { ResetPasswordEmail } from "components/pages/user/ResetPasswordEmail";
+import { SignIn } from "components/pages/user/SignIn";
+import { SignUp } from "components/pages/user/SignUp";
+import { WelcomeEmail } from "components/pages/user/WelcomeEmail";
 import { CommonLayout } from "components/templates/CommonLayout";
-import { useAuth } from "hooks/useAuth";
+import { useAuth } from "hooks/user/useAuth";
 import { AuthProvider } from "providers/AuthProvider";
 
 export const Router: FC = memo(() => {

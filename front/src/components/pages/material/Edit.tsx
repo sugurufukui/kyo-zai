@@ -6,7 +6,7 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { Button } from "@mui/material";
 
 import { MaterialFormBody } from "components/organisms/material/MaterialFormBody";
-import { useEditMaterial } from "hooks/useEditMaterial";
+import { useEditMaterial } from "hooks/material/useEditMaterial";
 
 export const Edit: FC = memo(() => {
   const { value, preview, handleChange, uploadImage, resetFile, handleUpdatePost } =

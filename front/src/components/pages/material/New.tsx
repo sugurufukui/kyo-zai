@@ -6,7 +6,7 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { Button } from "@mui/material";
 
 import { MaterialFormBody } from "components/organisms/material/MaterialFormBody";
-import { useNewMaterial } from "hooks/useNewMaterial";
+import { useNewMaterial } from "hooks/material/useNewMaterial";
 
 // 教材新規登録ページ
 export const New: FC = memo(() => {

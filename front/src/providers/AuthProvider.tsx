@@ -1,6 +1,6 @@
 import { createContext, memo, ReactNode } from "react";
 
-import { useAuth } from "hooks/useAuth";
+import { useAuth } from "hooks/user/useAuth";
 import { User } from "types/api/user";
 
 // グローバルで扱う変数・関数
