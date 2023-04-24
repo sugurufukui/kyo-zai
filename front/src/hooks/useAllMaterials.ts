@@ -9,7 +9,7 @@ export const useAllMaterials = () => {
   // 全ての教材のデータ
   const [materials, setMaterials] = useState<Array<MaterialType>>([]);
   // 自分が投稿した教材のデータ
-  const [MineMaterials, setMineMaterials] = useState<Array<MaterialType>>([]);
+  const [mineMaterials, setMineMaterials] = useState<Array<MaterialType>>([]);
   // 自分がいいねした教材のデータ
   const [likedMaterials, setLikedMaterials] = useState<Array<MaterialType>>([]);
 
@@ -65,7 +65,7 @@ export const useAllMaterials = () => {
     getMineMaterials,
     getLikedMaterials,
     materials,
-    MineMaterials,
+    mineMaterials,
     likedMaterials,
     loading,
   };
