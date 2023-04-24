@@ -1,47 +1,27 @@
-import React, {
-  FC,
-  useContext,
-  useState,
-  useEffect,
-  memo,
-  useCallback,
-} from "react";
+import React, { FC, useContext, useState, useEffect, memo, useCallback } from "react";
 import { Redirect, useHistory, useParams } from "react-router-dom";
 
-// api
+import { Box, Button, Card, CardContent, CardHeader, Divider, TextField } from "@mui/material";
+import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
+
+import { CanNotUserEditToastButton } from "components/molecules/CanNotUserEditToastButton";
 import { getUserId } from "lib/api/user";
-
-// context
 import { AuthContext } from "providers/AuthProvider";
-
 import { User } from "types/api/user";
 
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  TextField,
-} from "@mui/material";
-import { CanNotUserEditToastButton } from "components/molecules/CanNotUserEditToastButton";
-
+// ユーザー情報ページ
 export const Account: FC = memo(() => {
-  const { loading, isSignedIn, currentUser } = useContext(AuthContext);
-
-  // useState
-  // userのプロフィール情報を格納
-  const [userProfile, setUserProfile] = useState<User>();
-  // userのidを格納
-  const [userId, setUserId] = useState();
+  const { isSignedIn, currentUser } = useContext(AuthContext);
   const history = useHistory();
   const query: any = useParams();
 
+  const [userProfile, setUserProfile] = useState<User>();
+  const [userId, setUserId] = useState();
+
   // `/users/${id}`へ推移
-  const handleGetUserProfile = useCallback(async (query: any) => {
-    try {
-      if (!loading) {
+  const handleGetUserProfile = useCallback(
+    async (query: any) => {
+      try {
         if (isSignedIn) {
           const res = await getUserId(query.id);
           console.log(res.data);
@@ -51,17 +31,18 @@ export const Account: FC = memo(() => {
           console.log("error");
           <Redirect to="/signin" />;
         }
+      } catch (e) {
+        console.log(e);
+        history.push("/notfound404");
       }
-    } catch (e) {
-      console.log(e);
-      history.push("/notfound404");
-    }
-  }, []);
+    },
+    [history, isSignedIn]
+  );
 
   // データを取得
   useEffect(() => {
     handleGetUserProfile(query);
-  }, [query, handleGetUserProfile]);
+  }, [query]);
 
   return (
     <>
@@ -100,9 +81,7 @@ export const Account: FC = memo(() => {
                   readOnly: true,
                 }}
               />
-            ) : (
-              <></>
-            )}
+            ) : null}
             <TextField
               variant="outlined"
               fullWidth
@@ -121,20 +100,20 @@ export const Account: FC = memo(() => {
               }}
             />
             {/* ゲストユーザー以外のログインユーザーに編集可能ボタン出現 */}
-            {currentUser?.id == query?.id &&
-            currentUser?.email != "guest@example.com" ? (
+            {currentUser?.id == query?.id && currentUser?.email != "guest@example.com" ? (
               <Button
                 variant="outlined"
+                startIcon={<BuildRoundedIcon />}
                 color="primary"
                 fullWidth
                 style={{ marginTop: "2rem" }}
                 onClick={() => history.push(`/user/edit/${userId}`)}
               >
-                編集
+                アカウントを編集する
               </Button>
-            ) : (
-              <></>
-            )}
+            ) : null}
+
+            {/* ゲストユーザーの場合、だあミー編集ボタン出現 */}
             {currentUser?.email === "guest@example.com" && (
               <Box sx={{ flexGrow: 1, mt: 3 }}>
                 <CanNotUserEditToastButton />
@@ -144,19 +123,11 @@ export const Account: FC = memo(() => {
         </Card>
       </form>
       <Box sx={{ mb: 2 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => history.push("/my_materials")}
-        >
+        <Button variant="contained" color="primary" onClick={() => history.push("/my_materials")}>
           ＜＜ あなたが投稿した教材を見る
         </Button>
       </Box>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => history.push("/my_like")}
-      >
+      <Button variant="contained" color="primary" onClick={() => history.push("/my_like")}>
         ＜＜ あなたがいいね🤍した教材を見る
       </Button>
       <Box></Box>

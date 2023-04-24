@@ -1,35 +1,30 @@
+import { FC, memo, useContext, useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+
+import { Button, CardHeader, TextField, Divider, CardContent, Card } from "@mui/material";
+import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
+
+import { DeleteUserModal } from "components/molecules/DeleteUserModal";
 import { getUserId, updateUser } from "lib/api/user";
 import { AuthContext } from "providers/AuthProvider";
 import { useSnackbar } from "providers/SnackbarProvider";
-import { FC, memo, useContext, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import {
-  Button,
-  CardHeader,
-  TextField,
-  Divider,
-  CardContent,
-} from "@mui/material";
-import { Card } from "@mui/material";
-import { DeleteUserModal } from "components/molecules/DeleteUserModal";
 import { User } from "types/api/user";
 
+// ユーザー情報編集ページ
 export const AccountEdit: FC = memo(() => {
   const { currentUser } = useContext(AuthContext);
+  const query: any = useParams();
 
   const history = useHistory();
   const { showSnackbar } = useSnackbar();
 
-  const query: any = useParams();
   const [userProfile, setUserProfile] = useState<User>();
 
-  //退会
+  //退会モーダル開閉
   const [open, setOpen] = useState(false);
-
   const deleteDialogOpen = () => {
     setOpen(true);
   };
-
   const deleteDialogClose = () => {
     setOpen(false);
   };
@@ -94,17 +89,6 @@ export const AccountEdit: FC = memo(() => {
               value={userProfile?.name || ""}
               onChange={(e) => handleChange(e)}
             />
-            {/* <TextField
-              variant="outlined"
-              fullWidth
-              id="email"
-              label="メールアドレス"
-              name="email"
-              type="email"
-              margin="dense"
-              value={userProfile?.email || ""}
-              onChange={(e) => handleChange(e)}
-            /> */}
             <TextField
               variant="outlined"
               fullWidth
@@ -121,6 +105,7 @@ export const AccountEdit: FC = memo(() => {
             />
             <Button
               variant="outlined"
+              startIcon={<AutorenewOutlinedIcon />}
               color="primary"
               fullWidth
               style={{ marginTop: "2rem" }}
@@ -128,22 +113,13 @@ export const AccountEdit: FC = memo(() => {
                 handleUpdateAccount(e);
               }}
             >
-              編集を完了する
+              アカウントの編集を完了する
             </Button>
             <Divider sx={{ my: 6 }} />
-            <Button
-              variant="outlined"
-              color="error"
-              fullWidth
-              onClick={deleteDialogOpen}
-            >
+            <Button variant="outlined" color="error" fullWidth onClick={deleteDialogOpen}>
               退会する
             </Button>
-            <DeleteUserModal
-              open={open}
-              handleClose={deleteDialogClose}
-              user={userProfile}
-            />
+            <DeleteUserModal open={open} handleClose={deleteDialogClose} user={userProfile} />
           </CardContent>
         </Card>
       </form>

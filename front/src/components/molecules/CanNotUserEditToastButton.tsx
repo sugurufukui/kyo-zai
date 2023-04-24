@@ -1,6 +1,9 @@
-import { Button } from "@mui/material";
-import { useSnackbar } from "providers/SnackbarProvider";
 import { FC, memo } from "react";
+
+import { Button } from "@mui/material";
+import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
+
+import { useSnackbar } from "providers/SnackbarProvider";
 
 export const CanNotUserEditToastButton: FC = memo(() => {
   const { showSnackbar } = useSnackbar();
@@ -11,13 +14,10 @@ export const CanNotUserEditToastButton: FC = memo(() => {
       variant="outlined"
       color="primary"
       style={{ marginTop: "1rem" }}
-      // startIcon={<EditIcon />}
-
-      onClick={() =>
-        showSnackbar("ゲストユーザーのため、編集ができません", "error")
-      }
+      startIcon={<BuildRoundedIcon />}
+      onClick={() => showSnackbar("ゲストユーザーのため、アカウントの編集ができません", "error")}
     >
-      編集
+      アカウントを編集する
     </Button>
   );
 });
