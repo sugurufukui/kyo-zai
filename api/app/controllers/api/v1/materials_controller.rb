@@ -1,21 +1,21 @@
 class Api::V1::MaterialsController < ApplicationController
-  before_action :authenticate_api_v1_user!, only: %i[my_like_materials my_materials create update destroy]
+  before_action :authenticate_api_v1_user!, only: %i[liked_materials mine_materials create update destroy]
 
   def index
     render json: Material.all.order(created_at: :desc)
   end
 
-  def my_materials
+  def mine_materials
     @user = current_api_v1_user
-    @my_materials = Material.where(user_id: @user.id)
-    render json: @my_materials.order(created_at: :desc)
+    @mine_materials = Material.where(user_id: @user.id)
+    render json: @mine_materials.order(created_at: :desc)
   end
 
-  def my_like_materials
+  def liked_materials
     @user = current_api_v1_user
-    @my_like_materials = Like.where(user_id: @user.id).order(created_at: :desc)
-    @my_like_materials = @my_like_materials.map { |m| Material.find_by(id: m.material_id) }
-    render json: @my_like_materials
+    @liked_materials = Like.where(user_id: @user.id).order(created_at: :desc)
+    @liked_materials = @liked_materials.map { |m| Material.find_by(id: m.material_id) }
+    render json: @liked_materials
   end
 
   def show

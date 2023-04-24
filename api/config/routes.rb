@@ -6,8 +6,8 @@ Rails.application.routes.draw do
         resource :likes, only: %i[show create destroy]
       end
 
-      get "/my_materials", to: "materials#my_materials", as: :my_materials
-      get "/my_like", to: "materials#my_like_materials", as: :my_like_materials
+      get "/mine_materials", to: "materials#mine_materials", as: :mine_materials
+      get "/liked_materials", to: "materials#liked_materials", as: :liked_materials
 
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/auth/registrations',

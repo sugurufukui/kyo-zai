@@ -30,10 +30,10 @@ export const avatarMenu = (currentUser) => [
     icon: <AccountCircleIcon />,
     link: `/user/${currentUser?.id}`,
   },
-  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/my_materials" },
+  { children: "投稿した教材", icon: <MenuBookIcon />, link: "/mine_materials" },
   {
     children: "いいねした教材",
     icon: <FavoriteBorderIcon />,
-    link: "/my_like",
+    link: "/liked_materials",
   },
 ];

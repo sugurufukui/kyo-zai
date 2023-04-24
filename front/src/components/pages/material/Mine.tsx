@@ -1,11 +1,14 @@
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import { MaterialCard } from "components/organisms/material/MaterialCard";
-import { Box, Button, CircularProgress, Grid, Pagination } from "@mui/material";
-import { useAllMaterials } from "hooks/useAllMaterials";
 import { MaterialModal } from "components/organisms/material/MaterialModal";
+import { useAllMaterials } from "hooks/useAllMaterials";
+import { useSelectMineMaterial } from "hooks/useSelectMineMaterial";
 import { AuthContext } from "providers/AuthProvider";
-import { useHistory } from "react-router";
-import { useSelectLikeMaterial } from "hooks/useSelectLikeMaterial";
+
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import { Box, Button, CircularProgress, Grid, Pagination } from "@mui/material";
 
 export const paginator = (items, current_page, per_page_items) => {
   let page = current_page || 1, // page = 現在のページまたは1ページ目
@@ -13,11 +16,7 @@ export const paginator = (items, current_page, per_page_items) => {
     offset = (page - 1) * per_page, //  ページの先頭の教材(何番目のアイテムから表示するか)(ページ数 - 1 * 1ページに表示する数) 3ページ目の場合は、(3-1)*8=16 ページの先頭の教材は16番目
     paginatedItems = items.slice(offset).slice(0, per_page_items), //ページ先頭教材でslice ,0から1ページに表示する数(8)を要素を取り出し
     total_pages = Math.ceil(items.length / per_page); // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
-  console.log(
-    `${page}ページ目を表示中。（${offset}番目から${
-      offset + per_page_items
-    }番目の教材）`
-  );
+  console.log(`${page}ページ目を表示中。（${offset}番目から${offset + per_page_items}番目の教材）`);
 
   return {
     page: page,
@@ -34,53 +33,50 @@ type Props = {
   initialLikeCount: number;
 };
 
-export const MyLike: FC<Props> = memo((props) => {
+export const Mine: FC<Props> = memo((props) => {
   const { initialLikeCount } = props;
-  const { getLikeMaterials, likeMaterials, loading } = useAllMaterials();
+  const { getMineMaterials, MineMaterials, loading } = useAllMaterials();
   const { currentUser } = useContext(AuthContext);
-  const { onSelectLikeMaterial, selectedLikeMaterial } =
-    useSelectLikeMaterial();
-  console.log("選択した教材", selectedLikeMaterial);
+  const { onSelectMineMaterial, selectedMineMaterial } = useSelectMineMaterial();
 
   const history = useHistory();
 
   //ページネーション関係
-  const count = Math.ceil(likeMaterials.length / 8);
+  const count = Math.ceil(MineMaterials.length / 8);
   const [page, setPage] = useState(1);
   const handleChange = useCallback(
     (event, value) => {
-      setPage(paginator(likeMaterials, value, 8).page);
+      setPage(paginator(MineMaterials, value, 8).page);
     },
-    [likeMaterials]
+    [MineMaterials]
   );
 
   // いいね関係
   const [likeCount, setLikeCount] = useState(initialLikeCount);
 
-  //モーダル関係
+  // //モーダル関係
   const [open, setOpen] = useState(false);
-  //教材をクリックした時の挙動 クリック時にmaterial.idが渡るようにidを付与
+  // //教材をクリックした時の挙動 クリック時にmaterial.idが渡るようにidを付与
   const onClickMaterial = useCallback(
     (id: number) => {
       // 教材を特定する為にuseSelectMaterialのidとmaterialを与える
-      onSelectLikeMaterial({ id, likeMaterials });
+      onSelectMineMaterial({ id, MineMaterials });
       setOpen(true);
       console.log(id);
-      console.log(likeMaterials);
+      console.log(MineMaterials);
     },
-    [likeMaterials, onSelectLikeMaterial]
+    [MineMaterials, onSelectMineMaterial]
   );
 
   const handleClose = useCallback(() => setOpen(false), []);
 
-  // 教材データの取得
   useEffect(() => {
-    getLikeMaterials();
-  }, [getLikeMaterials]);
+    getMineMaterials();
+  }, [getMineMaterials]);
 
-  // いいねした教材があれば表示して、なければないことを表示する
+  // 投稿した教材があれば表示して、なければないことを表示する
   const MaterialData = useCallback(() => {
-    if (likeMaterials.length >= 1) {
+    if (MineMaterials.length >= 1) {
       return (
         <>
           <Grid
@@ -91,14 +87,14 @@ export const MyLike: FC<Props> = memo((props) => {
               flexWrap: "wrap",
             }}
           >
-            {paginator(likeMaterials, page, 8).data.map((likeMaterial) => (
-              <Grid key={likeMaterial.id} sx={{ m: "auto", p: "4" }}>
+            {paginator(MineMaterials, page, 8).data.map((MineMaterial) => (
+              <Grid key={MineMaterial.id} sx={{ m: "auto", p: "4" }}>
                 <MaterialCard
-                  id={likeMaterial.id}
-                  imageUrl={likeMaterial.image.url}
-                  materialName={likeMaterial.name}
+                  id={MineMaterial.id}
+                  imageUrl={MineMaterial.image.url}
+                  materialName={MineMaterial.name}
                   onClick={onClickMaterial}
-                  materialId={likeMaterial.id}
+                  materialId={MineMaterial.id}
                   currentUser={currentUser}
                   initialLikeCount={likeCount}
                 />
@@ -108,47 +104,55 @@ export const MyLike: FC<Props> = memo((props) => {
           <MaterialModal
             open={open}
             onClose={handleClose}
-            material={selectedLikeMaterial}
-            materialId={selectedLikeMaterial?.id}
+            material={selectedMineMaterial}
+            materialId={selectedMineMaterial?.id}
             currentUser={currentUser}
-            imageUrl={selectedLikeMaterial?.image.url}
+            imageUrl={selectedMineMaterial?.image.url}
             initialLikeCount={likeCount}
           />
-          <Box
-            style={{ display: "flex", justifyContent: "center" }}
-            sx={{ mt: 3 }}
-          >
-            <Pagination
-              count={count}
-              page={page}
-              onChange={handleChange}
-              color="primary"
-            />
+          <Box style={{ display: "flex", justifyContent: "center" }} sx={{ mt: 3 }}>
+            <Pagination count={count} page={page} onChange={handleChange} color="primary" />
           </Box>
         </>
       );
     } else {
-      return <h2>いいねした教材はありません</h2>;
+      return (
+        <>
+          <h2>投稿した教材はありません</h2>
+          <h2>ぜひ投稿してみましょう！！</h2>
+          <Box sx={{ mt: 5 }}>
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={() => history.push("/materials/new")}
+            >
+              <PostAddIcon /> 教材を投稿してみる
+            </Button>
+          </Box>
+        </>
+      );
     }
   }, [
     count,
     currentUser,
     handleChange,
     handleClose,
+    history,
     likeCount,
-    likeMaterials,
+    MineMaterials,
     onClickMaterial,
     open,
     page,
-    selectedLikeMaterial,
+    selectedMineMaterial,
   ]);
 
   return (
     <>
-      <h1>{currentUser?.name}さんがいいねした教材一覧</h1>
+      <h1>{currentUser?.name}さんの投稿一覧</h1>
       <Button variant="outlined" onClick={() => history.goBack()}>
         戻る
-      </Button>
+      </Button>{" "}
       {loading ? (
         <Box
           sx={{

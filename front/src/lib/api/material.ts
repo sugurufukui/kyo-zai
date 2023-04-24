@@ -1,5 +1,5 @@
-import { client } from "lib/api/client";
 import Cookies from "js-cookie";
+import { client } from "lib/api/client";
 
 // 教材一覧
 export const getAllMaterial = () => {
@@ -7,8 +7,8 @@ export const getAllMaterial = () => {
 };
 
 // 自分が投稿した教材一覧
-export const getMyMaterial = () => {
-  return client.get("/my_materials", {
+export const getMineMaterial = () => {
+  return client.get("/mine_materials", {
     headers: {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
@@ -18,8 +18,8 @@ export const getMyMaterial = () => {
 };
 
 // 自分がいいねした教材一覧
-export const getMyLikeMaterial = () => {
-  return client.get("/my_like", {
+export const getLikedMaterial = () => {
+  return client.get("/liked_materials", {
     headers: {
       "access-token": Cookies.get("_access_token"),
       client: Cookies.get("_client"),
