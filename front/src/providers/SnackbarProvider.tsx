@@ -11,12 +11,13 @@ import {
 
 import { AlertColor } from "@mui/material";
 
-import { AppSnackbar } from "components/molecules/AppSnackbar";
+import { AppSnackbar } from "components/molecules/common/AppSnackbar";
 
 type SnackbarContextType = {
   message: string;
   severity: AlertColor;
   showSnackbar: (message: string, severity: AlertColor) => void;
+  resetSnackbar: () => void;
 };
 
 type Props = {
@@ -27,6 +28,7 @@ export const SnackbarContext = createContext<SnackbarContextType>({
   message: "",
   severity: "error",
   showSnackbar: (_message: string, _severity: AlertColor) => {},
+  resetSnackbar: () => {},
 });
 
 export const SnackbarProvider: FC<Props> = memo((props) => {
@@ -34,6 +36,9 @@ export const SnackbarProvider: FC<Props> = memo((props) => {
   const context: SnackbarContextType = useContext(SnackbarContext);
   const [message, setMessage] = useState(context.message);
   const [severity, setSeverity] = useState(context.severity);
+  const resetSnackbar = useCallback(() => {
+    setMessage("");
+  }, []);
 
   const newContext: SnackbarContextType = useMemo(
     () => ({
@@ -43,8 +48,9 @@ export const SnackbarProvider: FC<Props> = memo((props) => {
         setMessage(message);
         setSeverity(severity);
       },
+      resetSnackbar,
     }),
-    [message, severity, setMessage, setSeverity]
+    [message, severity, setMessage, setSeverity, resetSnackbar]
   );
 
   // クリックしたらSnackbarを閉じる

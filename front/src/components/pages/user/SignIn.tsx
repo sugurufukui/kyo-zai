@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
-import { PrimaryButton } from "components/molecules/PrimaryButton";
+import { PrimaryButton } from "components/molecules/common/PrimaryButton";
 import Cookies from "js-cookie";
 import { getGuestUserSignIn, signIn } from "lib/api/auth";
 import { AuthContext } from "providers/AuthProvider";
@@ -29,14 +29,21 @@ export const SignIn: FC = memo(() => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbar, resetSnackbar } = useSnackbar();
 
   // isSignedIn の変更に応じて遷移する
   useEffect(() => {
     if (isSignedIn) {
       history.push("/materials");
     }
-  }, [isSignedIn, history]);
+  }, [isSignedIn]);
+
+  // // unmount時にsnackbarリセットして再レンダリング防止
+  // useEffect(() => {
+  //   return () => {
+  //     resetSnackbar();
+  //   };
+  // }, [resetSnackbar]);
 
   // 通常ログインボタン押下時
   const onClickSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
