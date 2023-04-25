@@ -1,30 +1,29 @@
 import { FC, memo, useCallback, useContext, useEffect, useState } from "react";
-import { MaterialCard } from "components/organisms/material/MaterialCard";
-import { Box, Button, CircularProgress, Grid, Pagination } from "@mui/material";
-import { useAllMaterials } from "hooks/useAllMaterials";
-import { MaterialModal } from "components/organisms/material/MaterialModal";
-import { useSelectMaterial } from "hooks/useSelectMaterial";
-import { AuthContext } from "providers/AuthProvider";
 import { useHistory } from "react-router-dom";
-import PostAddIcon from "@mui/icons-material/PostAdd";
 
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import { Box, Button, CircularProgress, Grid, Pagination } from "@mui/material";
+
+import { MaterialCard } from "components/organisms/material/MaterialCard";
+import { MaterialModal } from "components/organisms/material/MaterialModal";
+import { useAllMaterials } from "hooks/material/useAllMaterials";
+import { useSelectMaterial } from "hooks/material/useSelectMaterial";
+import { AuthContext } from "providers/AuthProvider";
+
+// ページネーション設定
 export const paginator = (items, current_page, per_page_items) => {
-  let page = current_page || 1, // page = 現在のページまたは1ページ目
-    per_page = per_page_items, // 1ページに表示する数を指定
-    offset = (page - 1) * per_page, //  ページの先頭の教材(何番目のアイテムから表示するか)(ページ数 - 1 * 1ページに表示する数) 3ページ目の場合は、(3-1)*8=16 ページの先頭の教材は16番目
-    paginatedItems = items.slice(offset).slice(0, per_page_items), //1ページに表示する教材の配列
-    total_pages = Math.ceil(items.length / per_page); // 全ページ数 ＝ 全教材数から1ページに表示する教材(8)を割った値を繰り上げた値
-  console.log(
-    `${page}ページ目を表示中。（${offset}番目から${
-      offset + per_page_items
-    }番目の教材）`
-  );
+  let page = current_page || 1,
+    per_page = per_page_items,
+    offset = (page - 1) * per_page,
+    paginatedItems = items.slice(offset).slice(0, per_page_items),
+    total_pages = Math.ceil(items.length / per_page);
+  console.log(`${page}ページ目を表示中。（${offset}番目から${offset + per_page_items}番目の教材）`);
 
   return {
     page: page,
     per_page: per_page,
-    pre_page: page - 1 ? page - 1 : null, //現在のページ数-1ができるなら表示させて押下時にページ数を-1に できないのであれば、非活性にする
-    next_page: total_pages > page ? page + 1 : null, //現在のページよりも全ページ数の方が大きければ、押下可能。できない場合は非活性。
+    pre_page: page - 1 ? page - 1 : null,
+    next_page: total_pages > page ? page + 1 : null,
     total: items.length,
     total_pages: total_pages,
     data: paginatedItems,
@@ -65,20 +64,20 @@ export const List: FC<Props> = memo((props) => {
       // 教材を特定する為にuseSelectMaterialのidとmaterialを与える
       onSelectMaterial({ id, materials });
       setOpen(true);
-      console.log(id);
-      console.log(materials);
+      console.log(id, materials);
     },
     [materials, onSelectMaterial]
   );
 
   const handleClose = useCallback(() => setOpen(false), []);
+
   // 教材データの取得
   useEffect(() => {
     getMaterials();
   }, [getMaterials]);
 
   // 教材があれば表示して、なければないことを表示する
-  const MaterialData = useCallback(() => {
+  const MaterialData = memo(() => {
     if (materials.length >= 1) {
       return (
         <>
@@ -113,16 +112,8 @@ export const List: FC<Props> = memo((props) => {
             imageUrl={selectedMaterial?.image.url}
             initialLikeCount={likeCount}
           />
-          <Box
-            style={{ display: "flex", justifyContent: "center" }}
-            sx={{ mt: 3 }}
-          >
-            <Pagination
-              count={count}
-              page={page}
-              onChange={handleChange}
-              color="primary"
-            />
+          <Box style={{ display: "flex", justifyContent: "center" }} sx={{ mt: 3 }}>
+            <Pagination count={count} page={page} onChange={handleChange} color="primary" />
           </Box>
         </>
       );
@@ -144,19 +135,7 @@ export const List: FC<Props> = memo((props) => {
         </>
       );
     }
-  }, [
-    count,
-    currentUser,
-    handleChange,
-    handleClose,
-    likeCount,
-    materials,
-    onClickMaterial,
-    open,
-    page,
-    selectedMaterial,
-    history,
-  ]);
+  });
 
   return (
     <>

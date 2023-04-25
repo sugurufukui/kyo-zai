@@ -1,10 +1,10 @@
 //認証API関連の関数
-import { client } from "lib/api/client";
 import Cookies from "js-cookie";
+import { client } from "lib/api/client";
 
-import { SignUpParams } from "types/api/SignUpParams";
-import { SignInParams } from "types/api/SignInParams";
 import { ResetPasswordParams } from "types/api/ResetPasswordParams";
+import { SignInParams } from "types/api/SignInParams";
+import { SignUpParams } from "types/api/SignUpParams";
 
 // サインアップ（新規アカウント作成）
 export const signUp = (params: SignUpParams) => {
@@ -27,14 +27,11 @@ export const signOut = () => {
   });
 };
 
-//ログインユーザーを取得
+///ログインユーザーを取得
 export const getCurrentUser = () => {
-  if (
-    !Cookies.get("_access_token") ||
-    !Cookies.get("_client") ||
-    !Cookies.get("_uid")
-  )
-    return;
+  if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid"))
+    return Promise.reject("No authentication info");
+
   return client.get("/auth/sessions", {
     headers: {
       "access-token": Cookies.get("_access_token"),

@@ -1,6 +1,7 @@
 import { FC, memo } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import { Box, IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 
 type Props = {
   onOpen: () => void;

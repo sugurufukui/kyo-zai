@@ -1,4 +1,3 @@
-// imageResizeUtil.ts
 export const resizeImage = async (
   file: File,
   maxWidth: number,
