@@ -123,11 +123,11 @@ export const Account: FC = memo(() => {
         </Card>
       </form>
       <Box sx={{ mb: 2 }}>
-        <Button variant="contained" color="primary" onClick={() => history.push("/my_materials")}>
+        <Button variant="contained" color="primary" onClick={() => history.push("/mine_materials")}>
           ＜＜ あなたが投稿した教材を見る
         </Button>
       </Box>
-      <Button variant="contained" color="primary" onClick={() => history.push("/my_like")}>
+      <Button variant="contained" color="primary" onClick={() => history.push("/liked_materials")}>
         ＜＜ あなたがいいね🤍した教材を見る
       </Button>
       <Box></Box>

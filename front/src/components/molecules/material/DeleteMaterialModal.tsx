@@ -23,7 +23,7 @@ export const DeleteMaterialModal: FC<Props> = memo((props) => {
   const onClickDelete = useCallback(async () => {
     try {
       await deleteMaterial(item.id);
-      history.push("/my_materials");
+      history.push("/mine_materials");
       showSnackbar("教材を削除しました", "success");
     } catch (e) {
       console.log(e);
