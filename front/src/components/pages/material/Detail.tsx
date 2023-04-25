@@ -1,15 +1,9 @@
 import { FC, memo, useState, useEffect, useContext, useCallback } from "react";
-
 import { useHistory, useParams } from "react-router-dom";
 
-import { getDetailMaterial } from "lib/api/material";
-import { useSnackbar } from "providers/SnackbarProvider";
-
-import { AuthContext } from "providers/AuthProvider";
-import { LikeButton } from "components/molecules/LikeButton";
+import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ReplyIcon from "@mui/icons-material/Reply";
-
-import { likedCheck } from "lib/api/like";
 import {
   Avatar,
   Button,
@@ -21,20 +15,27 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import BuildRoundedIcon from "@mui/icons-material/BuildRounded";
 import { Box } from "@mui/system";
+
+import { DeleteMaterialModal } from "components/molecules/material/DeleteMaterialModal";
+import { LikeButton } from "components/molecules/material/LikeButton";
+import { likedCheck } from "lib/api/like";
+import { getDetailMaterial } from "lib/api/material";
+import { AuthContext } from "providers/AuthProvider";
+import { useSnackbar } from "providers/SnackbarProvider";
 import moment from "moment";
-import { DeleteMaterialModal } from "components/molecules/DeleteMaterialModal";
 
 type Props = {
   initialLikeCount: number;
 };
 
+// 教材詳細ページ
 export const Detail: FC<Props> = memo((props) => {
   const { initialLikeCount } = props;
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const { currentUser } = useContext(AuthContext);
+  const { showSnackbar } = useSnackbar();
 
   // { id = 1 } を取得する
   const query: any = useParams();
@@ -48,9 +49,6 @@ export const Detail: FC<Props> = memo((props) => {
     image: undefined,
     createdAt: "",
   });
-
-  const { currentUser } = useContext(AuthContext);
-  const { showSnackbar } = useSnackbar();
 
   // 教材詳細API(materials_controllerのshowの中のjsonの内容を引用)
   const getDetail = useCallback(async (query: any) => {
@@ -137,21 +135,13 @@ export const Detail: FC<Props> = memo((props) => {
                   />
                 </CardContent>
                 <CardContent sx={{ pl: { xs: 3, md: 5 } }}>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
-                  >
+                  <Typography variant="body1" color="text.secondary" sx={{ mb: 1 }}>
                     教材の説明
                   </Typography>
                   <Typography variant="body1">{value?.description}</Typography>
                 </CardContent>
                 <CardContent sx={{ pl: { xs: 3, md: 5 } }}>
-                  <Typography
-                    variant="body1"
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
-                  >
+                  <Typography variant="body1" color="text.secondary" sx={{ mb: 1 }}>
                     いいねの数
                   </Typography>
                   {value?.id !== null && (
@@ -179,11 +169,7 @@ export const Detail: FC<Props> = memo((props) => {
                 </CardContent>
                 <CardContent>
                   <Avatar />
-                  <Typography
-                    variant="h5"
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
-                  >
+                  <Typography variant="h5" color="text.secondary" sx={{ mb: 1 }}>
                     {value?.userName}
                   </Typography>
                 </CardContent>
@@ -193,9 +179,7 @@ export const Detail: FC<Props> = memo((props) => {
                       <>
                         <Button
                           variant="outlined"
-                          onClick={() =>
-                            history.push(`/materials/edit/${value?.id}`)
-                          }
+                          onClick={() => history.push(`/materials/edit/${value?.id}`)}
                           startIcon={<BuildRoundedIcon />}
                           sx={{ p: "3" }}
                         >
@@ -215,9 +199,7 @@ export const Detail: FC<Props> = memo((props) => {
                           item={query}
                         />
                       </>
-                    ) : (
-                      <></>
-                    )}
+                    ) : null}
                   </Stack>
                 </CardContent>
               </Card>

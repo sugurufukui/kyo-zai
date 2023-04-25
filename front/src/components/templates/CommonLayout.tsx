@@ -1,8 +1,8 @@
-import React, { FC, memo } from "react";
+import React, { FC, memo, ReactNode } from "react";
 
 import { Container, Grid } from "@mui/material";
+
 import { Header } from "components/organisms/layout/Header";
-import { ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
