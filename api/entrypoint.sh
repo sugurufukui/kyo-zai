@@ -1,13 +1,15 @@
 #!/bin/bash
 set -e
 
-# MySQLサーバーが起動するまで待機
-until nc -z -v -w30 db 3306; do
-  echo 'Waiting for MySQL...'
-  sleep 1
-done
-
-echo "MySQL is up - executing command"
+if [ "${RAILS_ENV}" != "production" ]
+then
+  # MySQLサーバーが起動するまで待機
+  until nc -z -v -w30 db 3306; do
+    echo 'Waiting for MySQL...'
+    sleep 1
+  done
+  echo "MySQL is up - executing command"
+fi
 
 # Remove a potentially pre-existing server.pid for Rails.
 rm -f /kyo-zai/tmp/pids/server.pid
