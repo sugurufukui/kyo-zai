@@ -1,4 +1,4 @@
-import React, { useState, useContext, FC, memo, useEffect } from "react";
+import React, { useState, useContext, FC, memo } from "react";
 import { useHistory, Link } from "react-router-dom";
 
 import Visibility from "@mui/icons-material/Visibility";
@@ -23,20 +23,13 @@ import { SignInParams } from "types/api/SignInParams";
 export const SignIn: FC = memo(() => {
   const history = useHistory();
 
-  const { isSignedIn, setIsSignedIn, setCurrentUser } = useContext(AuthContext);
+  const { setIsSignedIn, setCurrentUser } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
   const { showSnackbar, resetSnackbar } = useSnackbar();
-
-  // isSignedIn の変更に応じて遷移する
-  useEffect(() => {
-    if (isSignedIn) {
-      history.push("/materials");
-    }
-  }, [isSignedIn]);
 
   // // unmount時にsnackbarリセットして再レンダリング防止
   // useEffect(() => {
@@ -69,6 +62,7 @@ export const SignIn: FC = memo(() => {
         setCurrentUser(res.data.data);
 
         showSnackbar("ログインしました", "success");
+        history.push("/materials");
       } else {
       }
     } catch (err) {
@@ -97,6 +91,7 @@ export const SignIn: FC = memo(() => {
         setCurrentUser(res.data.data);
 
         showSnackbar("ゲストユーザーとしてログインしました", "success");
+        history.push("/materials");
       }
     } catch (e) {
       console.log(e);

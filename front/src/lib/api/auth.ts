@@ -27,9 +27,11 @@ export const signOut = () => {
   });
 };
 
-//ログインユーザーを取得
+///ログインユーザーを取得
 export const getCurrentUser = () => {
-  if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid")) return;
+  if (!Cookies.get("_access_token") || !Cookies.get("_client") || !Cookies.get("_uid"))
+    return Promise.reject("No authentication info");
+
   return client.get("/auth/sessions", {
     headers: {
       "access-token": Cookies.get("_access_token"),

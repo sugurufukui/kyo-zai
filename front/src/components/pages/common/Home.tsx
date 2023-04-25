@@ -34,13 +34,6 @@ export const Home: FC = memo(() => {
 
   console.log(materials.slice(0, 4));
 
-  // isSignedIn の変更に応じて遷移する
-  useEffect(() => {
-    if (isSignedIn) {
-      history.push("/materials");
-    }
-  }, [isSignedIn, history]);
-
   // ゲストログインボタン押下時
   const onClickGuestSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -58,6 +51,7 @@ export const Home: FC = memo(() => {
         setCurrentUser(res.data.data);
 
         showSnackbar("ゲストユーザーとしてログインしました", "success");
+        history.push("/materials");
       }
     } catch (e) {
       console.log(e);
