@@ -70,22 +70,32 @@ https://tokushi-kyouzai.com
 
 ## 機能一覧
 
-- アカウント作成・ログイン・ログアウト
-- ゲストログイン機能（ユーザー情報を変更できないなどの一部機能制限あり）
+- アカウント作成/ログイン/ログアウト
+  - メールでの本認証機能
+  - パスワード変更機能
+  - 退会機能
+- ゲストログイン機能
+  - ユーザー情報を変更できないなどの一部機能制限あり
 - プロフィール編集機能
-- 投稿作成機能（名前、説明文、写真の投稿）
+  - プロフィール内容
+- 投稿作成機能
+  - 名前/説明文/写真
+- 投稿編集機能
 - 投稿削除機能
 - いいね機能
 - レスポンシブ対応
-- 投稿一覧（全投稿一覧・自分が投稿した教材一覧・自分がいいねした教材一覧）
+- 投稿一覧
+  - 全投稿一覧/自分が投稿した教材一覧/自分がいいねした教材一覧
 
 ## 使用画面のイメージ
 
 #### ■ トップページ
 ![トップページ](https://user-images.githubusercontent.com/85082566/230622669-b4c6e32e-2b79-46c7-8fb8-e4fbfb2be635.png)
 ![全教材一覧/いいね教材一覧/投稿教材一覧/モーダル](https://user-images.githubusercontent.com/85082566/230624440-38231cdc-bec0-4066-a5f1-b612202aee4c.png)
-![投稿/編集/詳細/404](https://user-images.githubusercontent.com/85082566/230625474-5e740727-7dc6-4822-9adf-516f7eff405d.png)
-![ログイン/新規登録/アカウント情報.編集](https://user-images.githubusercontent.com/85082566/230624852-fcfe598a-ca75-4304-b5e1-472c163a1dc3.png)
+![投稿/編集/詳細/削除モーダル](https://user-images.githubusercontent.com/85082566/234504494-80035069-65b0-479b-b2d9-7c55f620fe2b.png)
+![登録/登録メール/ログイン/P申請](https://user-images.githubusercontent.com/85082566/234505315-7b7067b1-b3d1-4671-b17f-f32232db2b96.png)
+![Pメール促進/P変更/アカ情報/アカ編集](https://user-images.githubusercontent.com/85082566/234504941-05d9cf62-f8f2-431c-9698-5dee656be818.png)
+![退会モーダル/各種メール/404/リンク切れ](https://user-images.githubusercontent.com/85082566/234505630-431bde7a-bd8b-413a-b240-b707fe432c2b.png)
 
 #### ■ iPhoneでの使用感
 - アプリアイコン、名前や説明も加えることで、すぐにアプリを探すことができるようにしました。
@@ -202,7 +212,6 @@ docker-compose up
 
 ## 連絡先
 
-- LinkedIn: suguru fukui
 - Twitter: [@urugusss](https://twitter.com/urugusss)
 
 最後まで読んでいただきありがとうございました。
