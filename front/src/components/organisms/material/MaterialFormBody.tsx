@@ -86,10 +86,11 @@ export const MaterialFormBody: FC<Props> = (props) => {
             margin="dense"
             onChange={onChangeDescription}
           />
-          <Box>
-            {/* 編集時に変更前の写真を表示 */}
-            {value.image ? <ExistingImage image={value.image} /> : null}
-          </Box>
+
+          {/* 編集時に変更前の写真を表示 */}
+          <Box>{value.image ? <ExistingImage image={value.image} /> : null}</Box>
+
+          {/* 写真登録 */}
           <UploadImageButton
             preview={preview}
             isLoading={isLoading}
@@ -97,6 +98,7 @@ export const MaterialFormBody: FC<Props> = (props) => {
             onClickResetFile={onClickResetFile}
           />
 
+          {/* 編集ボタン */}
           <Box sx={{ flexGrow: 1, mt: 3 }}>
             <Button
               type="submit"
@@ -110,6 +112,8 @@ export const MaterialFormBody: FC<Props> = (props) => {
               {children}
             </Button>
           </Box>
+
+          {/* 削除ボタン */}
           {value.image ? (
             <>
               <Box sx={{ flexGrow: 1, mt: 3 }}>
