@@ -104,7 +104,7 @@ https://tokushi-kyouzai.com
 - アプリアイコン、名前や説明も加えることで、すぐにアプリを探すことができるようにしました。
 - ホーム画面に追加することで、アプリのように動かせるようにしています。
 
-https://user-images.githubusercontent.com/85082566/234707298-c35a7acf-3113-4e19-96d1-3b8a5462969b.mov
+https://user-images.githubusercontent.com/85082566/234709647-70262e43-6809-4a66-8c59-7728e5ed182d.mov
 
 ## 技術スタック詳細
 
